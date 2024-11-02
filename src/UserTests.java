@@ -95,8 +95,8 @@ public class UserTests {
     @Test
     public void testPosts() {
         ArrayList<Post> posts = new ArrayList<>();
-        posts.add(new Post(user, "Post1", "Great Day", "Doing everything", "11/2/24"));
-        posts.add(new Post(user, "Post2", "Great Day", "Doing everything", "11/2/24"));
+        posts.add(new Post(user, "Post1", "Great Day", "Doing everything", "11-02-2024"));
+        posts.add(new Post(user, "Post2", "Great Day", "Doing everything", "11-02-2024"));
         user.setPosts(posts);
 
         assertEquals(posts, user.getPosts());

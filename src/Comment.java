@@ -62,10 +62,14 @@ public class Comment implements CommentInterface,Serializable {
     public void addDislike() {
         dislikes++;
     }
-    public void editMessage(String newMessage, String editDate) {
+    public boolean editMessage(String newMessage, String editDate) throws DateFormatException {
+        if (!Post.checkDate(editDate)) {
+            throw new DateFormatException("Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)");
+        }
         message = newMessage;
         this.editDate = editDate;
         edited = true;
+        return true;
     }
 
     public String displayedComment() {

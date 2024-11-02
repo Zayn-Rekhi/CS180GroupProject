@@ -12,7 +12,7 @@ public class CommentsTests {
         User.setUserIDCounter(0);
         try {
             user = new User("testUser", "password123", "");
-            comment = new Comment(user, "Had so much fun", "11/2/24");
+            comment = new Comment(user, "Had so much fun", "11-02-2024");
         } catch (UserCredentialsException | DateFormatException e) {
             e.printStackTrace();
         }
@@ -36,7 +36,7 @@ public class CommentsTests {
         assertEquals(user, comment.getCommenter());
         assertEquals(1, comment.getCommentID());
         assertEquals("Had so much fun", comment.getMessage());
-        assertEquals("11/2/24", comment.getDate());
+        assertEquals("11-02-2024", comment.getDate());
         assertEquals(0, comment.getLikes());
         assertEquals(0, comment.getDislikes());
         assertEquals(null, comment.getEditDate());
@@ -45,10 +45,19 @@ public class CommentsTests {
 
     @Test
     public void testEditMessage() {
-        comment.editMessage("Love the outfit", "11/3/24");
+        boolean out = false;
+
+        try {
+            out = comment.editMessage("Love the outfit", "11-03-2024");
+        } catch (DateFormatException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(out);
+        assertEquals(out, comment.isEdited());
         assertEquals("Love the outfit", comment.getMessage());
-        assertEquals("11/3/24", comment.getEditDate());
-        assertEquals("11/2/24", comment.getDate());
+        assertEquals("11-03-2024", comment.getEditDate());
+        assertEquals("11-02-2024", comment.getDate());
 
     }
 
@@ -57,7 +66,7 @@ public class CommentsTests {
         String displayedComment = comment.displayedComment();
         String out = "testUser\n" +
                 "\"Had so much fun\"\n" +
-                "Date: 11/2/24\n" +
+                "Date: 11-02-2024\n" +
                 "Likes: 0 | Dislikes: 0";
         assertEquals(out, displayedComment);
     }

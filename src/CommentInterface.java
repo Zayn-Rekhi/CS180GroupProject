@@ -13,7 +13,7 @@ public interface CommentInterface {
     //mutator methods
     void addLike();
     void addDislike();
-    void editMessage(String newMessage, String editDate);
+    boolean editMessage(String newMessage, String editDate);
 
     //display method
     String displayedComment();

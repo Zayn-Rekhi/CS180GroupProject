@@ -51,7 +51,8 @@ public class Post implements PostInterface, Serializable {
     }
 
     public static boolean checkDate(String date) {
-        String[] split = date.split("/");
+        String[] split = date.split("-");
+        
         String month = split[0];
         String day = split[1];
         String year = split[2];
