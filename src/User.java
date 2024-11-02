@@ -1,3 +1,5 @@
+package src;
+
 import java.util.ArrayList;
 import java.io.Serializable;
 public class User implements Serializable {
@@ -6,8 +8,8 @@ public class User implements Serializable {
 
     private ArrayList<String> permissions; //Not sure what this does
     private ArrayList<Post> posts; //List of user's posts
-    private ArrayList<User> friends; //User on the friend list
-    private ArrayList<User> blocked; //User on the blocked list
+    private ArrayList<User> friends; //src.User on the friend list
+    private ArrayList<User> blocked; //src.User on the blocked list
     private int userID; 
     private String pfpURL;
     private String bio;

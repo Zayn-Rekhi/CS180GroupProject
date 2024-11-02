@@ -1,3 +1,5 @@
+package src;
+
 import java.util.ArrayList;
 import java.io.Serializable;
 public class Post implements PostInterface, Serializable {
