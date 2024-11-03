@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
-public class UserTests {
+public class UserTests implements UserTestsInterface {
 
     private User user;
     private User friend1;
