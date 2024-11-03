@@ -72,6 +72,8 @@ public class Comment implements CommentInterface, Serializable {
     }
 
     //mutator methods
+
+    //deletes comment
     public void deleteComment(User user, Post post, Comment comment) {
         if (canDelete(user)) {
             System.out.println("Trying to delete");
@@ -80,12 +82,15 @@ public class Comment implements CommentInterface, Serializable {
             System.out.println("User is not authorized to delete this comment.");
         }
     }
+    //adds a like to the comment
     public void addLike() {
         likes++;
     }
+    //adds a dislike to the comment
     public void addDislike() {
         dislikes++;
     }
+    //edits the message in the comment with a new message
     public boolean editMessage(String newMessage, String editDate) {
         try {
             if (!Post.checkDate(editDate)) {
@@ -102,10 +107,12 @@ public class Comment implements CommentInterface, Serializable {
     }
 
     //other methods
+
+    //checks to make sure the user can delete the comment, (if they either own the post or the comment)
     public boolean canDelete(User user) {
         return user.equals(commenter) || user.equals(post.getUser());
     }
-
+    //displays the comment in an organized format as a string
     public String displayedComment() {
         if (edited) {
             return String.format("%s\n\"%s\"\n*edited\nDate: %s | Edit Date: %s\nLikes: %d | Dislikes: %d", commenter.getUserName(), message, date, editDate, likes, dislikes);
