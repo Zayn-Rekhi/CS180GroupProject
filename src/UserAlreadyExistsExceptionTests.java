@@ -6,10 +6,15 @@ import org.junit.jupiter.api.Test;
  * when it is thrown with the original message. Testing whether the exception message matches what is expected.
  *
  * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
  *
  * @version 1.0.0
  */
-public class UserAlreadyExistsExceptionTests implements UserAlreadyExistsExceptionTestsInterface{
+public class UserAlreadyExistsExceptionTests implements UserAlreadyExistsExceptionTestsInterface {
 
     @Test
     public void testExceptionMessage() { //Testing whether the exception message matches what is expected.

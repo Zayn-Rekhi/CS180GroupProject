@@ -10,6 +10,11 @@ import java.util.ArrayList;
  * nothing is lost.
  *
  * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
  *
  * @version 1.0.0
  */
@@ -17,13 +22,13 @@ public class Database extends Thread implements DatabaseInterface {
     private static ArrayList<User> users;
     private String fileName;
 
-    private static final Object lock = new Object();
+    private static final Object LOCK = new Object();
 
 
     public Database(String fileName) {
         this.fileName = fileName;
 
-        synchronized (lock) {
+        synchronized (LOCK) {
             users = new ArrayList<User>();
         }
     }
@@ -32,7 +37,7 @@ public class Database extends Thread implements DatabaseInterface {
         try (FileOutputStream fin = new FileOutputStream(this.fileName);
              ObjectOutputStream oit = new ObjectOutputStream(fin)) {
 
-            synchronized (lock) {
+            synchronized (LOCK) {
                 oit.writeObject(users);
                 oit.flush();
             }
@@ -49,7 +54,7 @@ public class Database extends Thread implements DatabaseInterface {
         try (FileInputStream fin = new FileInputStream(this.fileName);
              ObjectInputStream oit = new ObjectInputStream(fin)) {
 
-            synchronized (lock) {
+            synchronized (LOCK) {
                 users = (ArrayList<User>) oit.readObject();
             }
 
@@ -61,7 +66,7 @@ public class Database extends Thread implements DatabaseInterface {
     }
 
     public boolean checkLogin(String username, String password) {
-        synchronized (lock) {
+        synchronized (LOCK) {
             for (User user : users) {
                 if (user.getUserName().equals(username) && user.getPassword().equals(password)) {
                     return true;
@@ -74,7 +79,7 @@ public class Database extends Thread implements DatabaseInterface {
 
     public boolean addUser(User user) {
         try {
-            synchronized (lock) {
+            synchronized (LOCK) {
                 users.add(user);
             }
 
@@ -87,7 +92,7 @@ public class Database extends Thread implements DatabaseInterface {
 
     public boolean modifyUser(User prevUser, User newUser) {
         try {
-            synchronized (lock) {
+            synchronized (LOCK) {
                 for (int i = 0; i < users.size(); i++) {
                     if (users.get(i).getUserName().equals(prevUser.getUserName())) {
                         users.set(i, newUser);
@@ -105,7 +110,7 @@ public class Database extends Thread implements DatabaseInterface {
 
     public boolean removeUser(User user) {
         try {
-            synchronized (lock) {
+            synchronized (LOCK) {
                 users.remove(user);
             }
 
@@ -133,7 +138,7 @@ public class Database extends Thread implements DatabaseInterface {
     }
 
     public User findUser(String username) {
-        synchronized (lock) {
+        synchronized (LOCK) {
             for (User user : users) {
                 if (user.getUserName().equals(username)) {
                     return user;
@@ -149,7 +154,7 @@ public class Database extends Thread implements DatabaseInterface {
     }
 
     public void clear() {
-        synchronized (lock) {
+        synchronized (LOCK) {
             users.clear();
             this.updateDataFile();
         }

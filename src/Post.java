@@ -8,7 +8,12 @@ import java.util.ArrayList;
  * and commenting on posts along with displaying the post itself.
  * It implements the PostInterface and is serializable, allowing it to be saved and transferred.
  *
+ * @author zaynrekhi
+ * @author melody
+ * @author srimadur
  * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
  *
  * @version 1.0.0
  */
@@ -43,7 +48,8 @@ public class Post implements PostInterface, Serializable {
             this.date = date;
 
             if (!checkDate(date)) {
-                throw new DateFormatException("Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)");
+                throw new DateFormatException("Date is incorrectly formatted! " +
+                        "Make sure it is 00/00/0000 (Month/Day/Year)");
             }
         } catch (DateFormatException e) {
             e.printStackTrace();
@@ -63,7 +69,8 @@ public class Post implements PostInterface, Serializable {
             this.date = date;
 
             if (!checkDate(date)) {
-                throw new DateFormatException("Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)");
+                throw new DateFormatException("Date is incorrectly formatted! Make " +
+                        "sure it is 00/00/0000 (Month/Day/Year)");
             }
         } catch (DateFormatException e) {
             e.printStackTrace();

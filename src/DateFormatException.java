@@ -4,6 +4,11 @@
  * The proper format for dates is: 00-00-0000 (month-day-year)
  *
  * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
  *
  * @version 1.0.0
  */

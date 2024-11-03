@@ -11,11 +11,16 @@ import java.util.ArrayList;
  * object with usernames and passwords.
  *
  * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
  *
  * @version 1.0.0
  */
 
-public class DatabaseTests implements DatabaseTestsInterface{
+public class DatabaseTests implements DatabaseTestsInterface {
     private Database db;
 
     @BeforeEach

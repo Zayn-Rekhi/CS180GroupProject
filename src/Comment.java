@@ -9,7 +9,10 @@ import java.io.Serializable;
  * It implements the CommentInterface and is serializable, allowing it to be easily saved or transferred.
  *
  * @author zaynrekhi
- *
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
  * @version 1.0.0
  */
 public class Comment implements CommentInterface, Serializable {
@@ -40,7 +43,8 @@ public class Comment implements CommentInterface, Serializable {
             this.post = post;
 
             if (!Post.checkDate(date)) {
-                throw new DateFormatException("Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)");
+                String msg = "Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)";
+                throw new DateFormatException(msg);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,13 +80,13 @@ public class Comment implements CommentInterface, Serializable {
 
     //mutator methods
     public boolean canDelete(User user) {
-        return user.equals(commenter) || user.equals(post.getUser());
+        return user.equals(commenter) || user.equals(this.post.getUser());
     }
 
-    public void deleteComment(User user, Post post, Comment comment) {
+    public void deleteComment(User user, Post newPost, Comment comment) {
         if (canDelete(user)) {
             System.out.println("Trying to delete");
-            post.getComments().remove(comment);
+            newPost.getComments().remove(comment);
         } else {
             System.out.println("User is not authorized to delete this comment.");
         }
@@ -93,13 +97,14 @@ public class Comment implements CommentInterface, Serializable {
     public void addDislike() {
         dislikes++;
     }
-    public boolean editMessage(String newMessage, String editDate) {
+    public boolean editMessage(String newMessage, String newDate) {
         try {
-            if (!Post.checkDate(editDate)) {
-                throw new DateFormatException("Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)");
+            if (!Post.checkDate(newDate)) {
+                String msg = "Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)";
+                throw new DateFormatException(msg);
             }
             message = newMessage;
-            this.editDate = editDate;
+            this.editDate = newDate;
             edited = true;
             return true;
         } catch (DateFormatException e) {
@@ -110,9 +115,11 @@ public class Comment implements CommentInterface, Serializable {
 
     public String displayedComment() {
         if (edited) {
-            return String.format("%s\n\"%s\"\n*edited\nDate: %s | Edit Date: %s\nLikes: %d | Dislikes: %d", commenter.getUserName(), message, date, editDate, likes, dislikes);
+            String fStr = "%s\n\"%s\"\n*edited\nDate: %s | Edit Date: %s\nLikes: %d | Dislikes: %d";
+            return String.format(fStr, commenter.getUserName(), message, date, editDate, likes, dislikes);
         } else {
-            return String.format("%s\n\"%s\"\nDate: %s\nLikes: %d | Dislikes: %d", commenter.getUserName(), message, date, likes, dislikes);
+            String fStr = "%s\n\"%s\"\nDate: %s\nLikes: %d | Dislikes: %d";
+            return String.format(fStr, commenter.getUserName(), message, date, likes, dislikes);
         }
     }
 }

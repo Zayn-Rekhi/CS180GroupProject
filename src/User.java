@@ -8,7 +8,12 @@ import java.io.Serializable;
  * This class provides functionality to add friends, block users, remove friends and unblock users.
  * It implements the UserInterface and is serializable, allowing it to be saved and transferred.
  *
+ * @author zaynrekhi
+ * @author melody
+ * @author srimadur
  * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
  *
  * @version 1.0.0
  */
@@ -28,20 +33,20 @@ public class User implements UserInterface, Serializable {
     private static int userIDCounter;
 
     //Constructor
-    public User(String userName, String password, String bio) {
+    public User(String theUserName, String thePassword, String bio) {
         try {
-            if (userName.equals(" ") || password.equals(" ")) {
+            if (theUserName.equals(" ") || thePassword.equals(" ")) {
                 throw new UserCredentialsException("Username and password cannot be empty!");
-            } else if (userName.length() < 6 || password.length() < 6) {
+            } else if (theUserName.length() < 6 || thePassword.length() < 6) {
                 throw new UserCredentialsException("Username and password must be at least 6 characters!");
-            } else if (userName.contains(" ") || password.contains(" ")) {
+            } else if (theUserName.contains(" ") || thePassword.contains(" ")) {
                 throw new UserCredentialsException("Username or password contains spaces!");
             }
 
             this.userID = userIDCounter;
             userIDCounter++;
-            this.userName = userName;
-            this.password = password;
+            this.userName = theUserName;
+            this.password = thePassword;
             this.bio = bio;
 
             this.permissions = new ArrayList<>();
@@ -118,16 +123,16 @@ public class User implements UserInterface, Serializable {
         this.bio = bio;
     }
 
-    public boolean setUserName(String userName) {
+    public boolean setUserName(String theUserName) {
         try {
-            if (userName.equals(" ")) {
+            if (theUserName.equals(" ")) {
                 throw new UserCredentialsException("Username and password cannot be empty!");
-            } else if (userName.length() < 6) {
+            } else if (theUserName.length() < 6) {
                 throw new UserCredentialsException("Username and password must be at least 6 characters!");
-            } else if (userName.contains(" ")) {
+            } else if (theUserName.contains(" ")) {
                 throw new UserCredentialsException("Username or password contains spaces!");
             }
-            this.userName = userName;
+            this.userName = theUserName;
             return true;
         } catch (UserCredentialsException e) {
             e.printStackTrace();
@@ -135,16 +140,16 @@ public class User implements UserInterface, Serializable {
         }
     }
 
-    public boolean setPassword(String password) {
+    public boolean setPassword(String thePassword) {
         try {
-            if (password.equals(" ")) {
+            if (thePassword.equals(" ")) {
                 throw new UserCredentialsException("Username and password cannot be empty!");
-            } else if (password.length() < 6) {
+            } else if (thePassword.length() < 6) {
                 throw new UserCredentialsException("Username and password must be at least 6 characters!");
-            } else if (password.contains(" ")) {
+            } else if (thePassword.contains(" ")) {
                 throw new UserCredentialsException("Username or password contains spaces!");
             }
-            this.password = password;
+            this.password = thePassword;
             return true;
         } catch (UserCredentialsException e) {
             e.printStackTrace();

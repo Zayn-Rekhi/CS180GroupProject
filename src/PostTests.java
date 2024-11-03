@@ -10,7 +10,12 @@ import org.junit.jupiter.api.Test;
  * any errors. More specifically, we test functionality such as initialization for both posts with and without images,
  * comments and likes, getters and setters, displaying posts wit comments, and delete comments by authorized users.
  *
+ * @author zaynrekhi
+ * @author melody
+ * @author srimadur
  * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
  *
  * @version 1.0.0
  */
@@ -64,10 +69,10 @@ public class PostTests implements PostTestsInterface {
     @Test
     public void testAddAndRemoveLike() {
         // test post without image constructor
-        for(int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             post.addLike();
 
-        for(int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             post.removeLike();
 
         assertEquals(0, post.getLikes());
@@ -76,10 +81,10 @@ public class PostTests implements PostTestsInterface {
     @Test
     public void testAddAndRemoveDislike() {
         // test disliking the post
-        for(int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             post.addDislike();
 
-        for(int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             post.removeDislike();
 
         assertEquals(0, post.getDislikes());
@@ -88,7 +93,8 @@ public class PostTests implements PostTestsInterface {
     @Test
     public void testDisplay() {
         // test the displayedPost method
-        String expectedDisplay = "testUser\nTest Title\nhttp://example.com/image.jpg\nTest description.\nDate: 11-02-2024\nLikes: 0 | Dislikes: 0";
+        String expectedDisplay = "testUser\nTest Title\nhttp://example.com/image.jpg\nTest " +
+                "description.\nDate: 11-02-2024\nLikes: 0 | Dislikes: 0";
         assertEquals(expectedDisplay, post.displayedPost().trim());
     }
 
@@ -107,7 +113,8 @@ public class PostTests implements PostTestsInterface {
         Comment comment = new Comment(user, post, "Great post!", "11-02-2024");
         post.addComment(comment);
         // test the displayedPost method after adding a comment
-        String expectedDisplayWithComment = "testUser\nTest Title\nhttp://example.com/image.jpg\nTest description.\nDate: 11-02-2024\nLikes: 0 | Dislikes: 0\n" + comment.displayedComment();
+        String expectedDisplayWithComment = "testUser\nTest Title\nhttp://example.com/image.jpg\nTest " +
+                "description.\nDate: 11-02-2024\nLikes: 0 | Dislikes: 0\n" + comment.displayedComment();
         assertEquals(expectedDisplayWithComment, post.displayedPost().trim());
     }
 
