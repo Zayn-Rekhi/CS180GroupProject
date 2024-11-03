@@ -9,7 +9,6 @@ public class DatabaseTests {
 
     @BeforeEach
     public void setUp() {
-        User.setUserIDCounter(0);
         db = new Database("src/data/data.txt");
     }
 
@@ -23,28 +22,24 @@ public class DatabaseTests {
     @Test
     public void testCheckLogin() {
         db.clear();
-        db.createUser("ZaynRekhi", "assimo11234!");
+        db.createUser("ZaynRekhi", "assimo11234!", "The Best");
         assertTrue(db.checkLogin("ZaynRekhi", "assimo11234!"));
     }
 
     @Test
     public void testCreateUser() {
         db.clear();
-        assertFalse(db.createUser("ZR", "Assimo11234!"));
-        assertFalse(db.createUser("ZaynRekhi123", "as!"));
+        assertFalse(db.createUser("ZR", "Assimo11234!", "The Best"));
+        assertFalse(db.createUser("ZaynRekhi123", "as!", "The Best"));
     }
 
     @Test
     public void testModifyUser() {
         db.clear();
-        User oldUser = null;
-        User newUser = null;
-        try {
-            oldUser = new User("ZaynRekhi", "assimo11234!", "I love books!");
-            newUser = new User("ZaynRekhi", "assimo11234!", "I love books and outdoors!");
-        } catch (UserCredentialsException e) {
-            e.printStackTrace();
-        }
+
+        User oldUser = new User("ZaynRekhi", "assimo11234!", "I love books!");
+        User newUser = new User("ZaynRekhi", "assimo11234!", "I love books and outdoors!");
+
 
         db.addUser(oldUser);
         db.modifyUser(oldUser, newUser);
@@ -58,13 +53,9 @@ public class DatabaseTests {
     @Test
     public void testRemoveUser() {
         db.clear();
-        User user = null;
 
-        try {
-            user = new User("ZaynRekhi", "assimo11234!", "I love books!");
-        } catch (UserCredentialsException e) {
-            e.printStackTrace();
-        }
+        User user = new User("ZaynRekhi", "assimo11234!", "I love books!");
+
 
         db.addUser(user);
         db.removeUser(user);
@@ -76,16 +67,10 @@ public class DatabaseTests {
 
     @Test
     public void testDataPersistence() {
-        User user1 = null;
-        User user2 = null;
-        User user3 = null;
-        try {
-            user1 = new User("ZaynRekhi", "assimo11234!", "I love books!");
-            user2 = new User("zrekhi123", "theotherone!", "I love books and outdoors!");
-            user3 = new User("zayntherekhi", "people123!", "I love books and outdoors!");
-        } catch (UserCredentialsException e) {
-            e.printStackTrace();
-        }
+        User user1 = new User("ZaynRekhi", "assimo11234!", "I love books!");
+        User user2 = new User("zrekhi123", "theotherone!", "I love books and outdoors!");
+        User user3 = new User("zayntherekhi", "people123!", "I love books and outdoors!");
+
 
         db.addUser(user1);
         db.addUser(user2);

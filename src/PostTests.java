@@ -7,14 +7,9 @@ public class PostTests {
     @Test
     public void testPostClass() {
         // create a User and a Post object
-        User user = null;
-        Post post = null;
-        try {
-            user = new User("testUser", "password", "This is a bio.");
-            post = new Post(user, "Test Title", "http://example.com/image.jpg", "Test description.", "11-02-2024");
-        } catch (DateFormatException | UserCredentialsException e) {
-            e.printStackTrace();
-        }
+        User user = new User("testUser", "password", "This is a bio.");
+        Post post = new Post(user, "Test Title", "http://example.com/image.jpg", "Test description.", "11-02-2024");
+
 
 
         // test the Post's initial values using accessor methods
@@ -42,7 +37,7 @@ public class PostTests {
         assertEquals(expectedDisplay, post.displayedPost().trim());
 
         // test the functionality of adding a comment
-        Comment comment = new Comment(user, "Great post!", "11-02-2024");
+        Comment comment = new Comment(user, post, "Great post!", "11-02-2024");
         post.addComment(comment);
         assertEquals(1, post.getComments().size());
         assertEquals(comment, post.getComments().get(0));

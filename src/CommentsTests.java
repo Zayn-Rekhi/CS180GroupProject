@@ -5,17 +5,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CommentsTests {
 
     private User user;
+    private User otherUser;
+    private Post post;
     private Comment comment;
 
     @BeforeEach
     public void setUp() {
-        User.setUserIDCounter(0);
-        try {
-            user = new User("testUser", "password123", "");
-            comment = new Comment(user, "Had so much fun", "11-02-2024");
-        } catch (UserCredentialsException | DateFormatException e) {
-            e.printStackTrace();
-        }
+        user = new User("testUser", "password123", "");
+        otherUser = new User("testUser2", "password123", "");
+        post = new Post(user, "Nice Day", "It was a great day", "11-02-2024");
+        comment = new Comment(user, post, "Had so much fun", "11-02-2024");
     }
 
     @Test
@@ -34,24 +33,23 @@ public class CommentsTests {
     @Test
     public void testGetterAndSetter() {
         assertEquals(user, comment.getCommenter());
-        assertEquals(1, comment.getCommentID());
+        assertEquals(2, comment.getCommentID());
         assertEquals("Had so much fun", comment.getMessage());
         assertEquals("11-02-2024", comment.getDate());
         assertEquals(0, comment.getLikes());
         assertEquals(0, comment.getDislikes());
-        assertEquals(null, comment.getEditDate());
+        assertNull(comment.getEditDate());
         assertFalse(comment.isEdited());
     }
 
     @Test
     public void testEditMessage() {
-        boolean out = false;
+        boolean out;
+        out = comment.editMessage("Love the outfit", "11032024");
 
-        try {
-            out = comment.editMessage("Love the outfit", "11-03-2024");
-        } catch (DateFormatException e) {
-            e.printStackTrace();
-        }
+        assertFalse(out);
+
+        out = comment.editMessage("Love the outfit", "11-03-2024");
 
         assertTrue(out);
         assertEquals(out, comment.isEdited());
@@ -71,4 +69,23 @@ public class CommentsTests {
         assertEquals(out, displayedComment);
     }
 
+    @Test
+    public void testDeleteCommentbyCommenter() {
+        post.addComment(comment);
+        comment.deleteComment(user, post, comment);
+        assertFalse(post.getComments().contains(comment), "Comment can be deleted by the commenter.");
+    }
+    @Test
+    public void testDeleteCommentByPostOwner() {
+        post.addComment(comment);
+        comment.deleteComment(post.getUser(), post, comment);
+        assertFalse(post.getComments().contains(comment), "Comment can be deleted by the post owner.");
+    }
+
+    @Test
+    public void testDeleteCommentByUnauthorizedUser() {
+        post.addComment(comment);
+        comment.deleteComment(otherUser, post, comment);
+        assertTrue(post.getComments().contains(comment), "The comment should not be deleted by an unauthorized user.");
+    }
 }

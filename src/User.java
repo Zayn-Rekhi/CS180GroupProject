@@ -1,14 +1,14 @@
-import java.util.ArrayList;
+import java.util.*;
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User implements UserInterface, Serializable {
 
     //Fields
 
-    private ArrayList<String> permissions; //Not sure what this does
+    private ArrayList<String> permissions; //Direct Messaging
     private ArrayList<Post> posts; //List of user's posts
-    private ArrayList<User> friends; //src.User on the friend list
-    private ArrayList<User> blocked; //src.User on the blocked list
+    private ArrayList<User> friendsList; //src.User on the friend list
+    private ArrayList<User> blockedList; //src.User on the blocked list
     private int userID;
     private String pfpURL;
     private String bio;
@@ -17,33 +17,32 @@ public class User implements Serializable {
     private static int userIDCounter;
 
     //Constructor
+    public User(String userName, String password, String bio) {
+        try {
+            if (userName.equals(" ") || password.equals(" ")) {
+                throw new UserCredentialsException("Username and password cannot be empty!");
+            } else if (userName.length() < 6 || password.length() < 6) {
+                throw new UserCredentialsException("Username and password must be at least 6 characters!");
+            } else if (userName.contains(" ") || password.contains(" ")) {
+                throw new UserCredentialsException("Username or password contains spaces!");
+            }
 
-    public User(String userName, String password, String bio) throws UserCredentialsException {
+            this.userID = userIDCounter;
+            userIDCounter++;
+            this.userName = userName;
+            this.password = password;
+            this.bio = bio;
 
-
-        if (userName.equals(" ") || password.equals(" ")) {
-            throw new UserCredentialsException("Username and password cannot be empty");
-        } else if (userName.length() < 6 || password.length() < 6) {
-            throw new UserCredentialsException("Username and password must be at least 6 characters");
-        } else if(userName.contains(" ") || password.contains(" ")) {
-            throw new UserCredentialsException("Username or password contains spaces");
+            this.permissions = new ArrayList<>();
+            this.posts = new ArrayList<>();
+            this.friendsList = new ArrayList<>();
+            this.blockedList = new ArrayList<>();
+            this.pfpURL = "";
+        } catch (UserCredentialsException e) {
+            e.printStackTrace();
         }
 
-        this.userID = userIDCounter;
-        userIDCounter++;
-        this.userName = userName;
-        this.password = password;
-        this.bio = bio;
-
-        this.permissions = new ArrayList<>();
-        this.posts = new ArrayList<>();
-        this.friends = new ArrayList<>();
-        this.blocked = new ArrayList<>();
-        this.pfpURL = "";
-
     }
-
-    //Methods
 
     //Getters
     public ArrayList<String> getPermissions() {
@@ -55,11 +54,20 @@ public class User implements Serializable {
     }
 
     public ArrayList<User> getFriends() {
-        return friends;
+        return friendsList;
     }
 
     public ArrayList<User> getBlocked() {
-        return blocked;
+        return blockedList;
+    }
+
+    // Method to get a combined feed of posts from all friends
+    public ArrayList<Post> getFriendsFeed() {
+        ArrayList<Post> friendsFeed = new ArrayList<>();
+        for (User friend : friendsList) {
+            friendsFeed.addAll(friend.getPosts()); // Add each friend's posts to the feed
+        }
+        return friendsFeed;
     }
 
     public int getUserID() {
@@ -91,18 +99,6 @@ public class User implements Serializable {
         this.posts = posts;
     }
 
-    public void setFriends(ArrayList<User> friends) {
-        this.friends = friends;
-    }
-
-    public void setBlocked(ArrayList<User> blocked) {
-        this.blocked = blocked;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
     public void setPfpURL(String pfpURL) {
         this.pfpURL = pfpURL;
     }
@@ -120,34 +116,46 @@ public class User implements Serializable {
     }
 
     //Need to implement other methods
-    public boolean block(User toBeBlocked) {
-        if (blocked.contains(toBeBlocked)) {
-            return false;
+    public void Block(User toBeBlocked) {
+        if (!isBlockedBy(toBeBlocked)) {
+            blockedList.add(toBeBlocked);
         }
-        return blocked.add(toBeBlocked);
     }
-    public boolean addFriend(User toBeFriended) {
-        if (friends.contains(toBeFriended)) {
-            return false;
+
+    public void addFriend(User toBeFriended) {
+        if (!isFriendOf(toBeFriended)) {
+            friendsList.add(toBeFriended);
         }
-        return friends.add(toBeFriended);
     }
-    public boolean removeFriend(User toBeRemoved) {
-        return friends.remove(toBeRemoved);
+
+    public void removeFriend(User toBeRemoved) {
+        if (isFriendOf(toBeRemoved)) {
+            friendsList.remove(toBeRemoved);
+        }
     }
-    public void post(Post toPost) {
+
+    public void Post(Post toPost) {
         posts.add(toPost);
     }
 
-    public boolean isBlockedBy(User blocky) {
-        return blocky.getBlocked().contains(this);
-    }
-    public boolean isFriendOf(User friendy) {
-        return friendy.getFriends().contains(this);
+    public boolean isBlockedBy(User blockedUser) {
+        return getBlocked().contains(blockedUser);
     }
 
-    public static void setUserIDCounter(int userIDCounter) {
-        User.userIDCounter = userIDCounter;
+    public boolean isFriendOf(User friend) {
+        return getFriends().contains(friend);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        User user = (User) obj;
+        return userName.equals(user.userName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName);
+    }
 }

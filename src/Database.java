@@ -103,11 +103,11 @@ public class Database extends Thread implements DatabaseInterface {
         }
     }
 
-    public boolean createUser(String username, String password) {
+    public boolean createUser(String username, String password, String bio) {
         try {
-            User s = new User(username, password, null);
+            User s = new User(username, password, bio);
 
-            if (findUser(username) != null) {
+            if (findUser(username) != null || s.getUserName() == null) {
                 throw new UserAlreadyExists("User Already Exists in Database!");
             }
 

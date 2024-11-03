@@ -1,9 +1,10 @@
 import java.io.Serializable;
 
-public class Comment implements CommentInterface,Serializable {
+public class Comment implements CommentInterface, Serializable {
 
     // fields
     private User commenter;
+    private Post post;
     private String message;
     private String date;
     private int likes;
@@ -14,19 +15,25 @@ public class Comment implements CommentInterface,Serializable {
     private static int commentIDCounter = 0;
 
     // constructors
-    public Comment(User commenter, String message, String date) throws DateFormatException {
-        commentID = commentIDCounter;
-        commentIDCounter++;
-        this.message = message;
-        this.date = date;
-        this.likes = 0;
-        this.dislikes = 0;
-        this.edited = false;
-        this.commenter = commenter;
+    public Comment(User commenter, Post post, String message, String date) {
+        try {
+            commentID = commentIDCounter;
+            commentIDCounter++;
+            this.message = message;
+            this.date = date;
+            this.likes = 0;
+            this.dislikes = 0;
+            this.edited = false;
+            this.commenter = commenter;
+            this.post = post;
 
-        if (!Post.checkDate(date)) {
-            throw new DateFormatException("Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)");
+            if (!Post.checkDate(date)) {
+                throw new DateFormatException("Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     //accessor methods
@@ -56,20 +63,37 @@ public class Comment implements CommentInterface,Serializable {
     }
 
     //mutator methods
+    public boolean canDelete(User user) {
+        return user.equals(commenter) || user.equals(post.getUser());
+    }
+
+    public void deleteComment(User user, Post post, Comment comment) {
+        if (canDelete(user)) {
+            System.out.println("Trying to delete");
+            post.getComments().remove(comment);
+        } else {
+            System.out.println("User is not authorized to delete this comment.");
+        }
+    }
     public void addLike() {
         likes++;
     }
     public void addDislike() {
         dislikes++;
     }
-    public boolean editMessage(String newMessage, String editDate) throws DateFormatException {
-        if (!Post.checkDate(editDate)) {
-            throw new DateFormatException("Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)");
+    public boolean editMessage(String newMessage, String editDate) {
+        try {
+            if (!Post.checkDate(editDate)) {
+                throw new DateFormatException("Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)");
+            }
+            message = newMessage;
+            this.editDate = editDate;
+            edited = true;
+            return true;
+        } catch (DateFormatException e) {
+            return false;
         }
-        message = newMessage;
-        this.editDate = editDate;
-        edited = true;
-        return true;
+
     }
 
     public String displayedComment() {
@@ -79,7 +103,4 @@ public class Comment implements CommentInterface,Serializable {
             return String.format("%s\n\"%s\"\nDate: %s\nLikes: %d | Dislikes: %d", commenter.getUserName(), message, date, likes, dislikes);
         }
     }
-
-
-
 }

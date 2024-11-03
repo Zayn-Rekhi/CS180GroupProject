@@ -11,19 +11,16 @@ public class UserTests {
 
     @BeforeEach
     public void setUp() {
-        User.setUserIDCounter(0);
-        try {
-            user = new User("testUser", "password123", "");
-            friend1 = new User( "friend1", "password456", "");
-            friend2 = new User("friend2", "password789", "");
-        } catch (UserCredentialsException e) {
-            e.printStackTrace();
-        }
+        user = new User("testUser", "password123", "");
+        friend1 = new User( "friend1", "password456", "");
+        friend2 = new User("friend2", "password789", "");
     }
 
     @Test
     public void testUserInitialization() {
-        assertEquals(0, user.getUserID());
+        // Supposed to be six since it is already initialized many times
+        // By the setUp Method
+        assertEquals(6, user.getUserID());
         assertEquals("testUser", user.getUserName());
         assertEquals("password123", user.getPassword());
         assertEquals("", user.getBio());
@@ -65,11 +62,11 @@ public class UserTests {
 
     @Test
     public void testBlockFriend() {
-        user.block(friend2);
+        user.Block(friend2);
         assertTrue(user.getBlocked().contains(friend2));
 
         // Test blocking the same user again - should not duplicate
-        user.block(friend2);
+        user.Block(friend2);
         assertEquals(1, user.getBlocked().size());
     }
 
@@ -90,6 +87,29 @@ public class UserTests {
         assertEquals(permissions, user.getPermissions());
         assertEquals("READ", user.getPermissions().get(0));
         assertEquals("WRITE", user.getPermissions().get(1));
+    }
+
+    @Test
+    public void testFriendsFeed() {
+        ArrayList<Post> posts1 = new ArrayList<>();
+        posts1.add(new Post(friend1, "Post1",  "Doing everything", "11-02-2024"));
+        posts1.add(new Post(friend1, "Post2", "Doing everything", "11-02-2024"));
+        friend1.setPosts(posts1);
+
+        ArrayList<Post> posts2 = new ArrayList<>();
+        posts2.add(new Post(friend2, "Post1",  "Doing everything", "11-02-2024"));
+        posts2.add(new Post(friend2, "Post2",  "Doing everything", "11-02-2024"));
+        friend2.setPosts(posts2);
+
+        user.addFriend(friend1);
+        user.addFriend(friend2);
+
+        ArrayList<Post> friendsPosts = this.user.getFriendsFeed();
+
+        assertEquals(posts1.get(0), friendsPosts.get(0));
+        assertEquals(posts1.get(1), friendsPosts.get(1));
+        assertEquals(posts2.get(0), friendsPosts.get(2));
+        assertEquals(posts2.get(1), friendsPosts.get(3));
     }
 
     @Test
