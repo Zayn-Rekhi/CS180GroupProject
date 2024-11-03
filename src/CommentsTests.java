@@ -2,7 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CommentsTests {
+public class CommentsTests implements CommentsTestsInterface {
 
     private User user;
     private User otherUser;

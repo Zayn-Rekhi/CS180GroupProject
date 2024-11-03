@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 
-public class DatabaseTests {
+public class DatabaseTests implements DatabaseTestsInterface{
     private Database db;
 
     @BeforeEach
