@@ -2,6 +2,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Comment Test Class
+ * This class tests out all the methods in the Comment class to make sure that they are running smoothly with edge
+ * cases. It ensures that the way in which comments, posts, and users are stringed together doesn't give rise to
+ * any errors. More specifically, we test functionality such as initialization, adding and likes, getters and setters,
+ * editing message, displaying comments, and delete comments by authorized users.
+ *
+ * @author zaynrekhi
+ *
+ * @version 1.0.0
+ */
+
 public class CommentsTests implements CommentsTestsInterface {
 
     private User user;

@@ -1,4 +1,14 @@
-public class UserCredentialsException extends Exception {
+/**
+ * UserCredentialsException Class
+ * The UserCredentialsException exception is used when the user tries to input invalid credentials,
+ * Furthermore, they have to enter a password and a username that have to be greater than 6 characters
+ * without any spaces.
+ *
+ * @author zaynrekhi
+ *
+ * @version 1.0.0
+ */
+public class UserCredentialsException extends Exception implements UserCredentialsExceptionInterface {
     public UserCredentialsException(String message) {
         super(message);
     }

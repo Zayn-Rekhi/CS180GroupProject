@@ -1,2 +1,1 @@
-public interface DateFormatExceptionInterface {
-}
+public interface DateFormatExceptionInterface {}

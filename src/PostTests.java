@@ -3,8 +3,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.zip.DataFormatException;
-
+/**
+ * Post Test Class
+ * This class tests out all the methods in the Post class to make sure that they are running smoothly with edge
+ * cases. It ensures that the way in which comments, posts, and users are stringed together doesn't give rise to
+ * any errors. More specifically, we test functionality such as initialization for both posts with and without images,
+ * comments and likes, getters and setters, displaying posts wit comments, and delete comments by authorized users.
+ *
+ * @author braydenbrafford
+ *
+ * @version 1.0.0
+ */
 public class PostTests implements PostTestsInterface {
     private User user;
     private Post post;

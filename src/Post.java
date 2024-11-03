@@ -1,6 +1,17 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * Post Class
+ * This class allows Users to create a post on the platform that can have an image and/or text description.
+ * Each of these posts can be liked, disliked, or commented on by other users, all of these are stored in fields.
+ * This class provides functionality creating, editing, liking, disliking,
+ * and commenting on posts along with displaying the post itself.
+ * It implements the PostInterface and is serializable, allowing it to be saved and transferred.
+ *
+ * @author braydenbrafford
+ *
+ * @version 1.0.0
+ */
 public class Post implements PostInterface, Serializable {
 
     // instance variables

@@ -1,5 +1,17 @@
 import java.io.Serializable;
 
+/**
+ * Comment Class
+ * This class allows Users to create a comment that can be liked, disliked,
+ * and have a message. Each comment has a user and a post that it is stored in
+ * along with a user and a post parameter.  This class provides functionality for creating, editing, liking,
+ * disliking, and deleting comments, as well as displaying information about the comment.
+ * It implements the CommentInterface and is serializable, allowing it to be easily saved or transferred.
+ *
+ * @author zaynrekhi
+ *
+ * @version 1.0.0
+ */
 public class Comment implements CommentInterface, Serializable {
 
     // fields

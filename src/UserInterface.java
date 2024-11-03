@@ -17,8 +17,8 @@ public interface UserInterface {
     ArrayList<Post> getFriendsFeed();
 
     // Setters
-    void setUserName(String userName);
-    void setPassword(String password);
+    boolean setUserName(String userName);
+    boolean setPassword(String password);
     void setBio(String bio);
     void setPfpURL(String pfpURL);
     void setPermissions(ArrayList<String> permissions);
@@ -27,8 +27,10 @@ public interface UserInterface {
     // Methods for managing friends and profile
     void addFriend(User friend);
     void removeFriend(User friend);
-    void Block(User toBeBlocked);
-    boolean isBlockedBy(User blockedUser);
+    void block(User toBeBlocked);
+    boolean hasBlocked(User blockedUser);
     boolean isFriendOf(User friend);
+    void unBlock(User toBeRemoved);
+    void post(Post post);
 
 }

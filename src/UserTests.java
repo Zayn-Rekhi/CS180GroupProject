@@ -3,6 +3,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
+/**
+ * User Test Class
+ * This class tests out all the methods in the User class to make sure that they are running smoothly with edge
+ * cases. It ensures that the way in which comments, posts, and users are stringed together doesn't give rise to
+ * any errors. More specifically, we test functionality such as initialization for Users,
+ * their ability to edit their attributes, their interactions with friends and blocked users, their permissions,
+ * their feed, and their posting.
+ *
+ * @author braydenbrafford
+ *
+ * @version 1.0.0
+ */
 public class UserTests implements UserTestsInterface {
 
     private User user;
@@ -18,7 +30,7 @@ public class UserTests implements UserTestsInterface {
 
     @Test
     public void testUserInitialization() {
-        // Supposed to be six since it is already initialized many times
+        // Supposed to be six since it 6 users are initialized before this
         // By the setUp Method
         assertEquals(6, user.getUserID());
         assertEquals("testUser", user.getUserName());
@@ -62,12 +74,21 @@ public class UserTests implements UserTestsInterface {
 
     @Test
     public void testBlockFriend() {
-        user.Block(friend2);
+        user.block(friend2);
         assertTrue(user.getBlocked().contains(friend2));
 
         // Test blocking the same user again - should not duplicate
-        user.Block(friend2);
+        user.block(friend2);
         assertEquals(1, user.getBlocked().size());
+    }
+
+    @Test
+    public void testUnBlockFriend() {
+        user.block(friend2);
+        assertTrue(user.getBlocked().contains(friend2));
+
+        user.unBlock(friend2);
+        assertFalse(user.getBlocked().contains(friend2));
     }
 
     @Test
@@ -122,5 +143,10 @@ public class UserTests implements UserTestsInterface {
         assertEquals(posts, user.getPosts());
         assertEquals("Post1", user.getPosts().get(0).getTitle());
         assertEquals("Post2", user.getPosts().get(1).getTitle());
+
+        Post n = new Post(user, "Post3", "Great Day", "Doing everything", "11-02-2024");
+        user.post(n);
+
+        assertEquals(n, user.getPosts().get(2));
     }
 }

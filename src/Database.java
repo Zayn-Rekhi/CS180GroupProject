@@ -1,6 +1,18 @@
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Database Class
+ * The Database class manages a many User objects with by using a static ArrayList and
+ * a synchronized lock for concurrency. It can  add, remove, modify, and authenticate users, as
+ * well as load and store data from a file specified by fileName. The class also handles user creation
+ * with usernames and maintains constantly updates the data file whenever user data is changed to ensure
+ * nothing is lost.
+ *
+ * @author zaynrekhi
+ *
+ * @version 1.0.0
+ */
 public class Database extends Thread implements DatabaseInterface {
     private static ArrayList<User> users;
     private String fileName;
@@ -27,6 +39,7 @@ public class Database extends Thread implements DatabaseInterface {
 
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
 
         return true;
@@ -108,7 +121,7 @@ public class Database extends Thread implements DatabaseInterface {
             User s = new User(username, password, bio);
 
             if (findUser(username) != null || s.getUserName() == null) {
-                throw new UserAlreadyExists("User Already Exists in Database!");
+                throw new UserAlreadyExistsException("User Already Exists in Database!");
             }
 
             this.addUser(s);

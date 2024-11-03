@@ -1,6 +1,17 @@
 import java.util.*;
 import java.io.Serializable;
 
+/**
+ * User Class
+ * This class describes Users on the platform. They have a unique bio, username, password, id, and pfp.
+ * Each User also has their permissions, posts, friends, and other users blocked stored in their fields.
+ * This class provides functionality to add friends, block users, remove friends and unblock users.
+ * It implements the UserInterface and is serializable, allowing it to be saved and transferred.
+ *
+ * @author braydenbrafford
+ *
+ * @version 1.0.0
+ */
 public class User implements UserInterface, Serializable {
 
     //Fields
@@ -107,17 +118,43 @@ public class User implements UserInterface, Serializable {
         this.bio = bio;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public boolean setUserName(String userName) {
+        try {
+            if (userName.equals(" ")) {
+                throw new UserCredentialsException("Username and password cannot be empty!");
+            } else if (userName.length() < 6) {
+                throw new UserCredentialsException("Username and password must be at least 6 characters!");
+            } else if (userName.contains(" ")) {
+                throw new UserCredentialsException("Username or password contains spaces!");
+            }
+            this.userName = userName;
+            return true;
+        } catch (UserCredentialsException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public boolean setPassword(String password) {
+        try {
+            if (password.equals(" ")) {
+                throw new UserCredentialsException("Username and password cannot be empty!");
+            } else if (password.length() < 6) {
+                throw new UserCredentialsException("Username and password must be at least 6 characters!");
+            } else if (password.contains(" ")) {
+                throw new UserCredentialsException("Username or password contains spaces!");
+            }
+            this.password = password;
+            return true;
+        } catch (UserCredentialsException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     //Need to implement other methods
-    public void Block(User toBeBlocked) {
-        if (!isBlockedBy(toBeBlocked)) {
+    public void block(User toBeBlocked) {
+        if (!hasBlocked(toBeBlocked)) {
             blockedList.add(toBeBlocked);
         }
     }
@@ -133,12 +170,17 @@ public class User implements UserInterface, Serializable {
             friendsList.remove(toBeRemoved);
         }
     }
+    public void unBlock(User toBeRemoved) {
+        if (this.hasBlocked(toBeRemoved)) {
+            blockedList.remove(toBeRemoved);
+        }
+    }
 
-    public void Post(Post toPost) {
+    public void post(Post toPost) {
         posts.add(toPost);
     }
 
-    public boolean isBlockedBy(User blockedUser) {
+    public boolean hasBlocked(User blockedUser) {
         return getBlocked().contains(blockedUser);
     }
 
@@ -152,10 +194,5 @@ public class User implements UserInterface, Serializable {
         if (obj == null || getClass() != obj.getClass()) return false;
         User user = (User) obj;
         return userName.equals(user.userName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userName);
     }
 }

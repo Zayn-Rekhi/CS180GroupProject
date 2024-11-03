@@ -3,6 +3,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
+/**
+ * Database Test Class
+ * The Database test cases test out the various function of database such as loading the users, checking if
+ * they have valid credentials (check login), creation of users, modification of user data, removal of users,
+ * and persistence of user data. This class also tests edge cases like invalid credentials for creating a user
+ * object with usernames and passwords.
+ *
+ * @author zaynrekhi
+ *
+ * @version 1.0.0
+ */
 
 public class DatabaseTests implements DatabaseTestsInterface{
     private Database db;
