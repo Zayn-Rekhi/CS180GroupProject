@@ -34,7 +34,7 @@ The database class represents the database where users can be added and deleted 
 backbone of this functionality is that each User object and its subclasses implement serializable allowing
 us to store their data in text files efficiently. The central part of this class is that there is an ArrayList of 
 users that is static and completely threadsafe. In the future, this will allow multiple clients to connect to the data
-base so that they can read and writer from it at the same time. Additionally, this file handles user authentication by 
+base so that they can read and writer from it at the same time. Additionally, this class handles user authentication by 
 having methods that can create users, check their username and password, and more. The updateDateFile method writers
 all the data from the users ArrayList to the specified text file, the loadUsers method reads all the users from the 
 specified input file into the users ArrayList to ensure data persistency, the check login method
@@ -74,7 +74,7 @@ The user class represents a User.
 Each user contains fields  username, bio, password, profile picture, and ID. 
 Each user also maintain lists of permissions, friends, blocked users, and posts.
 The class has functionalities to access the posts from other users.
-Users have accessors and mutators for each of the fields
+Users have accessors and mutators for each of the fields.
 There are 10 test cases
 1. Ensures functionality of initializing users
 2. Ensures functionality of the accessor and mutator methods
