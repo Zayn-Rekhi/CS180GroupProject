@@ -70,7 +70,7 @@ public class Post implements PostInterface, Serializable {
 
             if (!checkDate(date)) {
                 throw new DateFormatException("Date is incorrectly formatted! Make " +
-                        "sure it is 00/00/0000 (Month/Day/Year)");
+                        "sure it is 00-00-0000 (Month-Day-Year)");
             }
         } catch (DateFormatException e) {
             e.printStackTrace();

@@ -125,8 +125,12 @@ public class Database extends Thread implements DatabaseInterface {
         try {
             User s = new User(username, password, bio);
 
-            if (findUser(username) != null || s.getUserName() == null) {
+            if (findUser(username) != null) {
                 throw new UserAlreadyExistsException("User Already Exists in Database!");
+            }
+
+            if(s.getUserName() == null) {
+                throw new UserCredentialsException("User Credentials are Invalid!");
             }
 
             this.addUser(s);

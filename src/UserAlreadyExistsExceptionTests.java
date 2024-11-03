@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
  * Simply testing if the custom Exception is created properly by comparing the message it uses to display
  * when it is thrown with the original message. Testing whether the exception message matches what is expected.
  *
+ * This also tests that creating the same user multiple times in the createUser function of database
+ * doesn't raise any exceptions.
+ *
  * @author zaynrekhi
  * @author melody
  * @author srimadur
@@ -22,5 +25,15 @@ public class UserAlreadyExistsExceptionTests implements UserAlreadyExistsExcepti
 
         UserAlreadyExistsException userException = new UserAlreadyExistsException(errorMessage);
         assertEquals(errorMessage, userException.getMessage());
+    }
+
+    @Test
+    public void testDoesNotThrowException() {
+        Database db = new Database("src/data/data.txt");
+        db.createUser("zaynrekhi", "zr12345", "I am from India");
+
+        assertDoesNotThrow(() -> {
+            db.createUser("zaynrekhi", "zr12345", "I am from India");
+        });
     }
 }

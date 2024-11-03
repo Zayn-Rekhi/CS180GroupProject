@@ -13,7 +13,9 @@
  */
 public interface UserCredentialsExceptionTestsInterface {
 
-    void testExceptionMessage1();
-    void testExceptionMessage2();
-    void testExceptionMessage3();
+    void testExceptionMessageType1();
+    void testExceptionMessageType2();
+    void testExceptionMessageType3();
+    void testExceptionMessageType4();
+    void testDoesNotThrowException();
 }

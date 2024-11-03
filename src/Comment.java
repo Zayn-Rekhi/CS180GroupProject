@@ -46,7 +46,7 @@ public class Comment implements CommentInterface, Serializable {
                 String msg = "Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)";
                 throw new DateFormatException(msg);
             }
-        } catch (Exception e) {
+        } catch (DateFormatException e) {
             e.printStackTrace();
         }
 

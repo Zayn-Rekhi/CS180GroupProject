@@ -13,4 +13,5 @@
  */
 public interface UserAlreadyExistsExceptionTestsInterface {
     void testExceptionMessage();
+    void testDoesNotThrowException();
 }
