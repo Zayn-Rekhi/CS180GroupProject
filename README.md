@@ -90,11 +90,12 @@ There are 10 test cases
 
 ### DateFormatException.java
 The DateFormatException is thrown whenever a date has been created incorrectly. The correct
-format for a date is in 00-00-0000 (month-day-year). If a date is passed has not been passed
+format for a date is in 00-00-0000 (month-day-year). If a date has not been passed
 in this format, then this Exception will be thrown. It is mainly utilized in the Post and Comment
 class for keeping track of when a comment or a post was created. It is thrown in the constructor.
 There is one test case:
 1. Checks if the message passed by the parameter matches the message it throws
+2. Ensures an incorrectly formatted date passed into Post and Comment does not throw an Exception
 
 ### UserAlreadyExistsException.java
 The UserAlreadyExistsException is thrown whenever a user that already exists in the database is attempted to be added again.
@@ -102,11 +103,12 @@ Each user in the database is supposed to be distinct and unique, so none should 
 It is utilized in the database class to make sure a user that already exists isn't added again, and is thrown in the createUser method.
 There is one test case:
 1. Checks if the message passed by the parameter matches the message it throws
+2. Ensures that if the user already exists in the database, the create user function (Database.java) don't throw an exception
 
 ### UserCredentialsException.java
 The UserCredentialsException is thrown whenever a new user is created and their username or password doesn't meet
 the bare minimum requirements. Each username or password is supposed to be 6 characters long and contains no spaces. 
 It is thrown in the User constructor if the parameter of username and password is not long enough
 There is one test case:
-1. Checks if the message passed by the parameter matches the message it throws
-
+1. (1-3) Checks if the message passed by the parameter matches the message it throws
+2. (4-5) Ensures that invalid credentials passed in the create user function (Database.java) and User constructor (User.java) don't throw an exception
