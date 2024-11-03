@@ -1,5 +1,14 @@
 import java.io.Serializable;
-
+/**
+ * TPJ -- Comment
+ *
+ * this describes an exception for the stock class due to invalid input
+ *
+ * @author Brayden Brafford, Zayn Rekhi, Srinidhi Madur, Nathan Lee, Melody Yang, 8
+ *
+ * @version Nov 3, 2024
+ *
+ */
 public class Comment implements CommentInterface, Serializable {
 
     // fields
@@ -14,7 +23,7 @@ public class Comment implements CommentInterface, Serializable {
     private int commentID;
     private static int commentIDCounter = 0;
 
-    // constructors
+    // constructor
     public Comment(User commenter, Post post, String message, String date) {
         try {
             commentID = commentIDCounter;
@@ -63,10 +72,6 @@ public class Comment implements CommentInterface, Serializable {
     }
 
     //mutator methods
-    public boolean canDelete(User user) {
-        return user.equals(commenter) || user.equals(post.getUser());
-    }
-
     public void deleteComment(User user, Post post, Comment comment) {
         if (canDelete(user)) {
             System.out.println("Trying to delete");
@@ -94,6 +99,11 @@ public class Comment implements CommentInterface, Serializable {
             return false;
         }
 
+    }
+
+    //other methods
+    public boolean canDelete(User user) {
+        return user.equals(commenter) || user.equals(post.getUser());
     }
 
     public String displayedComment() {
