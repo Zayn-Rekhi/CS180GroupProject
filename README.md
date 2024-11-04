@@ -72,7 +72,7 @@ There are 9 test cases:
 ### User.java
 The user class represents a User. 
 Each user contains fields  username, bio, password, profile picture, and ID. 
-Each user also maintain lists of permissions, friends, blocked users, and posts.
+Each user also maintain lists of friends, blocked users, and posts.
 The class has functionalities to access the posts from other users.
 Users have accessors and mutators for each of the fields.
 There are 10 test cases
@@ -83,18 +83,18 @@ There are 10 test cases
 5. Ensures functionality of blocking a user correctly
 6. Ensures functionality of unblocking a user correctly
 7. Ensures functionality of updating the bio correctly
-8. Ensures functionality of retrieving and setting the permissions correctly
 9. Ensures functionality of accessing posts correctly
 10. Ensures functionality of adding and retrieving a user's post to the user correctly
 
 
 ### DateFormatException.java
 The DateFormatException is thrown whenever a date has been created incorrectly. The correct
-format for a date is in 00-00-0000 (month-day-year). If a date is passed has not been passed
+format for a date is in 00-00-0000 (month-day-year). If a date has not been passed
 in this format, then this Exception will be thrown. It is mainly utilized in the Post and Comment
 class for keeping track of when a comment or a post was created. It is thrown in the constructor.
 There is one test case:
 1. Checks if the message passed by the parameter matches the message it throws
+2. Ensures an incorrectly formatted date passed into Post and Comment does not throw an Exception
 
 ### UserAlreadyExistsException.java
 The UserAlreadyExistsException is thrown whenever a user that already exists in the database is attempted to be added again.
@@ -102,11 +102,13 @@ Each user in the database is supposed to be distinct and unique, so none should 
 It is utilized in the database class to make sure a user that already exists isn't added again, and is thrown in the createUser method.
 There is one test case:
 1. Checks if the message passed by the parameter matches the message it throws
+2. Ensures that if the user already exists in the database, the create user function (Database.java) don't throw an exception
 
 ### UserCredentialsException.java
 The UserCredentialsException is thrown whenever a new user is created and their username or password doesn't meet
 the bare minimum requirements. Each username or password is supposed to be 6 characters long and contains no spaces. 
 It is thrown in the User constructor if the parameter of username and password is not long enough
 There is one test case:
-1. Checks if the message passed by the parameter matches the message it throws
+1. (1-3) Checks if the message passed by the parameter matches the message it throws
+2. (4-5) Ensures that invalid credentials passed in the create user function (Database.java) and User constructor (User.java) don't throw an exception
 

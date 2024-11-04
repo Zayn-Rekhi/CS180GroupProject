@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Database Interface
  * contains all the methods to be implemented in the Database class
@@ -19,4 +21,6 @@ public interface DatabaseInterface {
     boolean modifyUser(User prevUser, User newUser);
     boolean removeUser(User user);
     User findUser(String username);
+    void clear();
+    ArrayList<User> getUsers();
 }

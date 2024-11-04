@@ -49,6 +49,18 @@ public class DatabaseTests implements DatabaseTestsInterface {
     }
 
     @Test
+    public void testFindUser() {
+        db.clear();
+        User a = new User("ZaynRekhi", "assimo11234!", "The Best");
+        User b = new User("Zayn", "assimo11234!", "The Best");
+
+        db.addUser(a);
+        db.addUser(b);
+
+        assertEquals(db.findUser("ZaynRekhi"), a);
+    }
+
+    @Test
     public void testModifyUser() {
         db.clear();
 
