@@ -18,6 +18,7 @@ import java.util.ArrayList;
  *
  * @version 1.0.0
  */
+
 public class Database extends Thread implements DatabaseInterface {
     private static ArrayList<User> users;
     private String fileName;
@@ -129,7 +130,7 @@ public class Database extends Thread implements DatabaseInterface {
                 throw new UserAlreadyExistsException("User Already Exists in Database!");
             }
 
-            if(s.getUserName() == null) {
+            if (s.getUserName() == null) {
                 throw new UserCredentialsException("User Credentials are Invalid!");
             }
 
@@ -154,7 +155,9 @@ public class Database extends Thread implements DatabaseInterface {
     }
 
     public ArrayList<User> getUsers() {
-        return users;
+        synchronized (LOCK) {
+            return users;
+        }
     }
 
     public void clear() {

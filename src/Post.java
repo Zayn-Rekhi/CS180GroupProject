@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+
 /**
  * Post Class
  * This class allows Users to create a post on the platform that can have an image and/or text description.
@@ -17,6 +18,7 @@ import java.util.ArrayList;
  *
  * @version 1.0.0
  */
+
 public class Post implements PostInterface, Serializable {
 
     // instance variables

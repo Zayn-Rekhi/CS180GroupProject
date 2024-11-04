@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
  *
  * @version 1.0.0
  */
+
 public class PostTests implements PostTestsInterface {
     private User user;
     private Post post;

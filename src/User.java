@@ -4,7 +4,7 @@ import java.io.Serializable;
 /**
  * User Class
  * This class describes Users on the platform. They have a unique bio, username, password, id, and pfp.
- * Each User also has their permissions, posts, friends, and other users blocked stored in their fields.
+ * Each User also has their posts, friends, and other users blocked stored in their fields.
  * This class provides functionality to add friends, block users, remove friends and unblock users.
  * It implements the UserInterface and is serializable, allowing it to be saved and transferred.
  *
@@ -21,7 +21,6 @@ public class User implements UserInterface, Serializable {
 
     //Fields
 
-    private ArrayList<String> permissions; //Direct Messaging
     private ArrayList<Post> posts; //List of user's posts
     private ArrayList<User> friendsList; //src.User on the friend list
     private ArrayList<User> blockedList; //src.User on the blocked list
@@ -49,7 +48,6 @@ public class User implements UserInterface, Serializable {
             this.password = thePassword;
             this.bio = bio;
 
-            this.permissions = new ArrayList<>();
             this.posts = new ArrayList<>();
             this.friendsList = new ArrayList<>();
             this.blockedList = new ArrayList<>();
@@ -61,9 +59,6 @@ public class User implements UserInterface, Serializable {
     }
 
     //Getters
-    public ArrayList<String> getPermissions() {
-        return permissions;
-    }
 
     public ArrayList<Post> getPosts() {
         return posts;
@@ -107,9 +102,6 @@ public class User implements UserInterface, Serializable {
     }
 
     // Setters
-    public void setPermissions(ArrayList<String> permissions) {
-        this.permissions = permissions;
-    }
 
     public void setPosts(ArrayList<Post> posts) {
         this.posts = posts;

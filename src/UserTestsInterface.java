@@ -19,7 +19,6 @@ public interface UserTestsInterface {
     void testRemoveFriend();
     void testBlockFriend();
     void testUpdateProfile();
-    void testPermissions();
     void testFriendsFeed();
     void testPosts();
 }

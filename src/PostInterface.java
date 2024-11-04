@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 /**
  * Post Interface
  * contains all the methods to be implemented in the Post class
@@ -12,6 +13,7 @@ import java.util.ArrayList;
  *
  * @version 1.0.0
  */
+
 public interface PostInterface {
     //accessor methods
     ArrayList<Comment> getComments();

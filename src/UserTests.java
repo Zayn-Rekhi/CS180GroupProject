@@ -42,7 +42,6 @@ public class UserTests implements UserTestsInterface {
         assertEquals("password123", user.getPassword());
         assertEquals("", user.getBio());
         assertEquals("", user.getPfpURL());
-        assertTrue(user.getPermissions().isEmpty());
         assertTrue(user.getPosts().isEmpty());
         assertTrue(user.getFriends().isEmpty());
         assertTrue(user.getBlocked().isEmpty());
@@ -101,18 +100,6 @@ public class UserTests implements UserTestsInterface {
         String newBio = "This is a new bio";
         user.setBio(newBio);
         assertEquals(newBio, user.getBio());
-    }
-
-    @Test
-    public void testPermissions() {
-        ArrayList<String> permissions = new ArrayList<>();
-        permissions.add("READ");
-        permissions.add("WRITE");
-        user.setPermissions(permissions);
-
-        assertEquals(permissions, user.getPermissions());
-        assertEquals("READ", user.getPermissions().get(0));
-        assertEquals("WRITE", user.getPermissions().get(1));
     }
 
     @Test

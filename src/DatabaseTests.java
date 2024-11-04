@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * @author nothanlee
  * @version 1.0.0
  *
- * @version 1.0.0
  */
 
 public class DatabaseTests implements DatabaseTestsInterface {
@@ -71,7 +70,6 @@ public class DatabaseTests implements DatabaseTestsInterface {
         db.clear();
 
         User user = new User("ZaynRekhi", "assimo11234!", "I love books!");
-
 
         db.addUser(user);
         db.removeUser(user);
