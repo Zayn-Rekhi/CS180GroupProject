@@ -29,7 +29,7 @@ public class UserAlreadyExistsExceptionTests implements UserAlreadyExistsExcepti
 
     @Test
     public void testDoesNotThrowException() {
-        Database db = new Database("src/data/data.txt");
+        Database db = new Database();
         db.createUser("zaynrekhi", "zr12345", "I am from India");
 
         assertDoesNotThrow(() -> {

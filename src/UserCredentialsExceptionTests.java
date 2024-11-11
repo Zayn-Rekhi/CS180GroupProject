@@ -63,7 +63,7 @@ public class UserCredentialsExceptionTests implements UserCredentialsExceptionTe
         });
 
         assertDoesNotThrow(() -> {
-            Database db = new Database("src/data/data.txt");
+            Database db = new Database();
             db.createUser("zr", "zr12345", "I am from India");
             db.createUser("zaynrekhi", "zr1", "I am from India");
 

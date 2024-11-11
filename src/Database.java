@@ -19,18 +19,18 @@ import java.util.ArrayList;
  * @version 1.0.0
  */
 
-public class Database extends Thread implements DatabaseInterface {
+public class Database implements DatabaseInterface {
     private static ArrayList<User> users;
-    private String fileName;
+    private static final String fileName = "src/data/data.txt";
 
     private static final Object LOCK = new Object();
 
 
-    public Database(String fileName) {
-        this.fileName = fileName;
-
+    public Database() {
         synchronized (LOCK) {
-            users = new ArrayList<User>();
+            if (users == null) {
+                users = new ArrayList<User>();
+            }
         }
     }
 

@@ -15,9 +15,11 @@ import org.junit.jupiter.api.Test;
  */
 public interface DatabaseTestsInterface {
     void setUp();
+    void testClearUsers();
     void testLoadUsers();
     void testCheckLogin();
     void testCreateUser();
+    void testFindUser();
     void testModifyUser();
     void testRemoveUser();
     void testDataPersistence();

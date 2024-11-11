@@ -24,7 +24,13 @@ public class DatabaseTests implements DatabaseTestsInterface {
 
     @BeforeEach
     public void setUp() {
-        db = new Database("src/data/data.txt");
+        db = new Database();
+    }
+
+    @Test
+    public void testClearUsers() {
+        db.clear();
+        assertEquals(new ArrayList<User>(), db.getUsers());
     }
 
     @Test
@@ -102,7 +108,7 @@ public class DatabaseTests implements DatabaseTestsInterface {
         db.addUser(user2);
         db.addUser(user3);
 
-        Database newDB = new Database("src/data/data.txt");
+        Database newDB = new Database();
         newDB.loadUsers();
 
         assertEquals(newDB.getUsers(), db.getUsers());
