@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class Database implements DatabaseInterface {
     private static ArrayList<User> users;
     private static final String fileName = "src/data/data.txt";
-
     private static final Object LOCK = new Object();
 
 
@@ -30,6 +29,7 @@ public class Database implements DatabaseInterface {
         synchronized (LOCK) {
             if (users == null) {
                 users = new ArrayList<User>();
+                this.loadUsers();
             }
         }
     }
