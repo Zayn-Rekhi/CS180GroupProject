@@ -19,9 +19,9 @@ public class Server extends Thread {
 
             if (database.checkLogin(username, password)) {
                 User user = database.findUser(username);
-                return new DataTransfer(200, "SUCCESS", user);
+                return new DataTransfer( "SUCCESS", user);
             } else {
-                return new DataTransfer(401, "FAILURE", "Invalid username or password");
+                return new DataTransfer( "FAILURE", "Invalid username or password");
             }
         }
 
@@ -35,10 +35,10 @@ public class Server extends Thread {
             boolean valid = database.createUser(username, password, bio);
 
             if (valid) {
-                return new DataTransfer(200, "SUCCESS", database.findUser(username));
+                return new DataTransfer( "SUCCESS", database.findUser(username));
             } else {
                 String msg = "User Already Exists or Credentials are Invalid";
-                return new DataTransfer(401, "FAILURE", msg);
+                return new DataTransfer( "FAILURE", msg);
             }
         }
 
@@ -48,17 +48,18 @@ public class Server extends Thread {
             boolean success = database.removeUser(value);
 
             if (success) {
-                return new DataTransfer(200, "SUCCESS", value);
+                return new DataTransfer( "SUCCESS", value);
             } else {
-                return new DataTransfer(401, "FAILURE", "User not found");
+                return new DataTransfer( "FAILURE", "User not found");
             }
         }
 
-        return new DataTransfer(401, "FAILURE", "Command NOT Found!");
+        return new DataTransfer( "FAILURE", "Command NOT Found!");
     }
 
     public DataTransfer processPost(String command, DataTransfer data) {
-        return new DataTransfer(200, "SUCCESS", data);
+        
+        return new DataTransfer( "FAILURE", "Command NOT Found!");
     }
 
 
@@ -83,7 +84,7 @@ public class Server extends Thread {
             }
 
             default -> {
-                out = new DataTransfer(401, "FAILURE", "Invalid command");
+                out = new DataTransfer( "FAILURE", "Invalid command");
             }
         }
 
@@ -108,7 +109,7 @@ public class Server extends Thread {
                 try {
                     out = processCommands(data);
                 } catch (Exception e) {
-                    out = new DataTransfer(401, "COMMAND FAILURE", e.getMessage());
+                    out = new DataTransfer( "COMMAND FAILURE", e.getMessage());
                 }
 
                 oos.writeObject(out);
