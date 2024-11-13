@@ -10,8 +10,8 @@ public class Server extends Thread {
         this.clientSocket = clientSocket;
     }
 
-    public DataTransfer processUser(String action, String command, DataTransfer data) {
-        if (action.equals("GET") && command.equals("LOGIN")) {
+    public DataTransfer processUser(String command, DataTransfer data) {
+        if (command.equals("GETLOGIN")) {
             ArrayList<String> values = ((ArrayList<String>) data.getValue());
 
             String username = values.get(0);
@@ -25,7 +25,7 @@ public class Server extends Thread {
             }
         }
 
-        if (action.equals("CREATE") && command.equals("NEW_USER")) {
+        if (command.equals("CREATENEWUSER")) {
             ArrayList<String> values = ((ArrayList<String>) data.getValue());
 
             String username = values.get(0);
@@ -42,7 +42,7 @@ public class Server extends Thread {
             }
         }
 
-        if (action.equals("DELETE") && command.equals("REMOVE_USER")) {
+        if (command.equals("DELETEUSER")) {
             User value = (User) data.getValue();
 
             boolean success = database.removeUser(value);
@@ -57,22 +57,25 @@ public class Server extends Thread {
         return new DataTransfer(401, "FAILURE", "Command NOT Found!");
     }
 
+    public DataTransfer processPost(String command, DataTransfer data) {
+        return new DataTransfer(200, "SUCCESS", data);
+    }
+
 
     public DataTransfer processCommands(DataTransfer inp) {
         String[] commands = inp.getMessage().split(" ");
 
         String scope = commands[0];
-        String action = commands[1];
-        String command = commands[2];
+        String command = commands[1];
 
         DataTransfer out = null;
         switch (scope) {
             case "USER" -> {
-                out = processUser(action, command, inp);
+                out = processUser(command, inp);
             }
 
             case "POST" -> {
-
+                out = processPost(command, inp);
             }
 
             case "COMMENT" -> {
