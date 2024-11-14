@@ -54,11 +54,44 @@ public class Server extends Thread {
             }
         }
 
+        if (command.equals("MODIFYUSER")) {
+            User value = (User) data.getValue();
+            User current = database.findUser(value.getUserName());
+
+            boolean success = database.modifyUser(current, value);
+
+            if (success) {
+                return new DataTransfer( "SUCCESS", value);
+            } else {
+                return new DataTransfer( "FAILURE", "User Could Not Be Modified");
+            }
+        }
+
         return new DataTransfer( "FAILURE", "Command NOT Found!");
     }
 
     public DataTransfer processPost(String command, DataTransfer data) {
-        
+
+        return new DataTransfer( "FAILURE", "Command NOT Found!");
+    }
+
+    public DataTransfer processComment(String command, DataTransfer data) {
+        if (command.equals("MAKECOMMENT")) {
+            ArrayList<String> values = ((ArrayList<String>) data.getValue());
+
+            String username = values.get(0);
+            String password = values.get(1);
+            String bio = values.get(2);
+
+            boolean valid = database.createUser(username, password, bio);
+
+            if (valid) {
+                return new DataTransfer( "SUCCESS", database.findUser(username));
+            } else {
+                String msg = "User Already Exists or Credentials are Invalid";
+                return new DataTransfer( "FAILURE", msg);
+            }
+        }
         return new DataTransfer( "FAILURE", "Command NOT Found!");
     }
 
@@ -80,7 +113,7 @@ public class Server extends Thread {
             }
 
             case "COMMENT" -> {
-
+                out = processComment(command, inp);
             }
 
             default -> {
