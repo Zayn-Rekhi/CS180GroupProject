@@ -320,16 +320,7 @@ public class Server extends Thread {
             Comment theComment = (Comment) data.getValue();
             Post post = theComment.getPost();
 
-            ArrayList<Comment> comments = post.getComments();
-
-            for (int i = 0; i < post.getComments().size(); i++) {
-                if (post.getComments().get(i).getCommentID() == theComment.getCommentID()) {
-                    theComment.addLike();
-                    comments.set(i, theComment);
-                }
-            }
-
-            post.setComments(comments);
+            theComment.addLike();
 
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
@@ -346,16 +337,7 @@ public class Server extends Thread {
             Comment theComment = (Comment) data.getValue();
             Post post = theComment.getPost();
 
-            ArrayList<Comment> comments = post.getComments();
-
-            for (int i = 0; i < post.getComments().size(); i++) {
-                if (post.getComments().get(i).getCommentID() == theComment.getCommentID()) {
-                    theComment.addDislike();
-                    comments.set(i, theComment);
-                }
-            }
-
-            post.setComments(comments);
+            theComment.addDislike();
 
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
@@ -376,21 +358,12 @@ public class Server extends Thread {
             String theDate = (String) values.get(2);
 
             Post post = theComment.getPost();
-            ArrayList<Comment> comments = post.getComments();
-
-            for (int i = 0; i < post.getComments().size(); i++) {
-                if (post.getComments().get(i).getCommentID() == theComment.getCommentID()) {
-                    comments.set(i, theComment);
-                }
-            }
-
-            post.setComments(comments);
             boolean successEdit = theComment.editMessage(theMessage, theDate);
 
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
             boolean successModification = database.modifyUser(user, prev);
-            
+
             if (successEdit && successModification) {
                 return new DataTransfer( "SUCCESS", theComment);
             } else {
