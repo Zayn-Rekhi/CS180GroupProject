@@ -89,20 +89,20 @@ public class CommentsTests implements CommentsTestsInterface {
     @Test
     public void testDeleteCommentbyCommenter() {
         post.addComment(comment);
-        comment.deleteComment(user, post, comment);
+        comment.deleteComment(user);
         assertFalse(post.getComments().contains(comment), "Comment can be deleted by the commenter.");
     }
     @Test
     public void testDeleteCommentByPostOwner() {
         post.addComment(comment);
-        comment.deleteComment(post.getUser(), post, comment);
+        comment.deleteComment(post.getUser());
         assertFalse(post.getComments().contains(comment), "Comment can be deleted by the post owner.");
     }
 
     @Test
     public void testDeleteCommentByUnauthorizedUser() {
         post.addComment(comment);
-        comment.deleteComment(otherUser, post, comment);
+        comment.deleteComment(otherUser);
         assertTrue(post.getComments().contains(comment), "The comment should not be deleted by an unauthorized user.");
     }
 }

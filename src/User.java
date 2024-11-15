@@ -177,6 +177,14 @@ public class User implements UserInterface, Serializable {
         posts.add(toPost);
     }
 
+    public boolean removePost(Post toRemove) {
+        if (posts.contains(toRemove)) {
+            posts.remove(toRemove);
+            return true;
+        }
+        return false;
+    }
+
     public boolean hasBlocked(User blockedUser) {
         return getBlocked().contains(blockedUser);
     }

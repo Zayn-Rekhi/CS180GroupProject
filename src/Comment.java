@@ -56,6 +56,7 @@ public class Comment implements CommentInterface, Serializable {
     public User getCommenter() {
         return commenter;
     }
+    public Post getPost() { return post; }
     public int getCommentID() {
         return commentID;
     }
@@ -83,12 +84,9 @@ public class Comment implements CommentInterface, Serializable {
         return user.equals(commenter) || user.equals(this.post.getUser());
     }
 
-    public void deleteComment(User user, Post newPost, Comment comment) {
+    public void deleteComment(User user) {
         if (canDelete(user)) {
-            System.out.println("Trying to delete");
-            newPost.getComments().remove(comment);
-        } else {
-            System.out.println("User is not authorized to delete this comment.");
+            post.getComments().remove(this);
         }
     }
     public void addLike() {

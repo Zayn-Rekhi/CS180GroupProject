@@ -25,7 +25,7 @@ public interface CommentInterface {
     String getEditDate();
 
     //mutator methods
-    void deleteComment(User user, Post post, Comment comment); //move to post class
+    void deleteComment(User user); //move to post class
     void addLike();
     void addDislike();
     boolean editMessage(String newMessage, String editDate);

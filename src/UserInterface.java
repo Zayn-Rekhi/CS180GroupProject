@@ -41,5 +41,6 @@ public interface UserInterface {
     boolean isFriendOf(User friend);
     void unBlock(User toBeRemoved);
     void post(Post post);
+    boolean removePost(Post post);
 
 }

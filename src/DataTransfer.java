@@ -7,7 +7,6 @@ public class DataTransfer {
         this.value = value;
     }
 
-
     public String getMessage() {
         return message;
     }
