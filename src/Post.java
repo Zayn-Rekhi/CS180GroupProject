@@ -154,10 +154,6 @@ public class Post implements PostInterface, Serializable {
         this.image = true;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }

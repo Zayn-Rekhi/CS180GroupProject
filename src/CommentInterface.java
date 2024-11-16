@@ -15,6 +15,7 @@ public interface CommentInterface {
 
     //accessor methods
     User getCommenter();
+    Post getPost();
     int getCommentID();
     String getMessage();
     String getDate();

@@ -2,18 +2,20 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
-public class Client {
+public class Client implements ClientInterface {
     private Socket socket;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
-
-    public Client(String username, int port) throws IOException {
-        socket = new Socket(username, port);
-        ois = new ObjectInputStream(socket.getInputStream());
-        oos = new ObjectOutputStream(socket.getOutputStream());
+    public Client(String username, int port) {
+        try {
+            socket = new Socket(username, port);
+            ois = new ObjectInputStream(socket.getInputStream());
+            oos = new ObjectOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public DataTransfer awaitResponse() {
@@ -48,21 +50,9 @@ public class Client {
         this.writeObject(new DataTransfer("TERMINATED", null));
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        Client client = new Client("localhost", 4242);
-
-        DataTransfer out = client.awaitResponse();
-
-        System.out.println(out.getMessage());
-        ArrayList<String> array = new ArrayList<>();
-        array.add("Zayn123sdafjas123");
-        array.add("Assimo11234!");
-        array.add("asfasf1231!");
-
-        DataTransfer o = client.request(new DataTransfer("USER CREATENEWUSER", array));
-        System.out.println(o.getMessage());
-
-        client.close();
-
+    public void accept() {
+        DataTransfer out = this.awaitResponse();
+        if (!out.getMessage().equals("CONNECTED"))
+            throw new RuntimeException("Could not Accept Server Socket Request");
     }
 }

@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class DataTransfer implements Serializable {
+public class DataTransfer implements Serializable, DataTransferInterface {
     private String message;
     private Object value;
 

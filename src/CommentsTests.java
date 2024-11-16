@@ -50,6 +50,7 @@ public class CommentsTests implements CommentsTestsInterface {
     @Test
     public void testGetterAndSetter() {
         assertEquals(user, comment.getCommenter());
+        assertEquals(post, comment.getPost());
         assertEquals(2, comment.getCommentID());
         assertEquals("Had so much fun", comment.getMessage());
         assertEquals("11-02-2024", comment.getDate());
