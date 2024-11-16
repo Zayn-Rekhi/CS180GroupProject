@@ -400,11 +400,16 @@ public class Server extends Thread {
     @Override
     public void run() {
         try {
-            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+
+            oos.writeObject(new DataTransfer("CONNECTED", null));
+            oos.flush();
 
             while (true) {
+                System.out.println("Waiting for command...");
                 DataTransfer data = (DataTransfer) ois.readObject();
+                System.out.println(data.getMessage());
 
                 if (data.getMessage().equals("TERMINATED"))
                     break;
@@ -429,5 +434,6 @@ public class Server extends Thread {
                 e.printStackTrace();
             }
         }
+
     }
 }
