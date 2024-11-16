@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @version 1.0.0
  *
  */
-public class ServerTests {
+public class ServerTests implements ServerTestsInterface {
     private Server server;
     private Database database;
 

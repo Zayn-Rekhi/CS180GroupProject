@@ -1,4 +1,4 @@
 public interface DataTransferTestsInterface {
-    public void testDataTransferMessage();
-    public void testDataValue();
+    void testDataTransferMessage();
+    void testDataValue();
 }

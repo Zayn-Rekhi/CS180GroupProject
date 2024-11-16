@@ -1,4 +1,4 @@
 public interface DataTransferInterface {
-    public String getMessage();
-    public Object getValue();
+    String getMessage();
+    Object getValue();
 }

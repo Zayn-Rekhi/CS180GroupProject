@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Server extends Thread {
+public class Server extends Thread implements ServerInterface {
     private Socket clientSocket;
     private Database database = new Database(); //make it get empty database later
 
