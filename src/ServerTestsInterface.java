@@ -20,11 +20,11 @@ public interface ServerTestsInterface {
     void testUnLikePost();
     void testDislikePost();
     void testUnDisLikePost();
+    void testFindFriendsPosts();
 
     void testCreateComment();
     void testDeleteComment();
     void testEditComment();
     void testLikeComment();
     void testDislikeComment();
-
 }

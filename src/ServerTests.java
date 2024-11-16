@@ -406,6 +406,31 @@ public class ServerTests implements ServerTestsInterface {
     }
 
     @Test
+    public void testFindFriendsPosts() {
+        User user = database.findUser("ZaynRekhi123");
+        User friend1 = database.findUser("brandon");
+        User friend2 = database.findUser("SriMadur");
+
+        ArrayList<User> users = new ArrayList<>();
+        users.add(user);
+        users.add(friend1);
+        users.add(friend2);
+
+        DataTransfer dt = new DataTransfer("USER ADDFRIEND", users);
+        DataTransfer out = server.processCommands(dt);
+
+        DataTransfer ndt = new DataTransfer("USER GETFRIENDSFEED", user);
+        DataTransfer feedOut = server.processCommands(ndt);
+
+
+        User f = database.findUser("ZaynRekhi123");
+        ArrayList<Post> feed = (ArrayList<Post>) feedOut.getValue();
+
+        assertEquals(out.getMessage(), "SUCCESS");
+        assertEquals(feed, f.getFriendsFeed());
+    }
+
+    @Test
     public void testCreateComment() {
         User user1 = database.findUser("ZaynRekhi123");
         User user2 = database.findUser("SriMadur");

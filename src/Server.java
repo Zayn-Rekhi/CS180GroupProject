@@ -135,6 +135,21 @@ public class Server extends Thread implements ServerInterface {
             }
         }
 
+        if (command.equals("GETFRIENDSFEED")) {
+            User value = (User) data.getValue();
+
+            User currentValues = database.findUser(value.getUserName());
+
+            boolean success = currentValues != null;
+
+            if (success) {
+                ArrayList<Post> out = currentValues.getFriendsFeed();
+                return new DataTransfer( "SUCCESS", out);
+            } else {
+                return new DataTransfer( "FAILURE", "User Could Not Be Modified");
+            }
+        }
+
         return new DataTransfer( "FAILURE", "Command NOT Found!");
     }
 
