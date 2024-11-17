@@ -118,3 +118,47 @@ It is thrown in the User constructor if the parameter of username and password i
 There are 5 test cases:
 1. (1-4) Checks if the message passed by the parameter matches the message it throws
 2. (5) Ensures that invalid credentials passed in the create user function (Database.java) and User constructor (User.java) don't throw an exception
+
+### Client.java
+The Client class represents the client-side of the platform and allows the users to interact with the server through commands.  
+It sends requests encapsulated in DataTransfer objects to the server and processes responses to update the database.  
+It handles all the communication with the Server class through sockets and ensures the functionality of user operations.
+It implements the ClientInterface which contains all the methods that are used in this class.
+
+### DataTransfer.java
+The DataTransfer Class is used to send and recieve commands between the client and server.
+It stores a message which is the command being given, and a value with is the object or 
+array of objects being passed in with the given command (such as the username and password when creating a user).
+There are two test case:
+1. Ensure the constructor and getMessage method work in regards to the message of the datatransfer.
+2. Ensures that the constructor and getValue method work in regards to the value of the datatransfer.
+   
+### Server.java
+The Server class stores the database and handles all commands that affect the database.
+It will process commands given through DataTransfer objects in order to create and update users, posts, and comments.
+It has functionality to check for commands that can update the database in every possible way it needs to be such as users being created, 
+posts being commented on, those comments being edited, friends being added, etc.
+
+There are twenty-two test case:
+1. Ensures that the create-user command succesfully addes the users to the database with the correct data
+2. Ensures that creating a user with invalid credentials is checked succesfully and doesn't affect the database
+3. Ensures correct functionality with the getLogin command for the given user
+4. Ensures that the removeUser command successfully finds and removes the given user from the database
+5. Ensures the modifyUser command successfully finds and edits the given user
+6. Ensures correct functionality with the addFriend command with a given user
+7. Ensures correct functionality with removing a friend from a given user
+8. Ensures correct functionality with blocking a friend
+9. Ensures correct functionality with unblocking a friend
+10. Ensures that creating a post for a user works correctly
+11. Ensures that deleting a post works correctly for the given user and post
+12. Ensures that editing a post works as it should
+13. Tests the functionality of liking a post
+14. Tests the functionality of unliking a post
+15. Tests the functionality of disliking a post
+16. Tests the functionality of undisliking a post
+17. Ensures the ability to find posts only from a user's friends
+18. Ensures the createComment command works as intended
+19. Ensures the ability to delete a comment from the correct user
+20. Ensures comment-editing functionality and success
+21. Tests the functionality of liking a comment
+22. Tests the functionality of disliking a comment
