@@ -130,14 +130,14 @@ It sends requests encapsulated in DataTransfer objects to the server and process
 It handles all the communication with the Server class through sockets and ensures the functionality of user operations.
 It implements the ClientInterface which contains all the methods that are used in this class.
 There are 8 test cases for the Client class:
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
+1. Ensures the constructor works correctly
+2. Ensures that succesfully writing objects works as intended
+3. Ensures that checking for a failure for writing objects works as intended
+4. Ensures that waiting for a response works as intended
+5. Ensures that checking for a failure for waiting for a response works as intended
+6. Ensures that requesting a message works as intended.
+7. Ensures that checking for a failure when requesting a message works as intended
+8. Ensures closing functionality
 
 ### DataTransfer.java
 The DataTransfer Class is used to send and recieve commands between the client and server.
