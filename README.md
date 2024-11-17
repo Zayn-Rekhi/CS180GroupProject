@@ -14,6 +14,7 @@
    - `UserAlreadyExistsTests.java`
    - `UserCredentialsExceptionTests.java`
    - `UserTests.java`
+   - `ClientTests.java`
    - `DataTransferTests.java`
    - `ServerTests.java`
 
@@ -128,7 +129,15 @@ The Client class represents the client-side of the platform and allows the users
 It sends requests encapsulated in DataTransfer objects to the server and processes responses to update the database.  
 It handles all the communication with the Server class through sockets and ensures the functionality of user operations.
 It implements the ClientInterface which contains all the methods that are used in this class.
-There are no test cases for the Client class.
+There are 8 test cases for the Client class:
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
 
 ### DataTransfer.java
 The DataTransfer Class is used to send and recieve commands between the client and server.
