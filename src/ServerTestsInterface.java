@@ -1,3 +1,6 @@
+/*
+*hihsishfishfishfishfis
+*/
 public interface ServerTestsInterface {
     void createUserZaynExample();
     void createUserSriExample();
