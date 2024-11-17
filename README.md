@@ -1,7 +1,7 @@
 ## Compile and Run Methods
 
 1. All of our `.java` files are in the `src` folder which contains test cases, interfaces, classes, and more.
-2. To test Network I/O, run the main method in Main.java, then run the main method in Client.java
+2. To test Network I/O, run the main method in `Main.java`, then run the main method in `Client.java`
 
     In terminal run these commands: cd src, javac Main.java, java Main
 
