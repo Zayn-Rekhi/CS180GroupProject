@@ -3,6 +3,22 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Client Class
+ * This class represents the client-side of the platform and allows the users to interact with the server through commands.  
+ * It sends requests encapsulated in DataTransfer objects to the server and processes responses to update the database.  
+ * It handles all the communication with the Server class and ensures the functionality of user operations.
+ *
+ * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
+ *
+ * @version 1.0.0
+ */
+
 public class Client implements ClientInterface {
     private Socket socket;
     private ObjectInputStream ois;
