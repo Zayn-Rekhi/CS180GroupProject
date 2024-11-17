@@ -3,18 +3,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 /**
- * Comment Test Class
- * This class tests out all the methods in the Comment class to make sure that they are running smoothly with edge
- * cases. It ensures that the way in which comments, posts, and users are stringed together doesn't give rise to
- * any errors. More specifically, we test functionality such as initialization, adding and likes, getters and setters,
- * editing message, displaying comments, and delete comments by authorized users.
+ * Data Transfer Test Class
+ * Unit tests for Data Transfer Class, tests the all the methods in the class to make sure
+ * the message and value fields are properly initialized, the getters for message and value
+ * work correctly, handles null values for message and value correctly, and simultaneous use of
+ * value and message fields.
  *
  * @author zaynrekhi
  * @author melody
  * @author srimadur
  * @author braydenbrafford
- * @author nothanlee
- * @version 1.0.0
+ * @author nathanlee
  *
  * @version 1.0.0
  */
