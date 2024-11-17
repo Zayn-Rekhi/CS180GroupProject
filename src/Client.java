@@ -35,6 +35,17 @@ public class Client implements ClientInterface {
         }
     }
 
+    public Client(Object object, Object object2, ObjectOutputStream oos2) {
+        //TODO Auto-generated constructor stub
+    }
+
+    // Constructor for testing
+    public Client(Socket socket, ObjectInputStream ois, ObjectOutputStream oos) {
+        this.socket = socket;
+        this.ois = ois;
+        this.oos = oos;
+    }
+
     public DataTransfer awaitResponse() {
         try {
             DataTransfer out = (DataTransfer) ois.readObject();
@@ -64,7 +75,9 @@ public class Client implements ClientInterface {
     }
 
     public void close() {
-        this.writeObject(new DataTransfer("TERMINATED", null));
+        if (oos != null) { // Add null check to avoid NullPointerException
+            writeObject(new DataTransfer("TERMINATED", null));
+        }
     }
 
     public void accept() {
