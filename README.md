@@ -1,7 +1,7 @@
 ## Compile and Run Methods
 
 1. All of our `.java` files are in the `src` folder which contains test cases, interfaces, classes, and more.
-2. We do **NOT** have `main` method for phase one.
+2. The main method used for running the code is in Main.java
 3. The following is a list of our test case files:
    - `CommentsTests.java`
    - `DatabaseTests.java`
