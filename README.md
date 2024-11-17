@@ -10,6 +10,8 @@
    - `UserAlreadyExistsTests.java`
    - `UserCredentialsExceptionTests.java`
    - `UserTests.java`
+   - `DataTransferTests.java`
+   - `ServerTests.java`
 
 ## Class Descriptions
 
