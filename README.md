@@ -124,6 +124,7 @@ The Client class represents the client-side of the platform and allows the users
 It sends requests encapsulated in DataTransfer objects to the server and processes responses to update the database.  
 It handles all the communication with the Server class through sockets and ensures the functionality of user operations.
 It implements the ClientInterface which contains all the methods that are used in this class.
+There are no test cases for the Client class.
 
 ### DataTransfer.java
 The DataTransfer Class is used to send and recieve commands between the client and server.
