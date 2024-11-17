@@ -5,11 +5,9 @@ import java.util.ArrayList;
 
 /**
  * Server Test Class
- * This class tests out all the methods in the User class to make sure that they are running smoothly with edge
- * cases. It ensures that the way in which comments, posts, and users are stringed together doesn't give rise to
- * any errors. More specifically, we test functionality such as initialization for Users,
- * their ability to edit their attributes, their interactions with friends and blocked users, their permissions,
- * their feed, and their posting.
+ * This class tests out all the methods in the Server class to make sure that they are running smoothly with edge
+ * cases. It ensures that the way the Server processes commands to change the database all works as intended.
+ * We test every possible command the server needs to handle, and make sure the database is updated correctly.
  *
  * @author zaynrekhi
  * @author melody
