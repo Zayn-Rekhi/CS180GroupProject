@@ -8,9 +8,9 @@ public class Client implements ClientInterface {
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
-    public Client(String username, int port) {
+    public Client(String host, int port) {
         try {
-            socket = new Socket(username, port);
+            socket = new Socket(host, port);
             ois = new ObjectInputStream(socket.getInputStream());
             oos = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
