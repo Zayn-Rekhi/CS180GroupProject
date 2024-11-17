@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 
-public class ClientTest {
+public class ClientTests {
 
     @Test
     void testConstructor() {
