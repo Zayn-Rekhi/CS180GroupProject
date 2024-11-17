@@ -1,3 +1,6 @@
+/*
+java doc
+*/
 public interface ClientInterface {
     DataTransfer awaitResponse();
     boolean writeObject(DataTransfer data);
