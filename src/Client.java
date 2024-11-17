@@ -72,4 +72,11 @@ public class Client implements ClientInterface {
         if (!out.getMessage().equals("CONNECTED"))
             throw new RuntimeException("Could not Accept Server Socket Request");
     }
+
+    public static void main(String[] args) {
+        Client client2 = new Client("localhost", 4242);
+        client2.accept();
+        client2.close();
+
+    }
 }
