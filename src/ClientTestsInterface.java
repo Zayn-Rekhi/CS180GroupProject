@@ -13,11 +13,11 @@
  */
 public interface ClientTestsInterface {
     void testConstructor();
-    void testWriteObject_Success();
-    void testWriteObject_Failure();
-    void testAwaitResponse_Success();
-    void testAwaitResponse_Failure();
-    void testRequest_Success();
-    void testRequest_Failure();
+    void testWriteObjectSuccess();
+    void testWriteObjectFailure();
+    void testAwaitResponseSuccess();
+    void testAwaitResponseFailure();
+    void testRequestSuccess();
+    void testRequestFailure();
     void testClose();
 }
