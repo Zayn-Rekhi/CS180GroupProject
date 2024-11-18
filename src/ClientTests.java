@@ -7,7 +7,8 @@ import java.io.ObjectOutputStream;
 /**
  * Test class for the Client class.
  * This class provides unit tests for the Client class, including its constructors and methods,
- * ensuring that the constructor initializes objects correctly, the writeObject method handles both successful and failed write operations, 
+ * ensuring that the constructor initializes objects correctly, the writeObject 
+ * method handles both successful and failed write operations, 
  * the awaitResponse method correctly processes valid responses and handles errors,
  * the request method integrates writeObject and awaitResponse, 
  * returning appropriate results for both success and failure scenarios, and
