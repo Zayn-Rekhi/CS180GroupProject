@@ -5,10 +5,14 @@ import java.net.Socket;
 
 /**
  * Client Class
- * This class represents the client-side of the platform and allows the users to interact with the server through commands.  
- * It sends requests encapsulated in DataTransfer objects to the server and processes responses to update the database.  
- * It handles all the communication with the Server class through sockets and ensures the functionality of user operations.
- * It implements the ClientInterface which contains all the methods that are used in this class.
+ * This class represents the client-side of the platform and 
+ * allows the users to interact with the server through commands.  
+ * It sends requests encapsulated in DataTransfer objects to 
+ * the server and processes responses to update the database.  
+ * It handles all the communication with the Server class through 
+ * sockets and ensures the functionality of user operations.
+ * It implements the ClientInterface which contains all the methods that 
+ * are used in this class.
  *
  * @author zaynrekhi
  * @author melody
@@ -33,10 +37,6 @@ public class Client implements ClientInterface {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public Client(Object object, Object object2, ObjectOutputStream oos2) {
-        //TODO Auto-generated constructor stub
     }
 
     // Constructor for testing
