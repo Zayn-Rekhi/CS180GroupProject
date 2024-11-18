@@ -4,7 +4,8 @@ import java.util.ArrayList;
 /**
  * Server Class
  * This class is important, it handles all of the commands and stores the database for the platform.
- * There is only one Server and it takes a command from a DataTransfer object that will be linked to a buttons implemented later
+ * There is only one Server and it takes a command 
+ * from a DataTransfer object that will be linked to a buttons implemented later
  * These are then used to make changes to the database.
  * There are methods that handle the processing of these commands as they relate to posts, users, or comments.
  * It extends Thread, making it runnable, and implements ServerInterface to document its methods.
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  */
 public class Server extends Thread implements ServerInterface {
     private Socket clientSocket;
-    private Database database = new Database(); //make it get empty database later
+    private Database database = new Database(); // Make it get an empty database later
 
     public Server(Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -28,22 +29,20 @@ public class Server extends Thread implements ServerInterface {
 
     public DataTransfer processUser(String command, DataTransfer data) {
         if (command.equals("GETLOGIN")) {
-            ArrayList<String> values = ((ArrayList<String>) data.getValue());
-
+            ArrayList<String> values = (ArrayList<String>) data.getValue();
             String username = values.get(0);
             String password = values.get(1);
 
             if (database.checkLogin(username, password)) {
                 User user = database.findUser(username);
-                return new DataTransfer( "SUCCESS", user);
+                return new DataTransfer("SUCCESS", user);
             } else {
-                return new DataTransfer( "FAILURE", "Invalid username or password");
+                return new DataTransfer("FAILURE", "Invalid username or password");
             }
         }
 
         if (command.equals("CREATENEWUSER")) {
-            ArrayList<String> values = ((ArrayList<String>) data.getValue());
-
+            ArrayList<String> values = (ArrayList<String>) data.getValue();
             String username = values.get(0);
             String password = values.get(1);
             String bio = values.get(2);
@@ -51,129 +50,119 @@ public class Server extends Thread implements ServerInterface {
             boolean valid = database.createUser(username, password, bio);
 
             if (valid) {
-                return new DataTransfer( "SUCCESS", database.findUser(username));
+                return new DataTransfer("SUCCESS", database.findUser(username));
             } else {
                 String msg = "User Already Exists or Credentials are Invalid";
-                return new DataTransfer( "FAILURE", msg);
+                return new DataTransfer("FAILURE", msg);
             }
         }
 
         if (command.equals("DELETEUSER")) {
             User value = (User) data.getValue();
-
             boolean success = database.removeUser(value);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", value);
+                return new DataTransfer("SUCCESS", value);
             } else {
-                return new DataTransfer( "FAILURE", "User not found");
+                return new DataTransfer("FAILURE", "User not found");
             }
         }
 
         if (command.equals("MODIFYUSER")) {
             User value = (User) data.getValue();
             User current = database.findUser(value.getUserName());
-
             boolean success = database.modifyUser(current, value);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", value);
+                return new DataTransfer("SUCCESS", value);
             } else {
-                return new DataTransfer( "FAILURE", "User Could Not Be Modified");
+                return new DataTransfer("FAILURE", "User Could Not Be Modified");
             }
         }
 
         if (command.equals("ADDFRIEND")) {
-            var values = ((ArrayList<User>) data.getValue());
+            var values = (ArrayList<User>) data.getValue();
             User primary = values.get(0);
             User friend = values.get(1);
 
             primary.addFriend(friend);
-
             User prev = database.findUser(primary.getUserName());
             boolean success = database.modifyUser(primary, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", primary);
+                return new DataTransfer("SUCCESS", primary);
             } else {
-                return new DataTransfer( "FAILURE", "User Could Not Be Modified");
+                return new DataTransfer("FAILURE", "User Could Not Be Modified");
             }
         }
 
         if (command.equals("REMOVEFRIEND")) {
-            var values = ((ArrayList<User>) data.getValue());
+            var values = (ArrayList<User>) data.getValue();
             User primary = values.get(0);
             User friend = values.get(1);
 
             primary.removeFriend(friend);
-
             User prev = database.findUser(primary.getUserName());
             boolean success = database.modifyUser(primary, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", primary);
+                return new DataTransfer("SUCCESS", primary);
             } else {
-                return new DataTransfer( "FAILURE", "User Could Not Be Modified");
+                return new DataTransfer("FAILURE", "User Could Not Be Modified");
             }
         }
 
         if (command.equals("BLOCKFRIEND")) {
-            var values = ((ArrayList<User>) data.getValue());
+            var values = (ArrayList<User>) data.getValue();
             User primary = values.get(0);
             User friend = values.get(1);
 
             primary.block(friend);
-
             User prev = database.findUser(primary.getUserName());
             boolean success = database.modifyUser(primary, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", primary);
+                return new DataTransfer("SUCCESS", primary);
             } else {
-                return new DataTransfer( "FAILURE", "User Could Not Be Modified");
+                return new DataTransfer("FAILURE", "User Could Not Be Modified");
             }
         }
 
         if (command.equals("UNBLOCKFRIEND")) {
-            var values = ((ArrayList<User>) data.getValue());
+            var values = (ArrayList<User>) data.getValue();
             User primary = values.get(0);
             User friend = values.get(1);
 
             primary.unBlock(friend);
-
             User prev = database.findUser(primary.getUserName());
             boolean success = database.modifyUser(primary, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", primary);
+                return new DataTransfer("SUCCESS", primary);
             } else {
-                return new DataTransfer( "FAILURE", "User Could Not Be Modified");
+                return new DataTransfer("FAILURE", "User Could Not Be Modified");
             }
         }
 
         if (command.equals("GETFRIENDSFEED")) {
             User value = (User) data.getValue();
-
             User currentValues = database.findUser(value.getUserName());
-
             boolean success = currentValues != null;
 
             if (success) {
                 ArrayList<Post> out = currentValues.getFriendsFeed();
-                return new DataTransfer( "SUCCESS", out);
+                return new DataTransfer("SUCCESS", out);
             } else {
-                return new DataTransfer( "FAILURE", "User Could Not Be Modified");
+                return new DataTransfer("FAILURE", "User Could Not Be Modified");
             }
         }
 
-        return new DataTransfer( "FAILURE", "Command NOT Found!");
+        return new DataTransfer("FAILURE", "Command NOT Found!");
     }
 
     public DataTransfer processPost(String command, DataTransfer data) {
-        //CREATEPOST
         if (command.equals("CREATEPOST")) {
             ArrayList<Object> values = (ArrayList<Object>) data.getValue();
-
             User user = (User) values.get(0);
             String title = (String) values.get(1);
             String imageURL = (String) values.get(2);
@@ -181,26 +170,23 @@ public class Server extends Thread implements ServerInterface {
             String date = (String) values.get(4);
 
             Post p = null;
-
-            if (imageURL == null)   {
+            if (imageURL == null) {
                 p = new Post(user, title, description, date);
             } else {
                 p = new Post(user, title, imageURL, description, date);
             }
 
             user.post(p);
-
             User prev = database.findUser(user.getUserName());
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", p);
+                return new DataTransfer("SUCCESS", p);
             } else {
-                return new DataTransfer( "FAILURE", "Post cannot be made!");
+                return new DataTransfer("FAILURE", "Post cannot be made!");
             }
         }
 
-        //DELETEPOST
         if (command.equals("DELETEPOST")) {
             Post post = (Post) data.getValue();
             User user = post.getUser();
@@ -210,38 +196,34 @@ public class Server extends Thread implements ServerInterface {
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                 return new DataTransfer( "SUCCESS", post);
+                return new DataTransfer("SUCCESS", post);
             } else {
-                return new DataTransfer( "FAILURE", "Post does not exist!");
+                return new DataTransfer("FAILURE", "Post does not exist!");
             }
         }
 
-        //EDITPOST
         if (command.equals("EDITPOST")) {
-           Post post = (Post) data.getValue();
-           ArrayList<Post> posts = post.getUser().getPosts();
+            Post post = (Post) data.getValue();
+            ArrayList<Post> posts = post.getUser().getPosts();
 
+            for (int i = 0; i < posts.size(); i++) {
+                if (posts.get(i).getPostID() == post.getPostID()) {
+                    posts.set(i, post);
+                    post.getUser().setPosts(posts);
+                }
+            }
 
-           for (int i = 0; i < posts.size(); i++) {
-               if (posts.get(i).getPostID() == post.getPostID()) {
-                   posts.set(i, post);
-                   post.getUser().setPosts(posts);
-               }
-           }
-
-           User user = post.getUser();
-           User prev = database.findUser(user.getUserName());
-           boolean success = database.modifyUser(user, prev);
-
+            User user = post.getUser();
+            User prev = database.findUser(user.getUserName());
+            boolean success = database.modifyUser(user, prev);
 
             if (success) {
-               return new DataTransfer( "SUCCESS", post);
-           } else {
-               return new DataTransfer( "FAILURE", "Post Could Not Be Modified");
-           }
+                return new DataTransfer("SUCCESS", post);
+            } else {
+                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
+            }
         }
 
-        //LIKEPOST
         if (command.equals("LIKEPOST")) {
             Post post = (Post) data.getValue();
             post.addLike();
@@ -251,13 +233,12 @@ public class Server extends Thread implements ServerInterface {
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", post);
+                return new DataTransfer("SUCCESS", post);
             } else {
-                return new DataTransfer( "FAILURE", "Post Could Not Be Modified");
+                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
             }
         }
 
-        //UNLIKEPOST
         if (command.equals("UNLIKEPOST")) {
             Post post = (Post) data.getValue();
             post.removeLike();
@@ -267,13 +248,12 @@ public class Server extends Thread implements ServerInterface {
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", post);
+                return new DataTransfer("SUCCESS", post);
             } else {
-                return new DataTransfer( "FAILURE", "Post Could Not Be Modified");
+                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
             }
         }
 
-        //LIKEPOST
         if (command.equals("DISLIKEPOST")) {
             Post post = (Post) data.getValue();
             post.addDislike();
@@ -283,13 +263,12 @@ public class Server extends Thread implements ServerInterface {
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", post);
+                return new DataTransfer("SUCCESS", post);
             } else {
-                return new DataTransfer( "FAILURE", "Post Could Not Be Modified");
+                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
             }
         }
 
-        //UNLIKEPOST
         if (command.equals("UNDISLIKEPOST")) {
             Post post = (Post) data.getValue();
             post.removeDislike();
@@ -299,19 +278,18 @@ public class Server extends Thread implements ServerInterface {
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", post);
+                return new DataTransfer("SUCCESS", post);
             } else {
-                return new DataTransfer( "FAILURE", "Post Could Not Be Modified");
+                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
             }
         }
 
-        return new DataTransfer( "FAILURE", "Command NOT Found!");
+        return new DataTransfer("FAILURE", "Command NOT Found!");
     }
 
     public DataTransfer processComment(String command, DataTransfer data) {
         if (command.equals("CREATECOMMENT")) {
-            ArrayList<Object> values = ((ArrayList<Object>) data.getValue());
-
+            ArrayList<Object> values = (ArrayList<Object>) data.getValue();
             User user = (User) values.get(0);
             Post post = (Post) values.get(1);
             String message = (String) values.get(2);
@@ -324,26 +302,25 @@ public class Server extends Thread implements ServerInterface {
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", theComment);
+                return new DataTransfer("SUCCESS", theComment);
             } else {
-                return new DataTransfer( "FAILURE", "Comment could Not Be Created");
+                return new DataTransfer("FAILURE", "Comment could Not Be Created");
             }
         }
 
         if (command.equals("DELETECOMMENT")) {
-            ArrayList<Object> values = ((ArrayList<Object>) data.getValue());
+            ArrayList<Object> values = (ArrayList<Object>) data.getValue();
             Comment comment = (Comment) values.get(0);
             User user = (User) values.get(1);
 
             comment.deleteComment(user);
-
             User prev = database.findUser(user.getUserName());
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", comment);
+                return new DataTransfer("SUCCESS", comment);
             } else {
-                return new DataTransfer( "FAILURE", "Comment could Not Be Modified");
+                return new DataTransfer("FAILURE", "Comment could Not Be Modified");
             }
         }
 
@@ -352,15 +329,14 @@ public class Server extends Thread implements ServerInterface {
             Post post = theComment.getPost();
 
             theComment.addLike();
-
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", post);
+                return new DataTransfer("SUCCESS", post);
             } else {
-                return new DataTransfer( "FAILURE", "Post Could Not Be Modified");
+                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
             }
         }
 
@@ -369,21 +345,19 @@ public class Server extends Thread implements ServerInterface {
             Post post = theComment.getPost();
 
             theComment.addDislike();
-
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer( "SUCCESS", post);
+                return new DataTransfer("SUCCESS", post);
             } else {
-                return new DataTransfer( "FAILURE", "Post Could Not Be Modified");
+                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
             }
         }
 
         if (command.equals("EDITCOMMENT")) {
-            ArrayList<Object> values = ((ArrayList<Object>) data.getValue());
-
+            ArrayList<Object> values = (ArrayList<Object>) data.getValue();
             Comment theComment = (Comment) values.get(0);
             String theMessage = (String) values.get(1);
             String theDate = (String) values.get(2);
@@ -396,37 +370,30 @@ public class Server extends Thread implements ServerInterface {
             boolean successModification = database.modifyUser(user, prev);
 
             if (successEdit && successModification) {
-                return new DataTransfer( "SUCCESS", theComment);
+                return new DataTransfer("SUCCESS", theComment);
             } else {
-                return new DataTransfer( "FAILURE", "Post Could Not Be Modified");
+                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
             }
         }
 
-        return new DataTransfer( "FAILURE", "Command NOT Found!");
+        return new DataTransfer("FAILURE", "Command NOT Found!");
     }
-
 
     public DataTransfer processCommands(DataTransfer data) {
         String[] commands = data.getMessage().split(" ");
-
         String scope = commands[0];
         String command = commands[1];
 
-        // "SCOPE COMMAND"
-
-        DataTransfer out = new DataTransfer( "FAILURE", "Invalid command");
+        DataTransfer out = new DataTransfer("FAILURE", "Invalid command");
 
         switch (scope) {
             case "USER" -> out = processUser(command, data);
-
             case "POST" -> out = processPost(command, data);
-
             case "COMMENT" -> out = processComment(command, data);
         }
 
         return out;
     }
-
 
     @Override
     public void run() {
@@ -442,15 +409,15 @@ public class Server extends Thread implements ServerInterface {
                 DataTransfer data = (DataTransfer) ois.readObject();
                 System.out.println(data.getMessage());
 
-                if (data.getMessage().equals("TERMINATED"))
+                if (data.getMessage().equals("TERMINATED")) {
                     break;
+                }
 
                 DataTransfer out = null;
-
                 try {
                     out = processCommands(data);
                 } catch (Exception e) {
-                    out = new DataTransfer( "COMMAND FAILURE", e.getMessage());
+                    out = new DataTransfer("COMMAND FAILURE", e.getMessage());
                 }
 
                 oos.writeObject(out);
@@ -465,6 +432,5 @@ public class Server extends Thread implements ServerInterface {
                 e.printStackTrace();
             }
         }
-
     }
 }
