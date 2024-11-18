@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class Database implements DatabaseInterface {
     private static ArrayList<User> users;
-    private static final String fileName = "src/data/data.txt";
+    private static final String FILENAME = "src/data/data.txt";
     private static final Object LOCK = new Object();
 
 
@@ -35,7 +35,7 @@ public class Database implements DatabaseInterface {
     }
 
     public boolean updateDataFile() {
-        try (FileOutputStream fin = new FileOutputStream(this.fileName);
+        try (FileOutputStream fin = new FileOutputStream(this.FILENAME);
              ObjectOutputStream oit = new ObjectOutputStream(fin)) {
 
             synchronized (LOCK) {
@@ -52,7 +52,7 @@ public class Database implements DatabaseInterface {
     }
 
     public boolean loadUsers() {
-        try (FileInputStream fin = new FileInputStream(this.fileName);
+        try (FileInputStream fin = new FileInputStream(this.FILENAME);
              ObjectInputStream oit = new ObjectInputStream(fin)) {
 
             synchronized (LOCK) {
