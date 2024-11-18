@@ -33,7 +33,7 @@ public class ClientTests {
     }
 
     @Test
-    void testWriteObject_Success() throws Exception {
+    void testWriteObjectSuccess() throws Exception {
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(byteOut);
         Client client = new Client(null, null, oos);
@@ -43,7 +43,7 @@ public class ClientTests {
     }
 
     @Test
-    void testWriteObject_Failure() {
+    void testWriteObjectFailure() {
         Client client = new Client("localhost", 4242);
         DataTransfer testData = new DataTransfer("TestMessage", null);
         boolean result = false;
@@ -51,7 +51,7 @@ public class ClientTests {
     }
 
     @Test
-    void testAwaitResponse_Success() {
+    void testAwaitResponseSuccess() {
         Client client = new Client("localhost", 4242);
         DataTransfer expectedResponse = new DataTransfer("SuccessMessage", "SuccessValue");
         DataTransfer actualResponse = expectedResponse;
@@ -62,7 +62,7 @@ public class ClientTests {
     }
 
     @Test
-    void testAwaitResponse_Failure() {
+    void testAwaitResponseFailure() {
         Client client = new Client("localhost", 4242);
         DataTransfer expectedResponse = new DataTransfer("Bad Response", null);
         DataTransfer actualResponse = expectedResponse;
@@ -72,7 +72,7 @@ public class ClientTests {
     }
 
     @Test
-    void testRequest_Success() {
+    void testRequestSuccess() {
         Client client = new Client("localhost", 4242);
         DataTransfer request = new DataTransfer("RequestMessage", "RequestValue");
         DataTransfer expectedResponse = new DataTransfer("ResponseMessage", "ResponseValue");
@@ -87,7 +87,7 @@ public class ClientTests {
     }
 
     @Test
-    void testRequest_Failure() {
+    void testRequestFailure() {
         Client client = new Client("localhost", 4242);
         DataTransfer request = new DataTransfer("RequestMessage", "RequestValue");
         DataTransfer expectedResponse = new DataTransfer("Bad Request", null);
