@@ -108,6 +108,10 @@ public class Post implements PostInterface, Serializable {
         return comments;
     }
 
+    public String getDate() {
+        return date;
+    }
+
     public User getUser() {
         return user;
     }
@@ -203,4 +207,5 @@ public class Post implements PostInterface, Serializable {
         }
         return returnValue;
     }
+
 }

@@ -1,108 +1,49 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.*;
+
 
 public class UserGUI extends Thread {
-    private static Client client;
-
-
-    JTextField username;
-    JTextField password;
-    JTextField bio;
-
-
-    JButton login;
-    JButton create;
-
-    UserGUI gui;
-
-
-    ActionListener actionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == login) {
-                String usernameTxt = username.getText();
-                String passwordTxt = password.getText();
-
-                ArrayList<String> out = new ArrayList<String>();
-                out.add(usernameTxt);
-                out.add(passwordTxt);
-
-                DataTransfer params = new DataTransfer("USER GETLOGIN", out);
-
-                DataTransfer response = client.request(params);
-
-                System.out.println(response.getMessage());
-                System.out.println(response.getValue());
-            }
-
-            if (e.getSource() == create) {
-                String usernameTxt = username.getText();
-                String passwordTxt = password.getText();
-                String bioTxt = bio.getText();
-                ArrayList<String> out = new ArrayList<String>();
-                out.add(usernameTxt);
-                out.add(passwordTxt);
-                out.add(bioTxt);
-
-                DataTransfer params = new DataTransfer("USER CREATENEWUSER", out);
-                DataTransfer response = client.request(params);
-                System.out.println(response.getMessage());
-                System.out.println(response.getValue());
-            }
-        }
-    };
-
     public static void main(String[] args) {
-        client = new Client("localhost", 4242);
-        client.accept();
-
         SwingUtilities.invokeLater(new UserGUI());
     }
 
+    @Override
     public void run() {
         JFrame frame = new JFrame("Social Media Application");
-
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setResizable(false);
+
+        CardLayout cardLayout = new CardLayout();
+        JPanel mainPanel = new JPanel(cardLayout);
+
+        // Initialize LoginPanel
+        LoginPanel loginPanel = new LoginPanel(mainPanel, cardLayout);
+
+        // Placeholder for posts (replace with actual logic)
+        ArrayList<Post> posts = fetchPostsForUser();
+
+        // Add panels
+        mainPanel.add(loginPanel, "Login");
+        mainPanel.add(new BlogPostsPanel(mainPanel, cardLayout, posts, loginPanel.getLoggedInUser()), "BlogPosts");
+
+        frame.add(mainPanel);
         frame.setVisible(true);
+    }
 
-        JPanel originalPanel = new JPanel();
+    // Placeholder method to fetch posts
+    private ArrayList<Post> fetchPostsForUser() {
+        ArrayList<Post> posts = new ArrayList<>();
+        User user = new User("SampleUser", "password123", "Sample bio!");
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 2));
-        panel.setSize(300, 200);
+        try {
+            posts.add(new Post(user, "Post 1", "First post description.", "12-01-2024"));
+            posts.add(new Post(user, "Post 2", "Second post description.", "12-02-2024"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        panel.add(new JLabel("Username:"));
-        username = new JTextField("", 10);
-        panel.add(username, BorderLayout.NORTH);
-
-        panel.add(new JLabel("Password:"));
-        password = new JTextField("", 10);
-        panel.add(password, BorderLayout.SOUTH);
-
-        panel.add(new JLabel("Bio:"));
-        bio = new JTextField("", 10);
-        panel.add(bio, BorderLayout.SOUTH);
-
-        login = new JButton("Login");
-        panel.add(login);
-        login.addActionListener(actionListener);
-
-        create = new JButton("Create User");
-        panel.add(create);
-        create.addActionListener(actionListener);
-
-        originalPanel.add(panel);
-
-        frame.add(originalPanel, BorderLayout.CENTER);
-
-
-
-
-
+        return posts;
     }
 }

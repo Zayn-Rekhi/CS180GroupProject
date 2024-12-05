@@ -25,6 +25,7 @@ public interface PostInterface {
     String getDescription();
     int getLikes();
     int getDislikes();
+    String getDate();
 
     //mutator methods
     void setUser(User user);
