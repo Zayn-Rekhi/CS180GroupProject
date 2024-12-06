@@ -105,24 +105,40 @@ public class UserTests implements UserTestsInterface {
     @Test
     public void testFriendsFeed() {
         ArrayList<Post> posts1 = new ArrayList<>();
-        posts1.add(new Post(friend1, "Post1",  "Doing everything", "11-02-2024"));
-        posts1.add(new Post(friend1, "Post2", "Doing everything", "11-02-2024"));
+        Post friend1Post1 = new Post(friend1, "Post1", "Doing everything", "11-02-2024");
+        friend1Post1.addLike(); // 1 like
+        friend1Post1.addLike(); // 2 likes
+
+        Post friend1Post2 = new Post(friend1, "Post2", "Doing everything", "11-02-2024");
+        friend1Post2.addLike(); // 1 like
+
+        posts1.add(friend1Post1);
+        posts1.add(friend1Post2);
         friend1.setPosts(posts1);
 
         ArrayList<Post> posts2 = new ArrayList<>();
-        posts2.add(new Post(friend2, "Post1",  "Doing everything", "11-02-2024"));
-        posts2.add(new Post(friend2, "Post2",  "Doing everything", "11-02-2024"));
-        friend2.setPosts(posts2);
+        Post friend2Post1 = new Post(friend2, "Post3", "Doing everything", "11-02-2024");
+        friend2Post1.addLike(); // 1 like
+        friend2Post1.addLike(); // 2 likes
+        friend2Post1.addLike(); // 3 likes
 
+        Post friend2Post2 = new Post(friend2, "Post4", "Doing everything", "11-02-2024");
+
+        posts2.add(friend2Post1);
+        posts2.add(friend2Post2);
+        friend2.setPosts(posts2);
         user.addFriend(friend1);
         user.addFriend(friend2);
 
-        ArrayList<Post> friendsPosts = this.user.getFriendsFeed();
+        ArrayList<Post> friendsPosts = user.getFriendsFeed();
 
-        assertEquals(posts1.get(0), friendsPosts.get(0));
-        assertEquals(posts1.get(1), friendsPosts.get(1));
-        assertEquals(posts2.get(0), friendsPosts.get(2));
-        assertEquals(posts2.get(1), friendsPosts.get(3));
+        assertEquals(friend2Post1, friendsPosts.get(0)); // 3 likes
+        assertEquals(friend1Post1, friendsPosts.get(1)); // 2 likes
+        assertEquals(friend1Post2, friendsPosts.get(2)); // 1 like
+        assertEquals(friend2Post2, friendsPosts.get(3)); // 0 likes
+
+        // test total number of posts
+        assertEquals(4, friendsPosts.size());
     }
 
     @Test

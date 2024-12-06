@@ -103,6 +103,7 @@ public class DatabaseTests implements DatabaseTestsInterface {
         User user2 = new User("zrekhi123", "theotherone!", "I love books and outdoors!");
         User user3 = new User("zayntherekhi", "people123!", "I love books and outdoors!");
 
+        user1.addFriend(user2);
 
         db.addUser(user1);
         db.addUser(user2);

@@ -1,13 +1,14 @@
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class LoginPanel extends JPanel {
+
     private JPanel mainPanel;
     private CardLayout cardLayout;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField bioField; // For creating a new user
-    private User loggedInUser;
 
     public LoginPanel(JPanel mainPanel, CardLayout cardLayout) {
         this.mainPanel = mainPanel;
@@ -16,7 +17,7 @@ public class LoginPanel extends JPanel {
         setLayout(new BorderLayout());
 
         // Title
-        JLabel title = new JLabel("Social Media Application", SwingConstants.CENTER);
+        JLabel title = new JLabel("Welcome to BoilerChat!", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 18));
         title.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         add(title, BorderLayout.NORTH);
@@ -74,11 +75,23 @@ public class LoginPanel extends JPanel {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
 
-            // Simulate login logic (replace with actual logic)
-            if (username.equals("SampleUser") && password.equals("password123")) {
-                loggedInUser = new User(username, password, "This is a dynamic bio!"); // Replace bio dynamically
+            ArrayList<String> out = new ArrayList<String>();
+            out.add(username);
+            out.add(password);
+
+            DataTransfer params = new DataTransfer("USER GETLOGIN", out);
+            DataTransfer response = UserGUI.getClient().request(params);
+
+            boolean valid = !username.isEmpty() && !password.isEmpty();
+
+            if (valid && !response.getMessage().equals("FAILURE")) {
+                User loggedInUser = (User) response.getValue();
+                UserGUI.setUser(loggedInUser);
+
                 System.out.println("Login successful! Logged in as: " + loggedInUser.getUserName());
                 cardLayout.show(mainPanel, "BlogPosts");
+
+                toBlogPanel(loggedInUser);
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid username or password!");
             }
@@ -90,18 +103,48 @@ public class LoginPanel extends JPanel {
             String password = new String(passwordField.getPassword());
             String bio = bioField.getText();
 
-            // Simulate create user logic (replace with actual logic)
-            if (!username.isEmpty() && !password.isEmpty() && !bio.isEmpty()) {
-                loggedInUser = new User(username, password, bio); // Create a new user
+            ArrayList<String> out = new ArrayList<String>();
+            out.add(username);
+            out.add(password);
+            out.add(bio);
+
+            DataTransfer params = new DataTransfer("USER CREATENEWUSER", out);
+            DataTransfer response = UserGUI.getClient().request(params);
+
+            boolean valid = !username.isEmpty() && !password.isEmpty() && !bio.isEmpty();
+
+            if (valid && !response.getMessage().equals("FAILURE")) {
+                User loggedInUser = (User) response.getValue();
+
+                UserGUI.setUser(loggedInUser);
                 System.out.println("User created successfully! Logged in as: " + loggedInUser.getUserName());
-                cardLayout.show(mainPanel, "BlogPosts");
+
+                toBlogPanel(loggedInUser);
             } else {
                 JOptionPane.showMessageDialog(this, "All fields are required to create a user!");
             }
         });
     }
 
-    public User getLoggedInUser() {
-        return loggedInUser;
+    public void toBlogPanel(User user) {
+        DataTransfer params = new DataTransfer("USER GETFRIENDSFEED", user);
+        DataTransfer response = UserGUI.getClient().request(params);
+        ArrayList<Post> posts = (ArrayList<Post>) response.getValue();
+        UserGUI.setUser(user);
+
+//        System.out.println(user.getFriends().get(2).getUserName());
+//        System.out.println(user.getFriends().get(2).getPosts());
+//        System.out.println(user.getFriends());
+//        System.out.println(posts);
+//        posts = UserGUI.fetchPostsForUser();
+
+        mainPanel.add(new BlogPostsPanel(mainPanel, cardLayout, posts), "BlogPosts");
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        cardLayout.show(mainPanel, "BlogPosts");
     }
+
+//    public User getLoggedInUser() {
+//        return loggedInUser;
+//    }
 }

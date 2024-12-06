@@ -91,7 +91,7 @@ public class Database implements DatabaseInterface {
         }
     }
 
-    public boolean modifyUser(User prevUser, User newUser) {
+    public boolean modifyUser(User newUser, User prevUser) {
         try {
             synchronized (LOCK) {
                 for (int i = 0; i < users.size(); i++) {

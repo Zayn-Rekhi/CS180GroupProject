@@ -86,11 +86,15 @@ public class Server extends Thread implements ServerInterface {
             User friend = values.get(1);
 
             primary.addFriend(friend);
+
             User prev = database.findUser(primary.getUserName());
             boolean success = database.modifyUser(primary, prev);
+            User newUser = database.findUser(prev.getUserName());
+
+            System.out.println(newUser.getFriends());
 
             if (success) {
-                return new DataTransfer("SUCCESS", primary);
+                return new DataTransfer("SUCCESS", newUser);
             } else {
                 return new DataTransfer("FAILURE", "User Could Not Be Modified");
             }
@@ -144,12 +148,30 @@ public class Server extends Thread implements ServerInterface {
             }
         }
 
+        if (command.equals("SEARCH")) {
+            String value = (String) data.getValue();
+
+            User found = database.findUser(value);
+            boolean success = found != null;
+
+            if (success) {
+                return new DataTransfer("SUCCESS", found);
+            } else {
+                return new DataTransfer("FAILURE", "User Could Not Be Modified");
+            }
+
+        }
+
         if (command.equals("GETFRIENDSFEED")) {
             User value = (User) data.getValue();
             User currentValues = database.findUser(value.getUserName());
             boolean success = currentValues != null;
 
             if (success) {
+                System.out.println(currentValues.getUserName());
+                System.out.println(currentValues.getFriends());
+                System.out.println(currentValues.getPosts());
+
                 ArrayList<Post> out = currentValues.getFriendsFeed();
                 return new DataTransfer("SUCCESS", out);
             } else {
@@ -165,23 +187,21 @@ public class Server extends Thread implements ServerInterface {
             ArrayList<Object> values = (ArrayList<Object>) data.getValue();
             User user = (User) values.get(0);
             String title = (String) values.get(1);
-            String imageURL = (String) values.get(2);
-            String description = (String) values.get(3);
-            String date = (String) values.get(4);
+            String description = (String) values.get(2);
+            String date = (String) values.get(3);
 
             Post p = null;
-            if (imageURL == null) {
-                p = new Post(user, title, description, date);
-            } else {
-                p = new Post(user, title, imageURL, description, date);
-            }
+            p = new Post(user, title, description, date);
 
             user.post(p);
             User prev = database.findUser(user.getUserName());
             boolean success = database.modifyUser(user, prev);
 
+            System.out.println(user.getUserName());
+            System.out.println(user.getPosts());
+
             if (success) {
-                return new DataTransfer("SUCCESS", p);
+                return new DataTransfer("SUCCESS", user);
             } else {
                 return new DataTransfer("FAILURE", "Post cannot be made!");
             }
@@ -417,7 +437,7 @@ public class Server extends Thread implements ServerInterface {
                 try {
                     out = processCommands(data);
                 } catch (Exception e) {
-                    out = new DataTransfer("COMMAND FAILURE", e.getMessage());
+                    out = new DataTransfer("FAILURE", e.getMessage());
                 }
 
                 oos.writeObject(out);

@@ -76,8 +76,11 @@ public class User implements UserInterface, Serializable {
     public ArrayList<Post> getFriendsFeed() {
         ArrayList<Post> friendsFeed = new ArrayList<>();
         for (User friend : friendsList) {
-            friendsFeed.addAll(friend.getPosts()); // Add each friend's posts to the feed
+            friendsFeed.addAll(friend.getPosts());
         }
+
+        friendsFeed.sort((post1, post2) -> Integer.compare(post2.getLikes(), post1.getLikes()));
+
         return friendsFeed;
     }
 

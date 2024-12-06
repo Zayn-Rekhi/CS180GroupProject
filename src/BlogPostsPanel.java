@@ -5,8 +5,14 @@ import javax.swing.*;
 public class BlogPostsPanel extends JPanel {
     private User loggedInUser;
 
-    public BlogPostsPanel(JPanel mainPanel, CardLayout cardLayout, ArrayList<Post> posts, User loggedInUser) {
-        this.loggedInUser = loggedInUser;
+    private JPanel mainPanel;
+    private CardLayout cardLayout;
+
+    public BlogPostsPanel(JPanel mainPanel, CardLayout cardLayout, ArrayList<Post> posts) {
+        this.mainPanel = mainPanel;
+        this.cardLayout = cardLayout;
+
+        this.loggedInUser = UserGUI.getUser();
 
         setLayout(new BorderLayout());
 
@@ -15,6 +21,54 @@ public class BlogPostsPanel extends JPanel {
         title.setFont(new Font("Arial", Font.BOLD, 20));
         title.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         add(title, BorderLayout.NORTH);
+
+        // JPanel create Post
+        JPanel createPosts = new JPanel();
+        createPosts.setLayout(new BoxLayout(createPosts, BoxLayout.Y_AXIS));
+
+        createPosts.setAlignmentX(Component.CENTER_ALIGNMENT);
+        createPosts.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        createPosts.setBorder(BorderFactory.createTitledBorder("Create Post"));
+
+        createPosts.add(new Label("Enter Title: "));
+        JTextField titlePost = new JTextField(15);
+        createPosts.add(titlePost);
+
+        createPosts.add(new Label("Enter Description: "));
+        JTextField description = new JTextField(15);
+        createPosts.add(description);
+
+        createPosts.add(new Label("Enter Date: "));
+        JTextField date = new JTextField(15);
+        createPosts.add(date);
+
+        JButton createPostBtn = new JButton("Create Post");
+        createPostBtn.addActionListener(e -> {
+            String titleStr = titlePost.getText();
+            String descriptionStr = description.getText();
+            String dateStr = date.getText();
+
+
+            ArrayList<Object> values = new ArrayList<>();
+            values.add(UserGUI.getUser());
+            values.add(titleStr);
+            values.add(descriptionStr);
+            values.add(dateStr);
+
+            DataTransfer params = new DataTransfer("POST CREATEPOST", values);
+            DataTransfer response = UserGUI.getClient().request(params);
+
+            loggedInUser = (User) response.getValue();
+            UserGUI.setUser(loggedInUser);
+
+            JOptionPane.showMessageDialog(null, "Post Created");
+        });
+
+        createPosts.add(createPostBtn);
+
+        add(createPosts, BorderLayout.NORTH);
+
+
 
         // Center: Blog posts area
         JPanel postsPanel = new JPanel();
@@ -31,6 +85,7 @@ public class BlogPostsPanel extends JPanel {
             postInfoPanel.setLayout(new BoxLayout(postInfoPanel, BoxLayout.Y_AXIS));
             postInfoPanel.add(new JLabel("<html><b>Description:</b> " + post.getDescription() + "</html>"));
             postInfoPanel.add(new JLabel("Created on: " + post.getDate()));
+            postInfoPanel.add(new JLabel("Created by: " + post.getUser().getUserName()));
             postPanel.add(postInfoPanel, BorderLayout.NORTH);
 
             // Comments section
@@ -74,14 +129,28 @@ public class BlogPostsPanel extends JPanel {
 
             JButton likeButton = new JButton("Like");
             likeButton.addActionListener(e -> {
-                post.addLike();
+                DataTransfer params = new DataTransfer("POST LIKEPOST", post);
+                DataTransfer response = UserGUI.getClient().request(params);
+
+                Post p = (Post) response.getValue();
+                System.out.println(p.getLikes());
+
+                for (int i = 0; i < posts.size(); i++) {
+                    if (posts.get(i).getPostID() == p.getPostID()) {
+                        posts.set(i, p);
+                    }
+                }
+
                 likeCount.setText("Likes: " + post.getLikes());
             });
 
             JButton dislikeButton = new JButton("Dislike");
             dislikeButton.addActionListener(e -> {
-                post.addDislike();
-                dislikeCount.setText("Dislikes: " + post.getDislikes());
+                DataTransfer params = new DataTransfer("POST DISLIKEPOST", post);
+                DataTransfer response = UserGUI.getClient().request(params);
+
+                Post p = (Post) response.getValue();
+                dislikeCount.setText("Dislikes: " + p.getDislikes());
             });
 
             likeDislikePanel.add(likeButton);
@@ -101,19 +170,23 @@ public class BlogPostsPanel extends JPanel {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         JButton addFriendsButton = new JButton("Add Friends");
-        addFriendsButton.addActionListener(e -> cardLayout.show(mainPanel, "Friends"));
-
-        JButton settingsButton = new JButton("Settings");
-        settingsButton.addActionListener(e -> cardLayout.show(mainPanel, "Settings"));
+        addFriendsButton.addActionListener(e -> {
+            toFriendsPanel();
+        });
 
         JButton signOutButton = new JButton("Sign Out");
         signOutButton.addActionListener(e -> cardLayout.show(mainPanel, "Login"));
 
         bottomPanel.add(addFriendsButton);
-        bottomPanel.add(settingsButton);
         bottomPanel.add(signOutButton);
 
         add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    private JPanel createPostPanel(Post post) {
+        JPanel postPanel = new JPanel(new BorderLayout());
+
+        return postPanel;
     }
 
     private JPanel createCommentPanel(Comment comment, Post post, JPanel commentsPanel) {
@@ -162,5 +235,30 @@ public class BlogPostsPanel extends JPanel {
         commentPanel.add(commentButtonsPanel, BorderLayout.SOUTH);
 
         return commentPanel;
+    }
+
+    public void toRefreshBlog(User user) {
+        DataTransfer params = new DataTransfer("USER GETFRIENDSFEED", user);
+        DataTransfer response = UserGUI.getClient().request(params);
+        ArrayList<Post> posts = (ArrayList<Post>) response.getValue();
+        UserGUI.setUser(user);
+
+        System.out.println(user.getFriends().get(2).getUserName());
+        System.out.println(user.getFriends().get(2).getPosts());
+        System.out.println(user.getFriends());
+        System.out.println(posts);
+//        posts = UserGUI.fetchPostsForUser();
+
+        mainPanel.add(new BlogPostsPanel(mainPanel, cardLayout, posts), "BlogPosts");
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        cardLayout.show(mainPanel, "BlogPosts");
+    }
+
+    public void toFriendsPanel() {
+        mainPanel.add(new FriendsPanel(mainPanel, cardLayout), "FriendsPanel");
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        cardLayout.show(mainPanel, "FriendsPanel");
     }
 }
