@@ -84,6 +84,7 @@ public class Comment implements CommentInterface, Serializable {
 
     public void deleteComment(User user) {
         if (canDelete(user)) {
+            System.out.println("Comment deleted");
             post.getComments().remove(this);
         }
     }

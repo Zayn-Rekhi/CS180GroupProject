@@ -221,27 +221,6 @@ public class Server extends Thread implements ServerInterface {
             }
         }
 
-        if (command.equals("EDITPOST")) {
-            Post post = (Post) data.getValue();
-            ArrayList<Post> posts = post.getUser().getPosts();
-
-            for (int i = 0; i < posts.size(); i++) {
-                if (posts.get(i).getPostID() == post.getPostID()) {
-                    posts.set(i, post);
-                    post.getUser().setPosts(posts);
-                }
-            }
-
-            User user = post.getUser();
-            User prev = database.findUser(user.getUserName());
-            boolean success = database.modifyUser(user, prev);
-
-            if (success) {
-                return new DataTransfer("SUCCESS", post);
-            } else {
-                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
-            }
-        }
 
         if (command.equals("LIKEPOST")) {
             Post post = (Post) data.getValue();
@@ -333,9 +312,15 @@ public class Server extends Thread implements ServerInterface {
             Comment comment = (Comment) values.get(0);
             User user = (User) values.get(1);
 
-            comment.deleteComment(user);
-            User prev = database.findUser(comment.getPost().getUser().getUserName());
-            boolean success = database.modifyUser(user, prev);
+            Post post = comment.getPost();
+            System.out.println(post.removeComment(comment));
+            System.out.println("Deleted");
+
+
+//            System.out.println();
+
+            User prev = database.findUser(post.getUser().getUserName());
+            boolean success = database.modifyUser(post.getUser(), prev);
 
             if (success) {
                 return new DataTransfer("SUCCESS", comment);

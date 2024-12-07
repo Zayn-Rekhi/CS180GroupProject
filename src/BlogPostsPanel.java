@@ -37,9 +37,6 @@ public class BlogPostsPanel extends JPanel {
         JTextField description = new JTextField(15);
         createPosts.add(description);
 
-        createPosts.add(new Label("Enter Date: "));
-        JTextField date = new JTextField(15);
-        createPosts.add(date);
 
         JPanel buttonPosts = new JPanel();
         buttonPosts.setLayout(new BoxLayout(buttonPosts, BoxLayout.X_AXIS));
@@ -48,7 +45,10 @@ public class BlogPostsPanel extends JPanel {
         createPostBtn.addActionListener(e -> {
             String titleStr = titlePost.getText();
             String descriptionStr = description.getText();
-            String dateStr = date.getText();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            // Format the current date
+            String dateStr = formatter.format(new Date());
+
 
             if (titleStr.isEmpty() || descriptionStr.isEmpty() || dateStr.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Check Post Values");
@@ -270,17 +270,6 @@ public class BlogPostsPanel extends JPanel {
 
             Comment c = (Comment) response.getValue();
 
-            for (int i = 0; i < post.getComments().size(); i++) {
-                Comment x = post.getComments().get(i);
-
-                if (x.getMessage().equals(c.getMessage())) {
-                    post.getComments().set(i, c);
-                    break;
-                }
-            }
-
-            commentsPanel.revalidate();
-            commentsPanel.repaint();
 
             commentLikes.setText("Likes: " + c.getLikes());
         });
@@ -292,8 +281,11 @@ public class BlogPostsPanel extends JPanel {
                 objs.add(comment);
                 objs.add(UserGUI.getUser());
 
-                DataTransfer params = new DataTransfer("COMMENT DELETECOMMENT", comment);
+                DataTransfer params = new DataTransfer("COMMENT DELETECOMMENT", objs);
                 DataTransfer response = UserGUI.getClient().request(params);
+
+                System.out.println(response.getMessage());
+                System.out.println(response.getValue());
 
                 post.getComments().remove(comment);
                 commentsPanel.remove(commentPanel);

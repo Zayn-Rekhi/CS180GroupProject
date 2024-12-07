@@ -136,11 +136,11 @@ public class LoginPanel extends JPanel {
         ArrayList<Post> posts = (ArrayList<Post>) response.getValue();
         UserGUI.setUser(user);
 
-//        System.out.println(user.getFriends().get(2).getUserName());
-//        System.out.println(user.getFriends().get(2).getPosts());
-//        System.out.println(user.getFriends());
-//        System.out.println(posts);
-//        posts = UserGUI.fetchPostsForUser();
+        for (Post post : posts) {
+            for (Comment comment : post.getComments()) {
+                System.out.println(comment);
+            }
+        }
 
         mainPanel.add(new BlogPostsPanel(mainPanel, cardLayout, posts), "BlogPosts");
         mainPanel.revalidate();
