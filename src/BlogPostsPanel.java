@@ -167,11 +167,16 @@ public class BlogPostsPanel extends JPanel {
                 Post p = (Post) response.getValue();
                 System.out.println(p.getLikes());
 
-                likeButton.setBackground(Color.GRAY);
-                likeButton.setEnabled(false);
+                for (int i = 0; i < posts.size(); i++) {
+                    if (posts.get(i).getTitle().equals(p.getTitle())) {
+                        posts.set(i, p);
+                    }
+                }
 
-                dislikeButton.setBackground(Color.GRAY);
-                dislikeButton.setEnabled(false);
+                User user = UserGUI.getUser();
+                user.setPosts(posts);
+
+                toBlogPanel(user);
 
                 likeCount.setText("Likes: " + p.getLikes());
             });
@@ -183,11 +188,16 @@ public class BlogPostsPanel extends JPanel {
                 Post p = (Post) response.getValue();
                 System.out.println(p.getLikes());
 
-                dislikeButton.setBackground(Color.GRAY);
-                dislikeButton.setEnabled(false);
+                for (int i = 0; i < posts.size(); i++) {
+                    if (posts.get(i).getTitle().equals(p.getTitle())) {
+                        posts.set(i, p);
+                    }
+                }
 
-                likeButton.setBackground(Color.GRAY);
-                likeButton.setEnabled(false);
+                User user = UserGUI.getUser();
+                user.setPosts(posts);
+
+                toBlogPanel(user);
 
                 likeCount.setText("Likes: " + p.getLikes());
             });
