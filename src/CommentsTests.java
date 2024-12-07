@@ -35,15 +35,13 @@ public class CommentsTests implements CommentsTestsInterface {
     }
 
     @Test
-    public void testAddLikeAndDisLikeComment() {
+    public void testAddLikeComment() {
         for (int i = 0; i < 100; i++)
             comment.addLike();
 
-        for (int i = 0; i < 100; i++)
-            comment.addDislike();
 
         assertEquals(comment.getLikes(), 100);
-        assertEquals(comment.getDislikes(), 100);
+
 
     }
 
@@ -55,7 +53,6 @@ public class CommentsTests implements CommentsTestsInterface {
         assertEquals("Had so much fun", comment.getMessage());
         assertEquals("11-02-2024", comment.getDate());
         assertEquals(0, comment.getLikes());
-        assertEquals(0, comment.getDislikes());
         assertNull(comment.getEditDate());
         assertFalse(comment.isEdited());
     }

@@ -68,6 +68,7 @@ public class Database implements DatabaseInterface {
 
     public boolean checkLogin(String username, String password) {
         synchronized (LOCK) {
+            System.out.println(users);
             for (User user : users) {
                 if (user.getUserName().equals(username) && user.getPassword().equals(password)) {
                     return true;
@@ -95,9 +96,38 @@ public class Database implements DatabaseInterface {
         try {
             synchronized (LOCK) {
                 for (int i = 0; i < users.size(); i++) {
-                    if (users.get(i).getUserName().equals(prevUser.getUserName())) {
+                    User currentUser = users.get(i);
+
+                    if (currentUser.getUserName().equals(prevUser.getUserName())) {
                         users.set(i, newUser);
-                        break;
+                    } else {
+                        for (User f : currentUser.getFriends()) {
+                            if (f.getUserName().equals(prevUser.getUserName())) {
+                                currentUser.removeFriend(f);
+                                currentUser.addFriend(newUser);
+                            }
+                        }
+
+                        for (User f : currentUser.getBlocked()) {
+                            if (f.getUserName().equals(prevUser.getUserName())) {
+                                currentUser.unBlock(f);
+                                currentUser.block(newUser);
+                            }
+                        }
+
+                        for (Post p : currentUser.getPosts()) {
+                            if (p.getUser().getUserName().equals(prevUser.getUserName())) {
+                                p.setUser(newUser);
+                            }
+
+                            for (Comment c : p.getComments()) {
+                                if (c.getCommenter().getUserName().equals(prevUser.getUserName())) {
+                                    c.setCommenter(newUser);
+                                }
+                            }
+                        }
+
+                        users.set(i, currentUser);
                     }
                 }
             }

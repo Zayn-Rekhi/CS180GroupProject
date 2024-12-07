@@ -76,7 +76,14 @@ public class User implements UserInterface, Serializable {
     public ArrayList<Post> getFriendsFeed() {
         ArrayList<Post> friendsFeed = new ArrayList<>();
         for (User friend : friendsList) {
-            friendsFeed.addAll(friend.getPosts());
+            ArrayList<Post> friendPosts = new ArrayList<>();
+
+            for (Post post : friend.getPosts()) {
+                if (!post.getHidden())
+                    friendPosts.add(post);
+            }
+
+            friendsFeed.addAll(friendPosts);
         }
 
         friendsFeed.sort((post1, post2) -> Integer.compare(post2.getLikes(), post1.getLikes()));

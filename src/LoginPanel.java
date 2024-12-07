@@ -82,6 +82,10 @@ public class LoginPanel extends JPanel {
             DataTransfer params = new DataTransfer("USER GETLOGIN", out);
             DataTransfer response = UserGUI.getClient().request(params);
 
+            System.out.println(response.getMessage());
+            System.out.println(response.getValue());
+
+
             boolean valid = !username.isEmpty() && !password.isEmpty();
 
             if (valid && !response.getMessage().equals("FAILURE")) {

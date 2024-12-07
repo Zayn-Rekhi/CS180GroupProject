@@ -23,7 +23,6 @@ public class Comment implements CommentInterface, Serializable {
     private String message;
     private String date;
     private int likes;
-    private int dislikes;
     private boolean edited;
     private String editDate;
     private int commentID;
@@ -37,7 +36,6 @@ public class Comment implements CommentInterface, Serializable {
             this.message = message;
             this.date = date;
             this.likes = 0;
-            this.dislikes = 0;
             this.edited = false;
             this.commenter = commenter;
             this.post = post;
@@ -69,9 +67,6 @@ public class Comment implements CommentInterface, Serializable {
     public int getLikes() {
         return likes;
     }
-    public int getDislikes() {
-        return dislikes;
-    }
     public boolean isEdited() {
         return edited;
     }
@@ -83,6 +78,9 @@ public class Comment implements CommentInterface, Serializable {
     public boolean canDelete(User user) {
         return user.equals(commenter) || user.equals(this.post.getUser());
     }
+    public void setCommenter(User commenter) {
+        this.commenter = commenter;
+    }
 
     public void deleteComment(User user) {
         if (canDelete(user)) {
@@ -93,7 +91,7 @@ public class Comment implements CommentInterface, Serializable {
         likes++;
     }
     public void addDislike() {
-        dislikes++;
+        likes--;
     }
     public boolean editMessage(String newMessage, String newDate) {
         try {
@@ -113,11 +111,11 @@ public class Comment implements CommentInterface, Serializable {
 
     public String displayedComment() {
         if (edited) {
-            String fStr = "%s\n\"%s\"\n*edited\nDate: %s | Edit Date: %s\nLikes: %d | Dislikes: %d";
-            return String.format(fStr, commenter.getUserName(), message, date, editDate, likes, dislikes);
+            String fStr = "%s\n\"%s\"\n*edited\nDate: %s | Edit Date: %s\nLikes: %d";
+            return String.format(fStr, commenter.getUserName(), message, date, editDate, likes);
         } else {
-            String fStr = "%s\n\"%s\"\nDate: %s\nLikes: %d | Dislikes: %d";
-            return String.format(fStr, commenter.getUserName(), message, date, likes, dislikes);
+            String fStr = "%s\n\"%s\"\nDate: %s\nLikes: %d";
+            return String.format(fStr, commenter.getUserName(), message, date, likes);
         }
     }
 }

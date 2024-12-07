@@ -20,7 +20,6 @@ public interface CommentInterface {
     String getMessage();
     String getDate();
     int getLikes();
-    int getDislikes();
     boolean isEdited();
     boolean canDelete(User user);
     String getEditDate();
@@ -28,7 +27,6 @@ public interface CommentInterface {
     //mutator methods
     void deleteComment(User user); //move to post class
     void addLike();
-    void addDislike();
     boolean editMessage(String newMessage, String editDate);
 
     //display method

@@ -159,7 +159,6 @@ public class Server extends Thread implements ServerInterface {
             } else {
                 return new DataTransfer("FAILURE", "User Could Not Be Modified");
             }
-
         }
 
         if (command.equals("GETFRIENDSFEED")) {
@@ -201,7 +200,7 @@ public class Server extends Thread implements ServerInterface {
             System.out.println(user.getPosts());
 
             if (success) {
-                return new DataTransfer("SUCCESS", user);
+                return new DataTransfer("SUCCESS", p);
             } else {
                 return new DataTransfer("FAILURE", "Post cannot be made!");
             }
@@ -216,7 +215,7 @@ public class Server extends Thread implements ServerInterface {
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer("SUCCESS", post);
+                return new DataTransfer("SUCCESS", user);
             } else {
                 return new DataTransfer("FAILURE", "Post does not exist!");
             }
@@ -274,9 +273,9 @@ public class Server extends Thread implements ServerInterface {
             }
         }
 
-        if (command.equals("DISLIKEPOST")) {
+        if (command.equals("SHOW")) {
             Post post = (Post) data.getValue();
-            post.addDislike();
+            post.show();
 
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
@@ -289,9 +288,9 @@ public class Server extends Thread implements ServerInterface {
             }
         }
 
-        if (command.equals("UNDISLIKEPOST")) {
+        if (command.equals("HIDE")) {
             Post post = (Post) data.getValue();
-            post.removeDislike();
+            post.hide();
 
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
@@ -310,6 +309,7 @@ public class Server extends Thread implements ServerInterface {
     public DataTransfer processComment(String command, DataTransfer data) {
         if (command.equals("CREATECOMMENT")) {
             ArrayList<Object> values = (ArrayList<Object>) data.getValue();
+
             User user = (User) values.get(0);
             Post post = (Post) values.get(1);
             String message = (String) values.get(2);
@@ -318,8 +318,8 @@ public class Server extends Thread implements ServerInterface {
             Comment theComment = new Comment(user, post, message, date);
             post.addComment(theComment);
 
-            User prev = database.findUser(user.getUserName());
-            boolean success = database.modifyUser(user, prev);
+            User prev = database.findUser(post.getUser().getUserName());
+            boolean success = database.modifyUser(post.getUser(), prev);
 
             if (success) {
                 return new DataTransfer("SUCCESS", theComment);
@@ -334,7 +334,7 @@ public class Server extends Thread implements ServerInterface {
             User user = (User) values.get(1);
 
             comment.deleteComment(user);
-            User prev = database.findUser(user.getUserName());
+            User prev = database.findUser(comment.getPost().getUser().getUserName());
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
@@ -351,10 +351,11 @@ public class Server extends Thread implements ServerInterface {
             theComment.addLike();
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
+
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer("SUCCESS", post);
+                return new DataTransfer("SUCCESS", theComment);
             } else {
                 return new DataTransfer("FAILURE", "Post Could Not Be Modified");
             }
@@ -370,26 +371,6 @@ public class Server extends Thread implements ServerInterface {
             boolean success = database.modifyUser(user, prev);
 
             if (success) {
-                return new DataTransfer("SUCCESS", post);
-            } else {
-                return new DataTransfer("FAILURE", "Post Could Not Be Modified");
-            }
-        }
-
-        if (command.equals("EDITCOMMENT")) {
-            ArrayList<Object> values = (ArrayList<Object>) data.getValue();
-            Comment theComment = (Comment) values.get(0);
-            String theMessage = (String) values.get(1);
-            String theDate = (String) values.get(2);
-
-            Post post = theComment.getPost();
-            boolean successEdit = theComment.editMessage(theMessage, theDate);
-
-            User user = post.getUser();
-            User prev = database.findUser(user.getUserName());
-            boolean successModification = database.modifyUser(user, prev);
-
-            if (successEdit && successModification) {
                 return new DataTransfer("SUCCESS", theComment);
             } else {
                 return new DataTransfer("FAILURE", "Post Could Not Be Modified");

@@ -1,9 +1,10 @@
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class BlogPostsPanel extends JPanel {
-    private User loggedInUser;
 
     private JPanel mainPanel;
     private CardLayout cardLayout;
@@ -11,8 +12,6 @@ public class BlogPostsPanel extends JPanel {
     public BlogPostsPanel(JPanel mainPanel, CardLayout cardLayout, ArrayList<Post> posts) {
         this.mainPanel = mainPanel;
         this.cardLayout = cardLayout;
-
-        this.loggedInUser = UserGUI.getUser();
 
         setLayout(new BorderLayout());
 
@@ -42,12 +41,18 @@ public class BlogPostsPanel extends JPanel {
         JTextField date = new JTextField(15);
         createPosts.add(date);
 
+        JPanel buttonPosts = new JPanel();
+        buttonPosts.setLayout(new BoxLayout(buttonPosts, BoxLayout.X_AXIS));
+
         JButton createPostBtn = new JButton("Create Post");
         createPostBtn.addActionListener(e -> {
             String titleStr = titlePost.getText();
             String descriptionStr = description.getText();
             String dateStr = date.getText();
 
+            if (titleStr.isEmpty() || descriptionStr.isEmpty() || dateStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Check Post Values");
+            }
 
             ArrayList<Object> values = new ArrayList<>();
             values.add(UserGUI.getUser());
@@ -58,13 +63,18 @@ public class BlogPostsPanel extends JPanel {
             DataTransfer params = new DataTransfer("POST CREATEPOST", values);
             DataTransfer response = UserGUI.getClient().request(params);
 
-            loggedInUser = (User) response.getValue();
-            UserGUI.setUser(loggedInUser);
+            Post resp = (Post) response.getValue();
+            UserGUI.setUser(resp.getUser());
 
-            JOptionPane.showMessageDialog(null, "Post Created");
+            if (response.getMessage().equals("SUCCESS"))
+                JOptionPane.showMessageDialog(null, "Post Created");
+            else
+                JOptionPane.showMessageDialog(null, "Post Creation Failed");
         });
 
-        createPosts.add(createPostBtn);
+
+        buttonPosts.add(createPostBtn);
+        createPosts.add(buttonPosts);
 
         add(createPosts, BorderLayout.NORTH);
 
@@ -108,8 +118,23 @@ public class BlogPostsPanel extends JPanel {
             addCommentButton.addActionListener(e -> {
                 String commentText = JOptionPane.showInputDialog(this, "Enter your comment:");
                 if (commentText != null && !commentText.trim().isEmpty()) {
-                    Comment newComment = new Comment(loggedInUser, post, commentText, "12-05-2024");
-                    post.addComment(newComment);
+                    // Define the desired format
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    // Format the current date
+                    String formattedDate = formatter.format(new Date());
+
+                    ArrayList<Object> commentInfo = new ArrayList<>();
+                    commentInfo.add(UserGUI.getUser());
+                    commentInfo.add(post);
+                    commentInfo.add(commentText);
+                    commentInfo.add(formattedDate);
+
+                    DataTransfer data = new DataTransfer("COMMENT CREATECOMMENT", commentInfo);
+                    DataTransfer response = UserGUI.getClient().request(data);
+
+                    Comment newComment = (Comment) response.getValue();
+
+                    UserGUI.setUser(newComment.getCommenter());
 
                     // Add the new comment dynamically to the comments panel
                     JPanel newCommentPanel = createCommentPanel(newComment, post, commentsPanel);
@@ -120,14 +145,14 @@ public class BlogPostsPanel extends JPanel {
             });
 
             // Add button to post panel
-            postPanel.add(addCommentButton, BorderLayout.SOUTH);
 
             // Likes and Dislikes section for the post
             JPanel likeDislikePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             JLabel likeCount = new JLabel("Likes: " + post.getLikes());
-            JLabel dislikeCount = new JLabel("Dislikes: " + post.getDislikes());
 
+            JButton dislikeButton = new JButton("Dislike");
             JButton likeButton = new JButton("Like");
+
             likeButton.addActionListener(e -> {
                 DataTransfer params = new DataTransfer("POST LIKEPOST", post);
                 DataTransfer response = UserGUI.getClient().request(params);
@@ -135,28 +160,36 @@ public class BlogPostsPanel extends JPanel {
                 Post p = (Post) response.getValue();
                 System.out.println(p.getLikes());
 
-                for (int i = 0; i < posts.size(); i++) {
-                    if (posts.get(i).getPostID() == p.getPostID()) {
-                        posts.set(i, p);
-                    }
-                }
+                likeButton.setBackground(Color.GRAY);
+                likeButton.setEnabled(false);
 
-                likeCount.setText("Likes: " + post.getLikes());
+                dislikeButton.setBackground(Color.GRAY);
+                dislikeButton.setEnabled(false);
+
+                likeCount.setText("Likes: " + p.getLikes());
             });
 
-            JButton dislikeButton = new JButton("Dislike");
             dislikeButton.addActionListener(e -> {
-                DataTransfer params = new DataTransfer("POST DISLIKEPOST", post);
+                DataTransfer params = new DataTransfer("POST UNLIKEPOST", post);
                 DataTransfer response = UserGUI.getClient().request(params);
 
                 Post p = (Post) response.getValue();
-                dislikeCount.setText("Dislikes: " + p.getDislikes());
+                System.out.println(p.getLikes());
+
+                dislikeButton.setBackground(Color.GRAY);
+                dislikeButton.setEnabled(false);
+
+                likeButton.setBackground(Color.GRAY);
+                likeButton.setEnabled(false);
+
+                likeCount.setText("Likes: " + p.getLikes());
             });
 
             likeDislikePanel.add(likeButton);
             likeDislikePanel.add(dislikeButton);
             likeDislikePanel.add(likeCount);
-            likeDislikePanel.add(dislikeCount);
+            likeDislikePanel.add(addCommentButton);
+
             postPanel.add(likeDislikePanel, BorderLayout.SOUTH);
 
             // Add post panel to main posts panel
@@ -174,20 +207,21 @@ public class BlogPostsPanel extends JPanel {
             toFriendsPanel();
         });
 
+        JButton viewMyPostsBtn = new JButton("View My Posts");
+        viewMyPostsBtn.addActionListener(e -> {
+            toViewPostsPanel();
+        });
+
         JButton signOutButton = new JButton("Sign Out");
         signOutButton.addActionListener(e -> cardLayout.show(mainPanel, "Login"));
 
         bottomPanel.add(addFriendsButton);
+        bottomPanel.add(viewMyPostsBtn);
         bottomPanel.add(signOutButton);
 
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    private JPanel createPostPanel(Post post) {
-        JPanel postPanel = new JPanel(new BorderLayout());
-
-        return postPanel;
-    }
 
     private JPanel createCommentPanel(Comment comment, Post post, JPanel commentsPanel) {
         JPanel commentPanel = new JPanel(new BorderLayout());
@@ -200,23 +234,67 @@ public class BlogPostsPanel extends JPanel {
         JPanel commentButtonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JLabel commentLikes = new JLabel("Likes: " + comment.getLikes());
-        JLabel commentDislikes = new JLabel("Dislikes: " + comment.getDislikes());
 
         JButton likeCommentButton = new JButton("Like");
         likeCommentButton.addActionListener(e -> {
-            comment.addLike();
-            commentLikes.setText("Likes: " + comment.getLikes());
+
+            DataTransfer params = new DataTransfer("COMMENT LIKECOMMENT", comment);
+            DataTransfer response = UserGUI.getClient().request(params);
+
+            System.out.println(response.getMessage());
+            System.out.println(response.getValue());
+
+
+            Comment c = (Comment) response.getValue();
+
+            for (int i = 0; i < post.getComments().size(); i++) {
+                Comment x = post.getComments().get(i);
+
+                if (x.getMessage().equals(c.getMessage())) {
+                    post.getComments().set(i, c);
+                    break;
+                }
+            }
+
+            commentsPanel.remove(commentPanel);
+            commentsPanel.revalidate();
+            commentsPanel.repaint();
+
+            commentLikes.setText("Likes: " + c.getLikes());
         });
 
         JButton dislikeCommentButton = new JButton("Dislike");
         dislikeCommentButton.addActionListener(e -> {
-            comment.addDislike();
-            commentDislikes.setText("Dislikes: " + comment.getDislikes());
+            DataTransfer params = new DataTransfer("COMMENT DISLIKECOMMENT", comment);
+            DataTransfer response = UserGUI.getClient().request(params);
+
+            Comment c = (Comment) response.getValue();
+
+            for (int i = 0; i < post.getComments().size(); i++) {
+                Comment x = post.getComments().get(i);
+
+                if (x.getMessage().equals(c.getMessage())) {
+                    post.getComments().set(i, c);
+                    break;
+                }
+            }
+
+            commentsPanel.revalidate();
+            commentsPanel.repaint();
+
+            commentLikes.setText("Likes: " + c.getLikes());
         });
 
         JButton deleteCommentButton = new JButton("Delete");
         deleteCommentButton.addActionListener(e -> {
-            if (comment.canDelete(loggedInUser)) {
+            if (comment.canDelete(UserGUI.getUser())) {
+                ArrayList<Object> objs = new ArrayList<>();
+                objs.add(comment);
+                objs.add(UserGUI.getUser());
+
+                DataTransfer params = new DataTransfer("COMMENT DELETECOMMENT", comment);
+                DataTransfer response = UserGUI.getClient().request(params);
+
                 post.getComments().remove(comment);
                 commentsPanel.remove(commentPanel);
                 commentsPanel.revalidate();
@@ -229,7 +307,6 @@ public class BlogPostsPanel extends JPanel {
         commentButtonsPanel.add(likeCommentButton);
         commentButtonsPanel.add(dislikeCommentButton);
         commentButtonsPanel.add(commentLikes);
-        commentButtonsPanel.add(commentDislikes);
         commentButtonsPanel.add(deleteCommentButton);
 
         commentPanel.add(commentButtonsPanel, BorderLayout.SOUTH);
@@ -237,23 +314,13 @@ public class BlogPostsPanel extends JPanel {
         return commentPanel;
     }
 
-    public void toRefreshBlog(User user) {
-        DataTransfer params = new DataTransfer("USER GETFRIENDSFEED", user);
-        DataTransfer response = UserGUI.getClient().request(params);
-        ArrayList<Post> posts = (ArrayList<Post>) response.getValue();
-        UserGUI.setUser(user);
-
-        System.out.println(user.getFriends().get(2).getUserName());
-        System.out.println(user.getFriends().get(2).getPosts());
-        System.out.println(user.getFriends());
-        System.out.println(posts);
-//        posts = UserGUI.fetchPostsForUser();
-
-        mainPanel.add(new BlogPostsPanel(mainPanel, cardLayout, posts), "BlogPosts");
+    public void toViewPostsPanel() {
+        mainPanel.add(new ViewPostsPanel(mainPanel, cardLayout), "ViewPostsPanel");
         mainPanel.revalidate();
         mainPanel.repaint();
-        cardLayout.show(mainPanel, "BlogPosts");
+        cardLayout.show(mainPanel, "ViewPostsPanel");
     }
+
 
     public void toFriendsPanel() {
         mainPanel.add(new FriendsPanel(mainPanel, cardLayout), "FriendsPanel");

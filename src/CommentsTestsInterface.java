@@ -13,7 +13,7 @@
  */
 public interface CommentsTestsInterface {
     void setUp();
-    void testAddLikeAndDisLikeComment();
+    void testAddLikeComment();
     void testGetterAndSetter();
     void testEditMessage();
     void testDisplayedComment();

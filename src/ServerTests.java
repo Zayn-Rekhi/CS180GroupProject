@@ -43,6 +43,9 @@ public class ServerTests implements ServerTestsInterface {
         DataTransfer dt = new DataTransfer("USER CREATENEWUSER", credentials);
         DataTransfer out = server.processCommands(dt);
 
+        System.out.println(out.getMessage());
+        System.out.println(out.getValue());
+
         assertEquals(out.getMessage(), "SUCCESS"); // Request went through
 
         ArrayList<Object> postInfo = new ArrayList<>();
@@ -130,6 +133,7 @@ public class ServerTests implements ServerTestsInterface {
         DataTransfer dtp = new DataTransfer("POST CREATEPOST", postInfo);
         DataTransfer outPost = server.processCommands(dtp); // Request went through
 
+
         assertEquals(outPost.getMessage(), "SUCCESS");
 
         ArrayList<Object> commentInfo = new ArrayList<>();
@@ -146,6 +150,11 @@ public class ServerTests implements ServerTestsInterface {
 
     @Test
     public void testCreateUsers() {
+        System.out.println(database.getUsers().get(0).getUserName());
+        System.out.println(database.getUsers().get(1).getUserName());
+        System.out.println(database.getUsers().get(2).getUserName());
+
+
         assertNotNull(database.findUser("ZaynRekhi123")); // Finds User in Database
         assertNotNull(database.findUser("SriMadur")); // Finds User in Database
         assertNotNull(database.findUser("brandon")); // Finds User in Database
@@ -497,7 +506,7 @@ public class ServerTests implements ServerTestsInterface {
         DataTransfer out = server.processCommands(dt);
 
         assertEquals(out.getMessage(), "SUCCESS"); // Request went through
-        assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getComments().get(0).getDislikes(), 1);
+        assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getComments().get(0).getLikes(), 0);
     }
 
 

@@ -25,6 +25,7 @@ public class Post implements PostInterface, Serializable {
     private ArrayList<Comment> comments;
     private String title;
     private boolean image;
+    private boolean hidden;
     private String imageURL;
     private String description;
     private String date;
@@ -48,10 +49,11 @@ public class Post implements PostInterface, Serializable {
             this.likes = 0;
             this.dislikes = 0;
             this.date = date;
+            this.hidden = false;
 
             if (!checkDate(date)) {
                 throw new DateFormatException("Date is incorrectly formatted! " +
-                        "Make sure it is 00/00/0000 (Month/Day/Year)");
+                        "Make sure it is 00-00-0000 (Month-Day-Year)");
             }
         } catch (DateFormatException e) {
             e.printStackTrace();
@@ -69,6 +71,7 @@ public class Post implements PostInterface, Serializable {
             this.likes = 0;
             this.dislikes = 0;
             this.date = date;
+            this.hidden = false;
 
             if (!checkDate(date)) {
                 throw new DateFormatException("Date is incorrectly formatted! Make " +
@@ -160,6 +163,18 @@ public class Post implements PostInterface, Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void hide() {
+        hidden = true;
+    }
+
+    public void show() {
+        hidden = false;
+    }
+
+    public boolean getHidden() {
+        return hidden;
     }
 
     // managing likes and dislikes methods
