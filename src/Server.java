@@ -89,7 +89,7 @@ public class Server extends Thread implements ServerInterface {
 
             User prev = database.findUser(primary.getUserName());
             boolean success = database.modifyUser(primary, prev);
-            User newUser = database.findUser(prev.getUserName());
+            User newUser = database.findUser(primary.getUserName());
 
             System.out.println(newUser.getFriends());
 
@@ -224,7 +224,12 @@ public class Server extends Thread implements ServerInterface {
 
         if (command.equals("LIKEPOST")) {
             Post post = (Post) data.getValue();
+            System.out.println(post.getLikes());
+
             post.addLike();
+
+            System.out.println(post.getLikes());
+
 
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
@@ -313,11 +318,7 @@ public class Server extends Thread implements ServerInterface {
             User user = (User) values.get(1);
 
             Post post = comment.getPost();
-            System.out.println(post.removeComment(comment));
-            System.out.println("Deleted");
-
-
-//            System.out.println();
+            post.removeComment(comment);
 
             User prev = database.findUser(post.getUser().getUserName());
             boolean success = database.modifyUser(post.getUser(), prev);

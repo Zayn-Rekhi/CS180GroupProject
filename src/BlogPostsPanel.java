@@ -3,15 +3,18 @@ import java.util.ArrayList;
 import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class BlogPostsPanel extends JPanel {
 
     private JPanel mainPanel;
     private CardLayout cardLayout;
+    private ArrayList<Post> posts;
 
     public BlogPostsPanel(JPanel mainPanel, CardLayout cardLayout, ArrayList<Post> posts) {
         this.mainPanel = mainPanel;
         this.cardLayout = cardLayout;
+        this.posts = posts;
 
         setLayout(new BorderLayout());
 
@@ -84,7 +87,11 @@ public class BlogPostsPanel extends JPanel {
         JPanel postsPanel = new JPanel();
         postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
 
-        for (Post post : posts) {
+        HashMap<Post, Post> postMap = new HashMap<Post, Post>();
+
+        for (int x = 0; x < this.posts.size(); x++) {
+            Post post = this.posts.get(x);
+
             // Panel for individual post
             JPanel postPanel = new JPanel();
             postPanel.setLayout(new BorderLayout());
@@ -237,6 +244,7 @@ public class BlogPostsPanel extends JPanel {
 
         JButton likeCommentButton = new JButton("Like");
         likeCommentButton.addActionListener(e -> {
+            System.out.println(comment.getLikes());
 
             DataTransfer params = new DataTransfer("COMMENT LIKECOMMENT", comment);
             DataTransfer response = UserGUI.getClient().request(params);
@@ -247,19 +255,7 @@ public class BlogPostsPanel extends JPanel {
 
             Comment c = (Comment) response.getValue();
 
-            for (int i = 0; i < post.getComments().size(); i++) {
-                Comment x = post.getComments().get(i);
-
-                if (x.getMessage().equals(c.getMessage())) {
-                    post.getComments().set(i, c);
-                    break;
-                }
-            }
-
-            commentsPanel.remove(commentPanel);
-            commentsPanel.revalidate();
-            commentsPanel.repaint();
-
+            toBlogPanel(UserGUI.getUser());
             commentLikes.setText("Likes: " + c.getLikes());
         });
 
@@ -270,40 +266,63 @@ public class BlogPostsPanel extends JPanel {
 
             Comment c = (Comment) response.getValue();
 
-
+            toBlogPanel(UserGUI.getUser());
             commentLikes.setText("Likes: " + c.getLikes());
         });
 
-        JButton deleteCommentButton = new JButton("Delete");
-        deleteCommentButton.addActionListener(e -> {
-            if (comment.canDelete(UserGUI.getUser())) {
-                ArrayList<Object> objs = new ArrayList<>();
-                objs.add(comment);
-                objs.add(UserGUI.getUser());
+        if (comment.canDelete(UserGUI.getUser())) {
 
-                DataTransfer params = new DataTransfer("COMMENT DELETECOMMENT", objs);
-                DataTransfer response = UserGUI.getClient().request(params);
+            JButton deleteCommentButton = new JButton("Delete");
+            deleteCommentButton.addActionListener(e -> {
+                if (comment.canDelete(UserGUI.getUser())) {
+                    ArrayList<Object> objs = new ArrayList<>();
+                    objs.add(comment);
+                    objs.add(UserGUI.getUser());
 
-                System.out.println(response.getMessage());
-                System.out.println(response.getValue());
+                    DataTransfer params = new DataTransfer("COMMENT DELETECOMMENT", objs);
+                    DataTransfer response = UserGUI.getClient().request(params);
 
-                post.getComments().remove(comment);
-                commentsPanel.remove(commentPanel);
-                commentsPanel.revalidate();
-                commentsPanel.repaint();
-            } else {
-                JOptionPane.showMessageDialog(this, "You can only delete your own comments or if you're the post owner.");
-            }
-        });
+                    System.out.println(response.getMessage());
+                    System.out.println(response.getValue());
+
+                    post.getComments().remove(comment);
+                    commentsPanel.remove(commentPanel);
+                    commentsPanel.revalidate();
+                    commentsPanel.repaint();
+                } else {
+                    JOptionPane.showMessageDialog(this, "You can only delete your own comments or if you're the post owner.");
+                }
+            });
+
+            commentButtonsPanel.add(deleteCommentButton);
+        }
+
 
         commentButtonsPanel.add(likeCommentButton);
         commentButtonsPanel.add(dislikeCommentButton);
         commentButtonsPanel.add(commentLikes);
-        commentButtonsPanel.add(deleteCommentButton);
 
         commentPanel.add(commentButtonsPanel, BorderLayout.SOUTH);
 
         return commentPanel;
+    }
+
+    public void toBlogPanel(User user) {
+        DataTransfer params = new DataTransfer("USER GETFRIENDSFEED", user);
+        DataTransfer response = UserGUI.getClient().request(params);
+        ArrayList<Post> posts = (ArrayList<Post>) response.getValue();
+        UserGUI.setUser(user);
+
+        for (Post post : posts) {
+            for (Comment comment : post.getComments()) {
+                System.out.println(comment);
+            }
+        }
+
+        mainPanel.add(new BlogPostsPanel(mainPanel, cardLayout, posts), "BlogPosts");
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        cardLayout.show(mainPanel, "BlogPosts");
     }
 
     public void toViewPostsPanel() {

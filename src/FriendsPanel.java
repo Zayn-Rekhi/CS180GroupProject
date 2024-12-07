@@ -74,6 +74,8 @@ public class FriendsPanel extends JPanel {
 
                         DataTransfer dataFriend = new DataTransfer("USER ADDFRIEND", obj);
                         resp = UserGUI.getClient().request(dataFriend);
+
+                        UserGUI.setUser((User) resp.getValue());
                     }
 
                     if (selec.equals("Remove")) {
@@ -83,6 +85,8 @@ public class FriendsPanel extends JPanel {
 
                         DataTransfer dataFriend = new DataTransfer("USER REMOVEFRIEND", obj);
                         resp = UserGUI.getClient().request(dataFriend);
+
+                        UserGUI.setUser((User) resp.getValue());
                     }
 
                     if (selec.equals("Block")) {
@@ -92,6 +96,8 @@ public class FriendsPanel extends JPanel {
 
                         DataTransfer dataFriend = new DataTransfer("USER BLOCKFRIEND", obj);
                         resp = UserGUI.getClient().request(dataFriend);
+
+                        UserGUI.setUser((User) resp.getValue());
                     }
 
                     if (selec.equals("Unblock")) {
@@ -101,6 +107,8 @@ public class FriendsPanel extends JPanel {
 
                         DataTransfer dataFriend = new DataTransfer("USER UNBLOCKFRIEND", obj);
                         resp = UserGUI.getClient().request(dataFriend);
+
+                        UserGUI.setUser((User) resp.getValue());
                     }
 
                     if (resp != null && !selec.equals("OK")) {
@@ -115,6 +123,8 @@ public class FriendsPanel extends JPanel {
                 }
 
             }
+
+            toBlogPanel(UserGUI.getUser());
         });
 
         addFriendPanel.add(search);
@@ -157,12 +167,10 @@ public class FriendsPanel extends JPanel {
 
             friendsListPanel.add(friendLabel);
             friendsListPanel.add(friendDescription);
-
         }
 
         JScrollPane scrollPane = new JScrollPane(friendsListPanel);
         add(scrollPane, BorderLayout.CENTER);
-
 
         JPanel bottomPanel = new JPanel();
 
@@ -183,5 +191,12 @@ public class FriendsPanel extends JPanel {
         mainPanel.revalidate();
         mainPanel.repaint();
         cardLayout.show(mainPanel, "BlogPosts");
+    }
+
+    public void toFriendsPanel() {
+        mainPanel.add(new FriendsPanel(mainPanel, cardLayout), "FriendsPanel");
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        cardLayout.show(mainPanel, "FriendsPanel");
     }
 }

@@ -66,7 +66,8 @@ public class ViewPostsPanel extends JPanel {
                     User user = out.getUser();
                     UserGUI.setUser(user);
 
-                    toBlogPanel(UserGUI.getUser());
+//                    toBlogPanel(UserGUI.getUser());
+                    toViewPostsPanel();
                 });
 
                 postInfoPanel.add(hideBtn);
@@ -74,13 +75,18 @@ public class ViewPostsPanel extends JPanel {
             } else {
                 JButton showBtn = new JButton("Show Post");
                 showBtn.addActionListener(e -> {
-                    DataTransfer data = new DataTransfer("POST SHOWPOST", post);
+                    DataTransfer data = new DataTransfer("POST SHOW", post);
                     DataTransfer resp = UserGUI.getClient().request(data);
 
-                    User out = (User) resp.getValue();
-                    UserGUI.setUser(out);
+                    System.out.println(resp.getMessage());
+                    System.out.println(resp.getValue());
 
-                    toBlogPanel(UserGUI.getUser());
+                    Post out = (Post) resp.getValue();
+                    User user = out.getUser();
+                    UserGUI.setUser(user);
+
+//                    toBlogPanel(UserGUI.getUser());
+                    toViewPostsPanel();
                 });
 
                 postInfoPanel.add(showBtn);
@@ -168,8 +174,7 @@ public class ViewPostsPanel extends JPanel {
                 objs.add(comment);
                 objs.add(UserGUI.getUser());
 
-                DataTransfer params = new DataTransfer("COMMENT DELETECOMMENT", comment);
-                DataTransfer response = UserGUI.getClient().request(params);
+                DataTransfer params = new DataTransfer("COMMENT DELETECOMMENT", objs);
 
                 post.getComments().remove(comment);
                 commentsPanel.remove(commentPanel);
@@ -189,6 +194,14 @@ public class ViewPostsPanel extends JPanel {
 
         return commentPanel;
     }
+
+    public void toViewPostsPanel() {
+        mainPanel.add(new ViewPostsPanel(mainPanel, cardLayout), "ViewPostsPanel");
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        cardLayout.show(mainPanel, "ViewPostsPanel");
+    }
+
     public void toBlogPanel(User user) {
         DataTransfer params = new DataTransfer("USER GETFRIENDSFEED", user);
         DataTransfer response = UserGUI.getClient().request(params);
