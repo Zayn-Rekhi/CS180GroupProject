@@ -4,7 +4,7 @@ import javax.swing.*;
 
 /**
  * ViewPostsPanel Class
- *
+ * <p>
  * The ViewPostsPanel class displays the logged-in user's posts along with options to manage them. It organizes posts
  * in a scrollable layout, providing details like title, description, creation date, author, likes, and comments. Users
  * can delete, hide, or show their posts, and manage comments by deleting them if permitted. The panel also includes
@@ -16,8 +16,6 @@ import javax.swing.*;
  * @author srimadur
  * @author braydenbrafford
  * @author nothanlee
- * @version 1.0.0
- *
  * @version 1.0.0
  */
 

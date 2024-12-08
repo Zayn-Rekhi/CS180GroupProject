@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 
 /**
@@ -15,7 +17,6 @@ import java.util.ArrayList;
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
  */
 public class ServerTests implements ServerTestsInterface {
     private Server server;
@@ -108,7 +109,6 @@ public class ServerTests implements ServerTestsInterface {
 
         assertEquals(outComment.getMessage(), "SUCCESS");
     }
-
 
 
     public void createUserBrandonExample() {
@@ -376,6 +376,36 @@ public class ServerTests implements ServerTestsInterface {
         assertEquals(outLike.getMessage(), "SUCCESS"); // Request went through
         assertEquals(outDislike.getMessage(), "SUCCESS"); // Request went through
         assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getLikes(), 0);
+    }
+
+    @Test
+    public void testHidePost() {
+        User user = database.findUser("ZaynRekhi123");
+        Post post = user.getPosts().get(0);
+
+        DataTransfer dt = new DataTransfer("POST HIDE", post);
+        DataTransfer out = server.processCommands(dt);
+
+        assertEquals(out.getMessage(), "SUCCESS"); // Request went through
+        assertTrue(database.findUser("ZaynRekhi123").getPosts().get(0).getHidden());
+    }
+
+    @Test
+    public void testShowPost() {
+        User user = database.findUser("ZaynRekhi123");
+        Post post = user.getPosts().get(0);
+
+        DataTransfer dt = new DataTransfer("POST HIDE", post);
+        DataTransfer out = server.processCommands(dt);
+
+        assertEquals(out.getMessage(), "SUCCESS"); // Request went through
+        assertTrue(database.findUser("ZaynRekhi123").getPosts().get(0).getHidden());
+
+        DataTransfer dtShow = new DataTransfer("POST SHOW", (Post) out.getValue());
+        DataTransfer outShow = server.processCommands(dtShow);
+
+        assertEquals(outShow.getMessage(), "SUCCESS"); // Request went through
+        assertFalse(database.findUser("ZaynRekhi123").getPosts().get(0).getHidden());
     }
 
     @Test

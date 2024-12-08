@@ -1,10 +1,11 @@
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 /**
  * Simply testing if the custom Exception is created properly by comparing the message it uses to display
  * when it is thrown with the original message. Testing whether the exception message matches what is expected.
- *
+ * <p>
  * Checks if the create user method in database is passed in usernames and passwords that are not long enough,
  * (<6 characters), than throw an exception but it shouldn't stop the program. Does the same for the User
  * constructor.
@@ -14,8 +15,6 @@ import org.junit.jupiter.api.Test;
  * @author srimadur
  * @author braydenbrafford
  * @author nothanlee
- * @version 1.0.0
- *
  * @version 1.0.0
  */
 public class UserCredentialsExceptionTests implements UserCredentialsExceptionTestsInterface {

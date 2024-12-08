@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
@@ -7,21 +8,18 @@ import java.io.ObjectOutputStream;
 /**
  * Test class for the Client class.
  * This class provides unit tests for the Client class, including its constructors and methods,
- * ensuring that the constructor initializes objects correctly, the writeObject 
- * method handles both successful and failed write operations, 
+ * ensuring that the constructor initializes objects correctly, the writeObject
+ * method handles both successful and failed write operations,
  * the awaitResponse method correctly processes valid responses and handles errors,
- * the request method integrates writeObject and awaitResponse, 
+ * the request method integrates writeObject and awaitResponse,
  * returning appropriate results for both success and failure scenarios, and
  * the close method handles cleanup safely without throwing exceptions, even when ObjectOutputStream is uninitialized
- *
  *
  * @author zaynrekhi
  * @author melody
  * @author srimadur
  * @author braydenbrafford
  * @author nothanlee
- * @version 1.0.0
- *
  * @version 1.0.0
  */
 

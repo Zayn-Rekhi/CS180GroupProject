@@ -14,8 +14,6 @@ import java.io.Serializable;
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 public class User implements UserInterface, Serializable {
 
@@ -177,6 +175,7 @@ public class User implements UserInterface, Serializable {
             friendsList.remove(toBeRemoved);
         }
     }
+
     public void unBlock(User toBeRemoved) {
         if (this.hasBlocked(toBeRemoved)) {
             blockedList.remove(toBeRemoved);

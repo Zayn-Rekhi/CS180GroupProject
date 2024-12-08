@@ -1,10 +1,11 @@
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+
 /**
  * Server Class
  * This class is important, it handles all of the commands and stores the database for the platform.
- * There is only one Server and it takes a command 
+ * There is only one Server and it takes a command
  * from a DataTransfer object that will be linked to a buttons implemented later
  * These are then used to make changes to the database.
  * There are methods that handle the processing of these commands as they relate to posts, users, or comments.
@@ -15,8 +16,6 @@ import java.util.ArrayList;
  * @author srimadur
  * @author braydenbrafford
  * @author nothanlee
- * @version 1.0.0
- *
  * @version 1.0.0
  */
 public class Server extends Thread implements ServerInterface {

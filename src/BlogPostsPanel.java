@@ -21,8 +21,6 @@ import java.util.HashMap;
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 
 public class BlogPostsPanel extends JPanel implements BlogPostsPanelInterface {
@@ -100,7 +98,6 @@ public class BlogPostsPanel extends JPanel implements BlogPostsPanelInterface {
         createPosts.add(buttonPosts);
 
         add(createPosts, BorderLayout.NORTH);
-
 
 
         // Center: Blog posts area
@@ -343,7 +340,8 @@ public class BlogPostsPanel extends JPanel implements BlogPostsPanelInterface {
                     commentsPanel.revalidate();
                     commentsPanel.repaint();
                 } else {
-                    JOptionPane.showMessageDialog(this, "You can only delete your own comments or if you're the post owner.");
+                    String msg = "You can only delete your own comments or if you're the post owner.";
+                    JOptionPane.showMessageDialog(this, msg);
                 }
             });
 

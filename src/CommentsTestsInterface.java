@@ -8,16 +8,21 @@
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 public interface CommentsTestsInterface {
     void setUp();
+
     void testAddLikeComment();
+
     void testGetterAndSetter();
+
     void testEditMessage();
+
     void testDisplayedComment();
+
     void testDeleteCommentbyCommenter();
+
     void testDeleteCommentByPostOwner();
+
     void testDeleteCommentByUnauthorizedUser();
 }

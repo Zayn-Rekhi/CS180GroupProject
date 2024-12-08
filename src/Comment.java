@@ -57,22 +57,31 @@ public class Comment implements CommentInterface, Serializable {
     public User getCommenter() {
         return commenter;
     }
-    public Post getPost() { return post; }
+
+    public Post getPost() {
+        return post;
+    }
+
     public int getCommentID() {
         return commentID;
     }
+
     public String getMessage() {
         return message;
     }
+
     public String getDate() {
         return date;
     }
+
     public int getLikes() {
         return likes;
     }
+
     public boolean isEdited() {
         return edited;
     }
+
     public String getEditDate() {
         return editDate;
     }
@@ -81,6 +90,7 @@ public class Comment implements CommentInterface, Serializable {
     public boolean canDelete(User user) {
         return user.equals(commenter) || user.equals(this.post.getUser());
     }
+
     public void setCommenter(User commenter) {
         this.commenter = commenter;
     }

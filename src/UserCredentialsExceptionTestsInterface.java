@@ -8,14 +8,16 @@
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 public interface UserCredentialsExceptionTestsInterface {
 
     void testExceptionMessageType1();
+
     void testExceptionMessageType2();
+
     void testExceptionMessageType3();
+
     void testExceptionMessageType4();
+
     void testDoesNotThrowException();
 }

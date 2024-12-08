@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 
 /**
@@ -17,8 +19,6 @@ import java.util.ArrayList;
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 public class UserTests implements UserTestsInterface {
 
@@ -29,7 +29,7 @@ public class UserTests implements UserTestsInterface {
     @BeforeEach
     public void setUp() {
         user = new User("testUser", "password123", "");
-        friend1 = new User( "friend1", "password456", "");
+        friend1 = new User("friend1", "password456", "");
         friend2 = new User("friend2", "password789", "");
     }
 

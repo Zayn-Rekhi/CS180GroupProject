@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -14,8 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author srimadur
  * @author braydenbrafford
  * @author nothanlee
- * @version 1.0.0
- *
  * @version 1.0.0
  */
 
@@ -87,6 +86,7 @@ public class CommentsTests implements CommentsTestsInterface {
         comment.deleteComment(user);
         assertFalse(post.getComments().contains(comment), "Comment can be deleted by the commenter.");
     }
+
     @Test
     public void testDeleteCommentByPostOwner() {
         post.addComment(comment);

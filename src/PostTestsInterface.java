@@ -8,18 +8,25 @@
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 public interface PostTestsInterface {
     void setUp();
+
     void testInitialization();
+
     void testMutators();
+
     void testPostWithoutIMGConstructor();
+
     void testAddAndRemoveLike();
+
     void testAddAndRemoveDislike();
+
     void testDisplay();
+
     void testComment();
+
     void testDisplayWithComment();
+
     void testRemoveComment();
 }

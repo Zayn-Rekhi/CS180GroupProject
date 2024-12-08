@@ -16,8 +16,6 @@ import org.junit.jupiter.api.Test;
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 
 public class PostTests implements PostTestsInterface {

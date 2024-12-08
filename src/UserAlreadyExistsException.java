@@ -9,11 +9,9 @@
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 public class UserAlreadyExistsException extends Exception implements UserAlreadyExistsExceptionInterface {
     public UserAlreadyExistsException(String message) {
-      super(message);
+        super(message);
     }
 }

@@ -1,10 +1,11 @@
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 /**
  * Simply testing if the custom Exception is created properly by comparing the message it uses to display
  * when it is thrown with the original message. Testing whether the exception message matches what is expected.
- *
+ * <p>
  * This also tests if the dates passed as an argument to the Comment constructor and Post constructor
  * are incorrectly formatted, it should not throw an exception.
  *
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.Test;
  * @author srimadur
  * @author braydenbrafford
  * @author nothanlee
- * @version 1.0.0
  * @version 1.0.0
  */
 public class DateFormatExceptionTests implements DateFormatExceptionTestsInterface {

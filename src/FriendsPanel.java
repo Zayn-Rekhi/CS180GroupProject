@@ -5,7 +5,7 @@ import javax.swing.*;
 
 /**
  * FriendsPanel Class
- *
+ * <p>
  * The FriendsPanel class provides a user interface for managing friends and blocked users in a social media
  * application. Users can search for other users by entering a name, and the search results display details about
  * the found user, allowing actions such as adding or removing friends, blocking, or unblocking them.
@@ -19,8 +19,6 @@ import javax.swing.*;
  * @author srimadur
  * @author braydenbrafford
  * @author nothanlee
- * @version 1.0.0
- *
  * @version 1.0.0
  */
 
@@ -46,7 +44,6 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
         add(title, BorderLayout.NORTH);
 
         // Friends list area (placeholder)
-
 
 
         JPanel addFriendPanel = new JPanel();
@@ -78,7 +75,7 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
                         display += "CURRENTLY BLOCKED\n";
                     }
 
-                    Object[] options = { "OK", "Friend", "Remove", "Block", "Unblock"};
+                    Object[] options = {"OK", "Friend", "Remove", "Block", "Unblock"};
                     Object selection = JOptionPane.showOptionDialog(null, display, "Profile Description",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                             null, options, options[0]);

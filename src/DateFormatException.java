@@ -9,12 +9,10 @@
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 
 public class DateFormatException extends Exception implements DateFormatExceptionInterface {
     public DateFormatException(String message) {
-      super(message);
+        super(message);
     }
 }

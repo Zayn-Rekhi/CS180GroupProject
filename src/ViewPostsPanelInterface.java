@@ -10,11 +10,11 @@ import javax.swing.*;
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 public interface ViewPostsPanelInterface {
     void toViewPostsPanel();
+
     void toBlogPanel(User user);
+
     JPanel createCommentPanel(Comment comment, Post post, JPanel commentsPanel);
 }

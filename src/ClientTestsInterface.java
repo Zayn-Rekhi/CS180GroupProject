@@ -8,16 +8,21 @@
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
- * @version 1.0.0
  */
 public interface ClientTestsInterface {
     void testConstructor();
+
     void testWriteObjectSuccess();
+
     void testWriteObjectFailure();
+
     void testAwaitResponseSuccess();
+
     void testAwaitResponseFailure();
+
     void testRequestSuccess();
+
     void testRequestFailure();
+
     void testClose();
 }

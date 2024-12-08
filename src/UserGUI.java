@@ -3,7 +3,7 @@ import javax.swing.*;
 
 /**
  * UserGUI Class
- *
+ * <p>
  * The UserGUI class serves as the entry point for the BoilerChat social media application and sets up the user
  * interface. It manages the connection to the server via a Client instance and maintains the currently logged-in user
  * as a static reference. The class uses a CardLayout to switch between different panels, starting with the LoginPanel
@@ -16,8 +16,6 @@ import javax.swing.*;
  * @author srimadur
  * @author braydenbrafford
  * @author nothanlee
- * @version 1.0.0
- *
  * @version 1.0.0
  */
 

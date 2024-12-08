@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 
 /**
@@ -16,7 +18,6 @@ import java.util.ArrayList;
  * @author braydenbrafford
  * @author nothanlee
  * @version 1.0.0
- *
  */
 
 public class DatabaseTests implements DatabaseTestsInterface {
