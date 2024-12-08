@@ -333,9 +333,16 @@ public class BlogPostsPanel extends JPanel implements BlogPostsPanelInterface {
                     DataTransfer response = UserGUI.getClient().request(params);
 
                     System.out.println(response.getMessage());
-                    System.out.println(response.getValue());
+                    System.out.println(((Comment) response.getValue()).getPost());
 
                     post.getComments().remove(comment);
+
+                    for (int i = 0; i < posts.size(); i++) {
+                        if (posts.get(i).getTitle().equals(post.getTitle())) {
+                            posts.set(i, post);
+                        }
+                    }
+
                     commentsPanel.remove(commentPanel);
                     commentsPanel.revalidate();
                     commentsPanel.repaint();

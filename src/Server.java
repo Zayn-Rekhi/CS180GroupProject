@@ -89,7 +89,7 @@ public class Server extends Thread implements ServerInterface {
             User prev = database.findUser(primary.getUserName());
             boolean success = database.modifyUser(primary, prev);
             User newUser = database.findUser(primary.getUserName());
-            
+
             if (success) {
                 return new DataTransfer("SUCCESS", newUser);
             } else {
@@ -164,10 +164,6 @@ public class Server extends Thread implements ServerInterface {
             boolean success = currentValues != null;
 
             if (success) {
-                System.out.println(currentValues.getUserName());
-                System.out.println(currentValues.getFriends());
-                System.out.println(currentValues.getPosts());
-
                 ArrayList<Post> out = currentValues.getFriendsFeed();
                 return new DataTransfer("SUCCESS", out);
             } else {
@@ -192,9 +188,6 @@ public class Server extends Thread implements ServerInterface {
             user.post(p);
             User prev = database.findUser(user.getUserName());
             boolean success = database.modifyUser(user, prev);
-
-            System.out.println(user.getUserName());
-            System.out.println(user.getPosts());
 
             if (success) {
                 return new DataTransfer("SUCCESS", p);
@@ -224,8 +217,6 @@ public class Server extends Thread implements ServerInterface {
 
             Post post = (Post) values.get(0);
             post.addLike((User) values.get(1));
-
-            System.out.println(post.getLikes());
 
 
             User user = post.getUser();
