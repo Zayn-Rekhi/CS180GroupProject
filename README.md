@@ -179,11 +179,11 @@ There are twenty-two test case:
 
 ### UserGUI.java
 The UserGUI class extends thread to be runnable to start the GUI and enable user interaction with the system. It utilizes the client class in order to interact with the server and database, and opens the login panel when run. There are 4 Panel classes used to move between the GUI and showcase the different parts of the platform.
-## ViewPostsPanel.java
+#### ViewPostsPanel.java
 This panel is the page that shows a user's own posts and gives them the options to hide, show, or delete them
-## LoginPanel.java
+#### LoginPanel.java
 This panel is the login screen and allows the creation of users or loging in of already created users. From here you enter the rest of the platform.
-## FriendsPanel.java
+#### FriendsPanel.java
 The friends panel is the way users can interact with other users, searching for them to friend, unfriend, block, or unblock them.
-## BlogPostsPanel.java
+#### BlogPostsPanel.java
 The BlogPostPanel is the main page of the proram which showcases posts in a feed such as ones from friends, and is where users are able to create their own posts. On posts in the feed, one is able to comment or like other posts.
