@@ -5,7 +5,9 @@
 first run the main Method in `Main.java`, then run the GUI in UserGUI.java.
 
     Running Main: cd src, javac Main.java, java Main
+   
     Running Client: cd src, javac Client.java, java Client
+   
     Running GUI: cd src, javac UserGUI.java, java UserGUI
 4. The following is a list of our test case files:
    - `CommentsTests.java`
