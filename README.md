@@ -335,17 +335,15 @@ There are twenty-two test case:
 9. Ensures correct functionality with unblocking a friend
 10. Ensures that creating a post for a user works correctly
 11. Ensures that deleting a post works correctly for the given user and post
-12. Ensures that editing a post works as it should
-13. Tests the functionality of liking a post
-14. Tests the functionality of unliking a post
-15. Tests the functionality of disliking a post
-16. Tests the functionality of undisliking a post
-17. Ensures the ability to find posts only from a user's friends
-18. Ensures the createComment command works as intended
-19. Ensures the ability to delete a comment from the correct user
-20. Ensures comment-editing functionality and success
-21. Tests the functionality of liking a comment
-22. Tests the functionality of disliking a comment
+12. Tests the functionality of liking a post
+13. Tests the functionality of disliking a post
+14. Tests the functionality of showing a post
+15. Tests the functionality of hiding a post
+16. Ensures the ability to find posts only from a user's friends
+17. Ensures the createComment command works as intended
+18. Ensures the ability to delete a comment from the correct user
+19. Tests the functionality of liking a comment
+20. Tests the functionality of disliking a comment
 
 ### UserGUI.java
 The UserGUI class extends thread to be runnable to start the GUI and enable user interaction with the system. It utilizes the client class in order to interact with the server and database, and opens the login panel when run. There are 4 Panel classes used to move between the GUI and showcase the different parts of the platform.
