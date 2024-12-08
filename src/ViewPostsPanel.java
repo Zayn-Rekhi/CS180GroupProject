@@ -169,6 +169,7 @@ public class ViewPostsPanel extends JPanel implements ViewPostsPanelInterface {
                 objs.add(UserGUI.getUser());
 
                 DataTransfer params = new DataTransfer("COMMENT DELETECOMMENT", objs);
+                DataTransfer response = UserGUI.getClient().request(params);
 
                 post.getComments().remove(comment);
                 commentsPanel.remove(commentPanel);
