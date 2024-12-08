@@ -2,6 +2,25 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+/**
+ * ViewPostsPanel Class
+ *
+ * The ViewPostsPanel class displays the logged-in user's posts along with options to manage them. It organizes posts
+ * in a scrollable layout, providing details like title, description, creation date, author, likes, and comments. Users
+ * can delete, hide, or show their posts, and manage comments by deleting them if permitted. The panel also includes
+ * interactive features, such as toggling the visibility of posts and updating the display dynamically. A "Back" button
+ * allows users to navigate to the main blog feed (BlogPostsPanel), maintaining a seamless user experience.
+ *
+ * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
+ *
+ * @version 1.0.0
+ */
+
 public class ViewPostsPanel extends JPanel implements ViewPostsPanelInterface {
     private User loggedInUser;
 
@@ -131,7 +150,7 @@ public class ViewPostsPanel extends JPanel implements ViewPostsPanelInterface {
     }
 
 
-    private JPanel createCommentPanel(Comment comment, Post post, JPanel commentsPanel) {
+    public JPanel createCommentPanel(Comment comment, Post post, JPanel commentsPanel) {
         JPanel commentPanel = new JPanel(new BorderLayout());
 
         // Display the comment text

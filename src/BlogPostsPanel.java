@@ -5,7 +5,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-public class BlogPostsPanel extends JPanel {
+
+/**
+ * BlogPostPanel Class
+ * The BlogPostsPanel class is a user interface component for a social media feed, built using Java Swing.
+ * It allows users to create new posts, view a feed of existing posts, and interact with them through likes, dislikes,
+ * and comments. Each post displays its details (title, description, author, date) and has a dedicated section for
+ * comments, which can be dynamically added, liked, or deleted. The panel integrates navigation features, enabling
+ * users to switch to other sections like viewing their own posts or adding friends. It communicates with a server
+ * using DataTransfer objects to manage data updates and ensure real-time synchronization of interactions.
+ *
+ * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
+ *
+ * @version 1.0.0
+ */
+
+public class BlogPostsPanel extends JPanel implements BlogPostsPanelInterface {
 
     private JPanel mainPanel;
     private CardLayout cardLayout;
@@ -258,7 +278,7 @@ public class BlogPostsPanel extends JPanel {
     }
 
 
-    private JPanel createCommentPanel(Comment comment, Post post, JPanel commentsPanel) {
+    public JPanel createCommentPanel(Comment comment, Post post, JPanel commentsPanel) {
         JPanel commentPanel = new JPanel(new BorderLayout());
 
         // Display the comment text

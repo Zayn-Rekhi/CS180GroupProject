@@ -2,8 +2,27 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+/**
+ * UserGUI Class
+ *
+ * The UserGUI class serves as the entry point for the BoilerChat social media application and sets up the user
+ * interface. It manages the connection to the server via a Client instance and maintains the currently logged-in user
+ * as a static reference. The class uses a CardLayout to switch between different panels, starting with the LoginPanel
+ * for user authentication and account creation. It initializes and displays the main application window (JFrame),
+ * ensuring a consistent layout and proper handling of user interactions. The static methods provide centralized access
+ * to the Client and User objects, enabling seamless communication and state management across the application.
+ *
+ * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
+ *
+ * @version 1.0.0
+ */
 
-public class UserGUI extends Thread {
+public class UserGUI extends Thread implements UserGUIInterface {
     private static Client client = new Client("localhost", 4242);
     private static User user;
 
@@ -25,16 +44,6 @@ public class UserGUI extends Thread {
         // Initialize LoginPanel
         LoginPanel loginPanel = new LoginPanel(mainPanel, cardLayout);
 
-//        ArrayList<Post> posts;
-//
-//        if (user != null) {
-//            DataTransfer params = new DataTransfer("USER GETFRIENDSFEED", user);
-//            DataTransfer response = client.request(params);
-//            posts = (ArrayList<Post>) response.getValue();
-//        } else {
-//            posts = fetchPostsForUser();
-//        }
-
         // Add panels
         mainPanel.add(loginPanel, "Login");
 
@@ -43,27 +52,6 @@ public class UserGUI extends Thread {
 
         frame.revalidate();
         frame.repaint();
-    }
-
-    // Placeholder method to fetch posts
-    public static ArrayList<Post> fetchPostsForUser() {
-        ArrayList<Post> posts = new ArrayList<>();
-        User user = new User("SampleUser", "password123", "Sample bio!");
-
-        try {
-            ArrayList<Comment> comments = new ArrayList<>();
-
-
-            posts.add(new Post(user, "Post 1", "First post description.", "12-01-2024"));
-            posts.add(new Post(user, "Post 2", "Second post description.", "12-02-2024"));
-
-            posts.get(0).addComment(new Comment(user, posts.get(0), "Hello", "12-01-2024"));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return posts;
     }
 
     public static Client getClient() {

@@ -2,6 +2,26 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+/**
+ * LoginPanel Class
+ *
+ * The LoginPanel class provides the user interface for logging into the application or creating a new user account.
+ * It features a clean and organized layout with fields for entering a username, password, and bio (required for new
+ * users). The panel includes buttons for "Login" and "Create User," each triggering backend requests via DataTransfer
+ * to validate credentials or create a new user profile. Upon successful login or account creation, the user is
+ * navigated to the blog feed (BlogPostsPanel) with their session updated. Invalid input or failed authentication
+ * prompts the user with an error message, ensuring clear feedback.
+ *
+ * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
+ *
+ * @version 1.0.0
+ */
+
 public class LoginPanel extends JPanel implements LoginPanelInterface {
 
     private JPanel mainPanel;

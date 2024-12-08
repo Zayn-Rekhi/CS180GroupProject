@@ -1,9 +1,28 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+
+
+/**
+ * FriendsPanel Class
+ *
+ * The FriendsPanel class provides a user interface for managing friends and blocked users in a social media
+ * application. Users can search for other users by entering a name, and the search results display details about
+ * the found user, allowing actions such as adding or removing friends, blocking, or unblocking them.
+ * The panel also displays a list of the user's current friends and blocked users, organized with labels and
+ * descriptions, using distinct formatting for visual clarity. It integrates seamlessly with the application's
+ * navigation system, allowing users to return to the main feed. The class communicates with the backend server
+ * through DataTransfer objects to ensure that user interactions are synchronized and updated in real-time.
+ *
+ * @author zaynrekhi
+ * @author melody
+ * @author srimadur
+ * @author braydenbrafford
+ * @author nothanlee
+ * @version 1.0.0
+ *
+ * @version 1.0.0
+ */
 
 public class FriendsPanel extends JPanel implements FriendsPanelInterface {
     private User loggedInUser;
