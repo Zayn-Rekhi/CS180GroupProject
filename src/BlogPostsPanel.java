@@ -66,7 +66,7 @@ public class BlogPostsPanel extends JPanel implements BlogPostsPanelInterface {
         createPostBtn.addActionListener(e -> {
             String titleStr = titlePost.getText();
             String descriptionStr = description.getText();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
             // Format the current date
             String dateStr = formatter.format(new Date());
 
@@ -143,7 +143,7 @@ public class BlogPostsPanel extends JPanel implements BlogPostsPanelInterface {
                 String commentText = JOptionPane.showInputDialog(this, "Enter your comment:");
                 if (commentText != null && !commentText.trim().isEmpty()) {
                     // Define the desired format
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
                     // Format the current date
                     String formattedDate = formatter.format(new Date());
 
