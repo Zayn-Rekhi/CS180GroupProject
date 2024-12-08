@@ -20,7 +20,6 @@ public interface ServerTestsInterface {
     void testCreateUsersInvalidCredentials();
     void testGetLogin();
     void testRemoveUser();
-    void testModifyUser();
     void testAddFriend();
     void testRemoveFriend();
     void testBlockFriend();

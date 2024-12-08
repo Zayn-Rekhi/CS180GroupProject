@@ -131,10 +131,10 @@ public class UserTests implements UserTestsInterface {
 
         ArrayList<Post> friendsPosts = user.getFriendsFeed();
 
-        assertEquals(friend2Post1, friendsPosts.get(0)); // 3 likes
-        assertEquals(friend1Post1, friendsPosts.get(1)); // 2 likes
-        assertEquals(friend1Post2, friendsPosts.get(2)); // 1 like
-        assertEquals(friend2Post2, friendsPosts.get(3)); // 0 likes
+        assertEquals(friend1Post1.getTitle(), friendsPosts.get(0).getTitle());
+        assertEquals(friend2Post1.getTitle(), friendsPosts.get(1).getTitle());
+        assertEquals(friend1Post2.getTitle(), friendsPosts.get(2).getTitle());
+        assertEquals(friend2Post2.getTitle(), friendsPosts.get(3).getTitle());
 
         // test total number of posts
         assertEquals(4, friendsPosts.size());

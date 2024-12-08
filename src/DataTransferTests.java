@@ -27,7 +27,7 @@ public class DataTransferTests implements DataTransferTestsInterface {
         DataTransfer data = new DataTransfer(msg, null);
 
         assertEquals(msg, data.getMessage());
-        assertNull(data.getMessage());
+        assertNull(data.getValue());
     }
 
     @Test

@@ -176,3 +176,9 @@ There are twenty-two test case:
 20. Ensures comment-editing functionality and success
 21. Tests the functionality of liking a comment
 22. Tests the functionality of disliking a comment
+
+### UserGUI.java
+### ViewPostsPanel.java
+### LoginPanel.java
+### FriendsPanel.java
+### BlogPostsPanel.java

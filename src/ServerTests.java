@@ -337,48 +337,45 @@ public class ServerTests implements ServerTestsInterface {
     }
 
 
-
     @Test
     public void testLikePost() {
         User user = database.findUser("ZaynRekhi123");
         Post post = user.getPosts().get(0);
 
-        DataTransfer dt = new DataTransfer("POST LIKEPOST", post);
+        ArrayList<Object> postObjs = new ArrayList<>();
+        postObjs.add(post);
+        postObjs.add(user);
+
+        DataTransfer dt = new DataTransfer("POST LIKEPOST", postObjs);
         DataTransfer out = server.processCommands(dt);
 
         assertEquals(out.getMessage(), "SUCCESS"); // Request went through
         assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getLikes(), 1);
     }
 
-    @Test
-    public void testUnLikePost() {
-        User user = database.findUser("ZaynRekhi123");
-        Post post = user.getPosts().get(0);
-
-        DataTransfer dt = new DataTransfer("POST LIKEPOST", post);
-        DataTransfer outLike = server.processCommands(dt);
-
-        DataTransfer dtd = new DataTransfer("POST UNLIKEPOST", outLike.getValue());
-        DataTransfer outDislike = server.processCommands(dtd);
-
-        assertEquals(outLike.getMessage(), "SUCCESS"); // Request went through
-        assertEquals(outDislike.getMessage(), "SUCCESS"); // Request went through
-        assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getLikes(), 0);
-    }
 
     @Test
     public void testDislikePost() {
         User user = database.findUser("ZaynRekhi123");
         Post post = user.getPosts().get(0);
 
-        DataTransfer dt = new DataTransfer("POST UNLIKEPOST", post);
-        DataTransfer out = server.processCommands(dt);
+        ArrayList<Object> postObjs = new ArrayList<>();
+        postObjs.add(post);
+        postObjs.add(user);
 
-        System.out.println(out.getMessage());
-        System.out.println(out.getValue());
+        DataTransfer dt = new DataTransfer("POST LIKEPOST", postObjs);
+        DataTransfer outLike = server.processCommands(dt);
 
-        assertEquals(out.getMessage(), "SUCCESS"); // Request went through
-        assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getDislikes(), 0);
+        ArrayList<Object> postObjsUn = new ArrayList<>();
+        postObjsUn.add(outLike.getValue());
+        postObjsUn.add(user);
+
+        DataTransfer dtd = new DataTransfer("POST UNLIKEPOST", postObjsUn);
+        DataTransfer outDislike = server.processCommands(dtd);
+
+        assertEquals(outLike.getMessage(), "SUCCESS"); // Request went through
+        assertEquals(outDislike.getMessage(), "SUCCESS"); // Request went through
+        assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getLikes(), 0);
     }
 
     @Test
@@ -434,14 +431,17 @@ public class ServerTests implements ServerTestsInterface {
         assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getComments().size(), 0);
     }
 
-
     @Test
     public void testLikeComment() {
         User user = database.findUser("ZaynRekhi123");
         Post post = user.getPosts().get(0);
         Comment comment = post.getComments().get(0);
 
-        DataTransfer dt = new DataTransfer("COMMENT LIKECOMMENT", comment);
+        ArrayList<Object> objs = new ArrayList<>();
+        objs.add(comment);
+        objs.add(user);
+
+        DataTransfer dt = new DataTransfer("COMMENT LIKECOMMENT", objs);
         DataTransfer out = server.processCommands(dt);
 
         assertEquals(out.getMessage(), "SUCCESS"); // Request went through
@@ -454,12 +454,21 @@ public class ServerTests implements ServerTestsInterface {
         Post post = user.getPosts().get(0);
         Comment comment = post.getComments().get(0);
 
-        DataTransfer dt = new DataTransfer("COMMENT DISLIKECOMMENT", comment);
+        ArrayList<Object> objs = new ArrayList<>();
+        objs.add(comment);
+        objs.add(user);
+
+        DataTransfer dt = new DataTransfer("COMMENT LIKECOMMENT", objs);
         DataTransfer out = server.processCommands(dt);
 
-        assertEquals(out.getMessage(), "SUCCESS"); // Request went through
-        assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getComments().get(0).getLikes(), -1);
+        ArrayList<Object> objsDis = new ArrayList<>();
+        objsDis.add(out.getValue());
+        objsDis.add(user);
+
+        DataTransfer dtDislike = new DataTransfer("COMMENT DISLIKECOMMENT", objsDis);
+        DataTransfer outDislike = server.processCommands(dtDislike);
+
+        assertEquals(outDislike.getMessage(), "SUCCESS"); // Request went through
+        assertEquals(database.findUser("ZaynRekhi123").getPosts().get(0).getComments().get(0).getLikes(), 0);
     }
-
-
 }

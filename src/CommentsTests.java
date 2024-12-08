@@ -77,7 +77,7 @@ public class CommentsTests implements CommentsTestsInterface {
         String out = "testUser\n" +
                 "\"Had so much fun\"\n" +
                 "Date: 11-02-2024\n" +
-                "Likes: 0 | Dislikes: 0";
+                "Likes: 0";
         assertEquals(out, displayedComment);
     }
 
