@@ -218,10 +218,11 @@ public class Server extends Thread implements ServerInterface {
             Post post = (Post) values.get(0);
             post.addLike((User) values.get(1));
 
-
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
             boolean success = database.modifyUser(user, prev);
+
+
 
             if (success) {
                 return new DataTransfer("SUCCESS", post);
@@ -239,6 +240,7 @@ public class Server extends Thread implements ServerInterface {
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
             boolean success = database.modifyUser(user, prev);
+
 
             if (success) {
                 return new DataTransfer("SUCCESS", post);

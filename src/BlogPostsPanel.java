@@ -182,10 +182,16 @@ public class BlogPostsPanel extends JPanel implements BlogPostsPanelInterface {
                 postObjs.add(post);
                 postObjs.add(UserGUI.getUser());
 
+
                 DataTransfer params = new DataTransfer("POST LIKEPOST", postObjs);
                 DataTransfer response = UserGUI.getClient().request(params);
 
                 Post p = (Post) response.getValue();
+
+                if (p == null) {
+                    response = UserGUI.getClient().request(params);
+                    p = (Post) response.getValue();
+                }
                 System.out.println(p.getLikes());
 
                 for (int i = 0; i < posts.size(); i++) {
@@ -214,7 +220,10 @@ public class BlogPostsPanel extends JPanel implements BlogPostsPanelInterface {
                 System.out.println(response.getValue());
 
                 Post p = (Post) response.getValue();
-                System.out.println(p.getLikes());
+                if (p == null) {
+                    response = UserGUI.getClient().request(params);
+                    p = (Post) response.getValue();
+                }
 
                 for (int i = 0; i < posts.size(); i++) {
                     if (posts.get(i).getTitle().equals(p.getTitle())) {
