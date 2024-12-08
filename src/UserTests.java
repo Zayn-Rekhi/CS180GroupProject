@@ -106,11 +106,11 @@ public class UserTests implements UserTestsInterface {
     public void testFriendsFeed() {
         ArrayList<Post> posts1 = new ArrayList<>();
         Post friend1Post1 = new Post(friend1, "Post1", "Doing everything", "11-02-2024");
-        friend1Post1.addLike(); // 1 like
-        friend1Post1.addLike(); // 2 likes
+        friend1Post1.addLike(user); // 1 like
+        friend1Post1.addLike(friend2); // 2 likes
 
         Post friend1Post2 = new Post(friend1, "Post2", "Doing everything", "11-02-2024");
-        friend1Post2.addLike(); // 1 like
+        friend1Post2.addLike(user); // 1 like
 
         posts1.add(friend1Post1);
         posts1.add(friend1Post2);
@@ -118,9 +118,8 @@ public class UserTests implements UserTestsInterface {
 
         ArrayList<Post> posts2 = new ArrayList<>();
         Post friend2Post1 = new Post(friend2, "Post3", "Doing everything", "11-02-2024");
-        friend2Post1.addLike(); // 1 like
-        friend2Post1.addLike(); // 2 likes
-        friend2Post1.addLike(); // 3 likes
+        friend2Post1.addLike(user); // 1 like
+        friend2Post1.addLike(friend1); // 2 likes
 
         Post friend2Post2 = new Post(friend2, "Post4", "Doing everything", "11-02-2024");
 

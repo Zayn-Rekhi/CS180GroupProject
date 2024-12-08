@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Comment Interface
  * contains all the methods to be implemented in Comment class
@@ -23,10 +25,14 @@ public interface CommentInterface {
     boolean isEdited();
     boolean canDelete(User user);
     String getEditDate();
+    ArrayList<User> getLikedUsers();
+    void setLikedUsers(ArrayList<User> likedUsers);
 
     //mutator methods
     void deleteComment(User user); //move to post class
-    void addLike();
+    void addLike(User user);
+    void removeLike(User user);
+
     boolean editMessage(String newMessage, String editDate);
 
     //display method

@@ -26,6 +26,8 @@ public interface PostInterface {
     int getLikes();
     int getDislikes();
     String getDate();
+    ArrayList<User> getLikedUsers();
+    void setLikedUsers(ArrayList<User> likedUsers);
 
     //mutator methods
     void setUser(User user);
@@ -34,8 +36,8 @@ public interface PostInterface {
     void setDescription(String description);
 
     //managing likes and dislikes
-    void addLike();
-    void removeLike();
+    void addLike(User user);
+    void removeLike(User user);
     void addDislike();
     void removeDislike();
 

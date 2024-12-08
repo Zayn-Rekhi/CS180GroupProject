@@ -37,12 +37,9 @@ public class CommentsTests implements CommentsTestsInterface {
     @Test
     public void testAddLikeComment() {
         for (int i = 0; i < 100; i++)
-            comment.addLike();
+            comment.addLike(user);
 
-
-        assertEquals(comment.getLikes(), 100);
-
-
+        assertEquals(comment.getLikes(), 1);
     }
 
     @Test

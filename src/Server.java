@@ -223,10 +223,10 @@ public class Server extends Thread implements ServerInterface {
 
 
         if (command.equals("LIKEPOST")) {
-            Post post = (Post) data.getValue();
-            System.out.println(post.getLikes());
+            ArrayList<Object> values = (ArrayList<Object>) data.getValue();
 
-            post.addLike();
+            Post post = (Post) values.get(0);
+            post.addLike((User) values.get(1));
 
             System.out.println(post.getLikes());
 
@@ -243,8 +243,10 @@ public class Server extends Thread implements ServerInterface {
         }
 
         if (command.equals("UNLIKEPOST")) {
-            Post post = (Post) data.getValue();
-            post.removeLike();
+            ArrayList<Object> values = (ArrayList<Object>) data.getValue();
+
+            Post post = (Post) values.get(0);
+            post.removeLike((User) values.get(1));
 
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
@@ -331,10 +333,13 @@ public class Server extends Thread implements ServerInterface {
         }
 
         if (command.equals("LIKECOMMENT")) {
-            Comment theComment = (Comment) data.getValue();
+            ArrayList<Object> values = (ArrayList<Object>) data.getValue();
+
+            Comment theComment = (Comment) values.get(0);
             Post post = theComment.getPost();
 
-            theComment.addLike();
+            theComment.addLike((User) values.get(1));
+
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
 
@@ -348,10 +353,13 @@ public class Server extends Thread implements ServerInterface {
         }
 
         if (command.equals("DISLIKECOMMENT")) {
-            Comment theComment = (Comment) data.getValue();
+            ArrayList<Object> values = (ArrayList<Object>) data.getValue();
+
+            Comment theComment = (Comment) values.get(0);
             Post post = theComment.getPost();
 
-            theComment.addDislike();
+            theComment.removeLike((User) values.get(1));
+
             User user = post.getUser();
             User prev = database.findUser(user.getUserName());
             boolean success = database.modifyUser(user, prev);

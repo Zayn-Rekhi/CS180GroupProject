@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class LoginPanel extends JPanel {
+public class LoginPanel extends JPanel implements LoginPanelInterface {
 
     private JPanel mainPanel;
     private CardLayout cardLayout;
@@ -112,12 +112,14 @@ public class LoginPanel extends JPanel {
             out.add(password);
             out.add(bio);
 
-            DataTransfer params = new DataTransfer("USER CREATENEWUSER", out);
-            DataTransfer response = UserGUI.getClient().request(params);
+
 
             boolean valid = !username.isEmpty() && !password.isEmpty() && !bio.isEmpty();
 
-            if (valid && !response.getMessage().equals("FAILURE")) {
+            if (valid) {
+                DataTransfer params = new DataTransfer("USER CREATENEWUSER", out);
+                DataTransfer response = UserGUI.getClient().request(params);
+
                 User loggedInUser = (User) response.getValue();
 
                 UserGUI.setUser(loggedInUser);
@@ -147,8 +149,4 @@ public class LoginPanel extends JPanel {
         mainPanel.repaint();
         cardLayout.show(mainPanel, "BlogPosts");
     }
-
-//    public User getLoggedInUser() {
-//        return loggedInUser;
-//    }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class FriendsPanel extends JPanel {
+public class FriendsPanel extends JPanel implements FriendsPanelInterface {
     private User loggedInUser;
 
     private JPanel mainPanel;
@@ -191,12 +191,5 @@ public class FriendsPanel extends JPanel {
         mainPanel.revalidate();
         mainPanel.repaint();
         cardLayout.show(mainPanel, "BlogPosts");
-    }
-
-    public void toFriendsPanel() {
-        mainPanel.add(new FriendsPanel(mainPanel, cardLayout), "FriendsPanel");
-        mainPanel.revalidate();
-        mainPanel.repaint();
-        cardLayout.show(mainPanel, "FriendsPanel");
     }
 }

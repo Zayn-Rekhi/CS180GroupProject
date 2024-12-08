@@ -161,7 +161,11 @@ public class BlogPostsPanel extends JPanel {
             JButton likeButton = new JButton("Like");
 
             likeButton.addActionListener(e -> {
-                DataTransfer params = new DataTransfer("POST LIKEPOST", post);
+                ArrayList<Object> postObjs = new ArrayList<>();
+                postObjs.add(post);
+                postObjs.add(UserGUI.getUser());
+
+                DataTransfer params = new DataTransfer("POST LIKEPOST", postObjs);
                 DataTransfer response = UserGUI.getClient().request(params);
 
                 Post p = (Post) response.getValue();
@@ -174,7 +178,7 @@ public class BlogPostsPanel extends JPanel {
                 }
 
                 User user = UserGUI.getUser();
-                user.setPosts(posts);
+//                user.setPosts(posts);
 
                 toBlogPanel(user);
 
@@ -182,8 +186,15 @@ public class BlogPostsPanel extends JPanel {
             });
 
             dislikeButton.addActionListener(e -> {
-                DataTransfer params = new DataTransfer("POST UNLIKEPOST", post);
+                ArrayList<Object> postObjs = new ArrayList<>();
+                postObjs.add(post);
+                postObjs.add(UserGUI.getUser());
+
+                DataTransfer params = new DataTransfer("POST UNLIKEPOST", postObjs);
                 DataTransfer response = UserGUI.getClient().request(params);
+
+                System.out.println(response.getMessage());
+                System.out.println(response.getValue());
 
                 Post p = (Post) response.getValue();
                 System.out.println(p.getLikes());
@@ -195,12 +206,19 @@ public class BlogPostsPanel extends JPanel {
                 }
 
                 User user = UserGUI.getUser();
-                user.setPosts(posts);
 
                 toBlogPanel(user);
 
                 likeCount.setText("Likes: " + p.getLikes());
             });
+
+            if (!post.checkLiked(UserGUI.getUser())) {
+                likeButton.setEnabled(true);
+                dislikeButton.setEnabled(false);
+            } else {
+                likeButton.setEnabled(false);
+                dislikeButton.setEnabled(true);
+            }
 
             likeDislikePanel.add(likeButton);
             likeDislikePanel.add(dislikeButton);
@@ -254,14 +272,15 @@ public class BlogPostsPanel extends JPanel {
 
         JButton likeCommentButton = new JButton("Like");
         likeCommentButton.addActionListener(e -> {
-            System.out.println(comment.getLikes());
+            ArrayList<Object> commentObjs = new ArrayList<>();
+            commentObjs.add(comment);
+            commentObjs.add(UserGUI.getUser());
 
-            DataTransfer params = new DataTransfer("COMMENT LIKECOMMENT", comment);
+            DataTransfer params = new DataTransfer("COMMENT LIKECOMMENT", commentObjs);
             DataTransfer response = UserGUI.getClient().request(params);
 
             System.out.println(response.getMessage());
             System.out.println(response.getValue());
-
 
             Comment c = (Comment) response.getValue();
 
@@ -271,7 +290,11 @@ public class BlogPostsPanel extends JPanel {
 
         JButton dislikeCommentButton = new JButton("Dislike");
         dislikeCommentButton.addActionListener(e -> {
-            DataTransfer params = new DataTransfer("COMMENT DISLIKECOMMENT", comment);
+            ArrayList<Object> commentObjs = new ArrayList<>();
+            commentObjs.add(comment);
+            commentObjs.add(UserGUI.getUser());
+
+            DataTransfer params = new DataTransfer("COMMENT DISLIKECOMMENT", commentObjs);
             DataTransfer response = UserGUI.getClient().request(params);
 
             Comment c = (Comment) response.getValue();
@@ -305,6 +328,15 @@ public class BlogPostsPanel extends JPanel {
             });
 
             commentButtonsPanel.add(deleteCommentButton);
+        }
+
+
+        if (!comment.checkLiked(UserGUI.getUser())) {
+            likeCommentButton.setEnabled(true);
+            dislikeCommentButton.setEnabled(false);
+        } else {
+            likeCommentButton.setEnabled(false);
+            dislikeCommentButton.setEnabled(true);
         }
 
 

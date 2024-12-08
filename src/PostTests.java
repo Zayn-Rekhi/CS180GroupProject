@@ -71,10 +71,10 @@ public class PostTests implements PostTestsInterface {
     public void testAddAndRemoveLike() {
         // test post without image constructor
         for (int i = 0; i < 100; i++)
-            post.addLike();
+            post.addLike(user);
 
         for (int i = 0; i < 100; i++)
-            post.removeLike();
+            post.removeLike(user);
 
         assertEquals(0, post.getLikes());
     }

@@ -23,6 +23,7 @@ public class Post implements PostInterface, Serializable {
 
     // instance variables
     private ArrayList<Comment> comments;
+    private ArrayList<User> liked;
     private String title;
     private boolean image;
     private boolean hidden;
@@ -46,6 +47,7 @@ public class Post implements PostInterface, Serializable {
             this.imageURL = imageURL;
             this.description = description;
             this.comments = new ArrayList<>();
+            this.liked = new ArrayList<>();
             this.likes = 0;
             this.dislikes = 0;
             this.date = date;
@@ -68,6 +70,7 @@ public class Post implements PostInterface, Serializable {
             this.image = false;
             this.description = description;
             this.comments = new ArrayList<>();
+            this.liked = new ArrayList<>();
             this.likes = 0;
             this.dislikes = 0;
             this.date = date;
@@ -178,13 +181,32 @@ public class Post implements PostInterface, Serializable {
     }
 
     // managing likes and dislikes methods
-    public void addLike() {
-        this.likes++;
+    public void addLike(User user) {
+        if (!checkLiked(user)) {
+            this.likes++;
+            liked.add(user);
+        }
     }
 
-    public void removeLike() {
-        this.likes--;
+    public void removeLike(User user) {
+        if (checkLiked(user)) {
+            this.likes--;
+            liked.remove(user);
+        }
     }
+
+    public boolean checkLiked(User user) {
+        return liked.contains(user);
+    }
+
+    public ArrayList<User> getLikedUsers() {
+        return liked;
+    }
+
+    public void setLikedUsers(ArrayList<User> likedUsers) {
+        this.liked = likedUsers;
+    }
+
 
     public void addDislike() {
         this.dislikes++;

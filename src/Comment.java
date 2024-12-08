@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Comment Class
@@ -19,6 +20,7 @@ public class Comment implements CommentInterface, Serializable {
 
     // fields
     private User commenter;
+    private ArrayList<User> liked;
     private Post post;
     private String message;
     private String date;
@@ -39,6 +41,7 @@ public class Comment implements CommentInterface, Serializable {
             this.edited = false;
             this.commenter = commenter;
             this.post = post;
+            this.liked = new ArrayList<>();
 
             if (!Post.checkDate(date)) {
                 String msg = "Date is incorrectly formatted! Make sure it is 00/00/0000 (Month/Day/Year)";
@@ -88,12 +91,34 @@ public class Comment implements CommentInterface, Serializable {
             post.getComments().remove(this);
         }
     }
-    public void addLike() {
-        likes++;
+
+    // managing likes and dislikes methods
+    public void addLike(User user) {
+        if (!checkLiked(user)) {
+            this.likes++;
+            liked.add(user);
+        }
     }
-    public void addDislike() {
-        likes--;
+
+    public void removeLike(User user) {
+        if (checkLiked(user)) {
+            this.likes--;
+            liked.remove(user);
+        }
     }
+
+    public boolean checkLiked(User user) {
+        return liked.contains(user);
+    }
+
+    public ArrayList<User> getLikedUsers() {
+        return liked;
+    }
+
+    public void setLikedUsers(ArrayList<User> likedUsers) {
+        this.liked = likedUsers;
+    }
+
     public boolean editMessage(String newMessage, String newDate) {
         try {
             if (!Post.checkDate(newDate)) {

@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class ViewPostsPanel extends JPanel {
+public class ViewPostsPanel extends JPanel implements ViewPostsPanelInterface {
     private User loggedInUser;
 
     private JPanel mainPanel;
@@ -41,6 +41,7 @@ public class ViewPostsPanel extends JPanel {
             postInfoPanel.add(new JLabel("<html><b>Description:</b> " + post.getDescription() + "</html>"));
             postInfoPanel.add(new JLabel("Created on: " + post.getDate()));
             postInfoPanel.add(new JLabel("Created by: " + post.getUser().getUserName()));
+            postInfoPanel.add(new JLabel("Likes: " + post.getLikes()));
 
             JButton deleteBtn = new JButton("Delete");
             deleteBtn.addActionListener(e -> {
@@ -142,30 +143,6 @@ public class ViewPostsPanel extends JPanel {
 
         JLabel commentLikes = new JLabel("Likes: " + comment.getLikes());
 
-        JButton likeCommentButton = new JButton("Like");
-        likeCommentButton.addActionListener(e -> {
-
-            DataTransfer params = new DataTransfer("COMMENT LIKECOMMENT", comment);
-            DataTransfer response = UserGUI.getClient().request(params);
-
-            System.out.println(response.getMessage());
-            System.out.println(response.getValue());
-
-
-            Comment c = (Comment) response.getValue();
-
-            commentLikes.setText("Likes: " + c.getLikes());
-        });
-
-        JButton dislikeCommentButton = new JButton("Dislike");
-        dislikeCommentButton.addActionListener(e -> {
-            DataTransfer params = new DataTransfer("COMMENT DISLIKECOMMENT", comment);
-            DataTransfer response = UserGUI.getClient().request(params);
-
-            Comment c = (Comment) response.getValue();
-
-            commentLikes.setText("Likes: " + c.getLikes());
-        });
 
         JButton deleteCommentButton = new JButton("Delete");
         deleteCommentButton.addActionListener(e -> {
@@ -185,8 +162,6 @@ public class ViewPostsPanel extends JPanel {
             }
         });
 
-        commentButtonsPanel.add(likeCommentButton);
-        commentButtonsPanel.add(dislikeCommentButton);
         commentButtonsPanel.add(commentLikes);
         commentButtonsPanel.add(deleteCommentButton);
 

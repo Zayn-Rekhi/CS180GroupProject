@@ -120,10 +120,27 @@ public class Database implements DatabaseInterface {
                                 p.setUser(newUser);
                             }
 
+                            ArrayList<User> likedUsers = p.getLikedUsers();
+                            for (int x = 0; x < likedUsers.size(); x++) {
+                                if (likedUsers.get(x).getUserName().equals(prevUser.getUserName())) {
+                                    likedUsers.set(x, newUser);
+                                }
+                            }
+                            p.setLikedUsers(likedUsers);
+
                             for (Comment c : p.getComments()) {
                                 if (c.getCommenter().getUserName().equals(prevUser.getUserName())) {
                                     c.setCommenter(newUser);
                                 }
+
+                                ArrayList<User> likedUsersComments = c.getLikedUsers();
+                                for (int n = 0; n < likedUsersComments.size(); n++) {
+                                    if (likedUsers.get(n).getUserName().equals(prevUser.getUserName())) {
+                                        likedUsers.set(n, newUser);
+                                    }
+                                }
+                                c.setLikedUsers(likedUsersComments);
+
                             }
                         }
 
