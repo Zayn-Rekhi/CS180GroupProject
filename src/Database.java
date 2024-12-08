@@ -90,15 +90,19 @@ public class Database implements DatabaseInterface {
         }
     }
 
+
     public boolean modifyUser(User newUser, User prevUser) {
         try {
             synchronized (LOCK) {
+                ArrayList<User> updatedUsers = new ArrayList<>(users);
+
                 for (int i = 0; i < users.size(); i++) {
                     User currentUser = users.get(i);
 
                     if (currentUser.getUserName().equals(prevUser.getUserName())) {
-                        users.set(i, newUser);
+                        updatedUsers.set(i, newUser);
                     } else {
+                        // Update friends
                         for (User f : currentUser.getFriends()) {
                             if (f.getUserName().equals(prevUser.getUserName())) {
                                 currentUser.removeFriend(f);
@@ -106,6 +110,7 @@ public class Database implements DatabaseInterface {
                             }
                         }
 
+                        // Update blocked users
                         for (User f : currentUser.getBlocked()) {
                             if (f.getUserName().equals(prevUser.getUserName())) {
                                 currentUser.unBlock(f);
@@ -113,6 +118,7 @@ public class Database implements DatabaseInterface {
                             }
                         }
 
+                        // Update posts
                         for (Post p : currentUser.getPosts()) {
                             if (p.getUser().getUserName().equals(prevUser.getUserName())) {
                                 p.setUser(newUser);
@@ -133,18 +139,19 @@ public class Database implements DatabaseInterface {
 
                                 ArrayList<User> likedUsersComments = c.getLikedUsers();
                                 for (int n = 0; n < likedUsersComments.size(); n++) {
-                                    if (likedUsers.get(n).getUserName().equals(prevUser.getUserName())) {
-                                        likedUsers.set(n, newUser);
+                                    if (likedUsersComments.get(n).getUserName().equals(prevUser.getUserName())) {
+                                        likedUsersComments.set(n, newUser);
                                     }
                                 }
                                 c.setLikedUsers(likedUsersComments);
-
                             }
                         }
 
-                        users.set(i, currentUser);
+                        updatedUsers.set(i, currentUser);
                     }
                 }
+
+                users = updatedUsers;
             }
 
             this.updateDataFile();

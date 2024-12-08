@@ -89,9 +89,7 @@ public class Server extends Thread implements ServerInterface {
             User prev = database.findUser(primary.getUserName());
             boolean success = database.modifyUser(primary, prev);
             User newUser = database.findUser(primary.getUserName());
-
-            System.out.println(newUser.getFriends());
-
+            
             if (success) {
                 return new DataTransfer("SUCCESS", newUser);
             } else {

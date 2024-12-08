@@ -115,7 +115,8 @@ public class LoginPanel extends JPanel implements LoginPanelInterface {
 
                 toBlogPanel(loggedInUser);
             } else {
-                JOptionPane.showMessageDialog(this, "Invalid username or password!");
+                String msg = "Invalid username or password or bio empty!";
+                JOptionPane.showMessageDialog(this, msg);
             }
         });
 
@@ -154,12 +155,6 @@ public class LoginPanel extends JPanel implements LoginPanelInterface {
         DataTransfer response = UserGUI.getClient().request(params);
         ArrayList<Post> posts = (ArrayList<Post>) response.getValue();
         UserGUI.setUser(user);
-
-        for (Post post : posts) {
-            for (Comment comment : post.getComments()) {
-                System.out.println(comment);
-            }
-        }
 
         mainPanel.add(new BlogPostsPanel(mainPanel, cardLayout, posts), "BlogPosts");
         mainPanel.revalidate();

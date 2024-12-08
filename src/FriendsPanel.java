@@ -23,8 +23,6 @@ import javax.swing.*;
  */
 
 public class FriendsPanel extends JPanel implements FriendsPanelInterface {
-    private User loggedInUser;
-
     private JPanel mainPanel;
     private CardLayout cardLayout;
 
@@ -33,7 +31,6 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
         this.mainPanel = mainPanel;
         this.cardLayout = cardLayout;
 
-        this.loggedInUser = UserGUI.getUser();
 
         setLayout(new BorderLayout());
 
@@ -67,11 +64,11 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
                     User out = (User) request.getValue();
                     String display = String.format("Username: %s\nBio: %s\n", out.getUserName(), out.getBio());
 
-                    if (loggedInUser.isFriendOf(out)) {
+                    if (UserGUI.getUser().isFriendOf(out)) {
                         display += "CURRENTLY FRIENDS :)\n";
                     }
 
-                    if (loggedInUser.hasBlocked(out)) {
+                    if (UserGUI.getUser().hasBlocked(out)) {
                         display += "CURRENTLY BLOCKED\n";
                     }
 
@@ -85,18 +82,22 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
                     DataTransfer resp = null;
                     if (selec.equals("Friend")) {
                         ArrayList<User> obj = new ArrayList<User>();
-                        obj.add(loggedInUser);
+                        obj.add(UserGUI.getUser());
                         obj.add(out);
 
                         DataTransfer dataFriend = new DataTransfer("USER ADDFRIEND", obj);
                         resp = UserGUI.getClient().request(dataFriend);
+
+                        System.out.println(resp.getMessage());
+                        System.out.println(resp.getValue());
+
 
                         UserGUI.setUser((User) resp.getValue());
                     }
 
                     if (selec.equals("Remove")) {
                         ArrayList<User> obj = new ArrayList<User>();
-                        obj.add(loggedInUser);
+                        obj.add(UserGUI.getUser());
                         obj.add(out);
 
                         DataTransfer dataFriend = new DataTransfer("USER REMOVEFRIEND", obj);
@@ -107,7 +108,7 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
 
                     if (selec.equals("Block")) {
                         ArrayList<User> obj = new ArrayList<User>();
-                        obj.add(loggedInUser);
+                        obj.add(UserGUI.getUser());
                         obj.add(out);
 
                         DataTransfer dataFriend = new DataTransfer("USER BLOCKFRIEND", obj);
@@ -118,7 +119,7 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
 
                     if (selec.equals("Unblock")) {
                         ArrayList<User> obj = new ArrayList<User>();
-                        obj.add(loggedInUser);
+                        obj.add(UserGUI.getUser());
                         obj.add(out);
 
                         DataTransfer dataFriend = new DataTransfer("USER UNBLOCKFRIEND", obj);
@@ -129,7 +130,7 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
 
                     if (resp != null && !selec.equals("OK")) {
                         JOptionPane.showMessageDialog(null, "Success!", null, JOptionPane.INFORMATION_MESSAGE);
-                        loggedInUser = (User) resp.getValue();
+                        UserGUI.setUser((User) resp.getValue());
                     } else if (!selec.equals("OK")) {
                         JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -157,7 +158,7 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
         friendsListPanel.setLayout(new BoxLayout(friendsListPanel, BoxLayout.Y_AXIS));
         friendsListPanel.setBorder(BorderFactory.createTitledBorder("Friends and Blocked Users"));
 
-        ArrayList<User> friends = loggedInUser.getFriends();
+        ArrayList<User> friends = UserGUI.getUser().getFriends();
 
         for (User friend : friends) {
             JLabel friendLabel = new JLabel("Friend: " + friend.getUserName());
@@ -171,7 +172,7 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
             friendsListPanel.add(friendDescription);
         }
 
-        ArrayList<User> blocked = loggedInUser.getBlocked();
+        ArrayList<User> blocked = UserGUI.getUser().getBlocked();
 
         for (User block : blocked) {
             JLabel friendLabel = new JLabel("Blocked: " + block.getUserName());
@@ -191,7 +192,7 @@ public class FriendsPanel extends JPanel implements FriendsPanelInterface {
         JPanel bottomPanel = new JPanel();
 
         JButton backButton = new JButton("Back to Feed");
-        backButton.addActionListener(e -> toBlogPanel(loggedInUser));
+        backButton.addActionListener(e -> toBlogPanel(UserGUI.getUser()));
         bottomPanel.add(backButton);
         add(bottomPanel, BorderLayout.SOUTH);
     }
