@@ -10,7 +10,7 @@ first run the main Method in `Main.java`, then run the GUI in UserGUI.java.
 4. The following is a list of our test case files:
    - `CommentsTests.java`
    - `DatabaseTests.java`
-   - `DataFormatExceptionTests.java`
+   - `DateFormatExceptionTests.java`
    - `PostTests.java`
    - `UserAlreadyExistsTests.java`
    - `UserCredentialsExceptionTests.java`
@@ -18,8 +18,52 @@ first run the main Method in `Main.java`, then run the GUI in UserGUI.java.
    - `ClientTests.java`
    - `DataTransferTests.java`
    - `ServerTests.java`
+   - `BlogPostsPanelInterfaceTests.java`
+   - `ViewPostsPanelTests.java`
+   - `FriendsPanelInterfaceTests.java`
+   - `LoginPanelTests.java`
+   - `MainTests.java`
+   - `MyPostsPanelTests.java`
 
 ## Class Descriptions
+
+### BlogPostsPanel.java
+
+The BlogPostsPanel class is a user interface component designed for the social media feed, built using Java Swing. It allows users to:
+
+- View and interact with posts in a feed.
+-Create new posts.
+- Comment, like, or dislike posts and comments.
+- Navigate to other sections of the platform, such as viewing their posts or managing friends.
+
+Key Features:
+1. Post Management:
+Users can create posts by entering a title and description.
+Posts are displayed with details, including the author, creation date, likes, and comments.
+Dynamic updates allow new posts to be added to the feed in real-time.
+
+2. Comment Interaction:
+Comments can be added to posts.
+Users can like, dislike, or delete comments (if permissions allow).
+Dynamic updates allow new comments to appear instantly.
+
+3. Likes and Dislikes:
+Users can like or dislike posts and comments.
+Buttons dynamically update based on whether the user has already interacted with the post/comment.
+Navigation:
+
+4. Navigation buttons allow users to switch to other sections:
+Add Friends
+View My Posts
+Sign Out
+
+5. Server Integration:
+Communicates with the server using DataTransfer objects to handle actions like creating posts, adding comments, and updating likes/dislikes.
+
+
+
+
+
 
 ### Comment.java
 The comment class represents a comment made by a single user who "owns" the comment.
@@ -36,6 +80,7 @@ There are 7 test cases:
 4. Ensures that format of a displayed comment is as intended
    5,6,7. Each of these tests ensure the functionality of deleting
    comments for the comment owner, the post owner, and another random user
+
 
 ### Database.java
 The database class represents the database where users can be added and deleted from. The fundamental
@@ -61,6 +106,105 @@ There are 8 test cases:
 6. Ensures functionality of removing user
 7. Ensures functionality of writing users to text file and then reading from it to ensure persistency
 
+
+
+### FriendsPanel.java
+The FriendsPanel class provides a user interface for managing friends and blocked users
+within the social media application. It allows users to search for others, perform 
+actions on the results, and view their current friends and blocked users. This panel is
+designed using Java Swing and interacts with the backend server for real-time updates.
+
+Key Features:
+- Search Functionality:
+Users can search for other users by entering a username in the search field.
+Displays search results with the user's profile details (e.g., username, bio) and friendship/blocking status.
+- Actions on Search Results:
+
+Users can add friends, remove friends, block users, or unblock users based on their search results.
+Actions are performed using a dialog box with options for interaction.
+Friends and Blocked Users List:
+
+Displays a list of the user's current friends with their usernames and bios.
+Displays a list of blocked users in a distinct format to differentiate them.
+- Navigation:
+
+Includes a "Back to Feed" button to return to the main blog feed (BlogPostsPanel).
+- Server Integration:
+
+Uses DataTransfer objects to perform server-side actions such as searching for users, adding/removing friends, and blocking/unblocking users.
+- Key Methods:
+toBlogPanel(User user): Navigates back to the blog feed (BlogPostsPanel) after updating the user's interactions.
+Search Action:
+Sends a search request to the server using DataTransfer.
+Handles responses and displays the results with options to interact with the searched user.
+Friend and Blocked User List:
+Dynamically creates labels for friends and blocked users using their username and bio.
+Formats friends in green and blocked users in red for clarity.
+
+
+### LoginPanel.java
+
+The LoginPanel class provides the user interface for logging into the social media platform 
+or creating a new user account. It features a user-friendly layout with fields for entering 
+credentials and buttons to either log in or create a new account. The panel integrates backend
+communication to validate user credentials or create new profiles and seamlessly navigates to 
+the blog feed upon success.
+
+Key Features:
+
+- User Authentication:
+Login: Validates the username and password against the backend server using DataTransfer.
+Displays error messages if credentials are invalid or the server denies access.
+
+- Account Creation:
+Allows users to create a new account by entering a username, password, and bio.
+Sends the information to the server, which validates and creates the user profile.
+Navigates to the blog feed upon successful creation.
+
+- Error Handling:
+Prompts clear feedback if fields are empty or authentication fails, ensuring a smooth user experience.
+
+- Navigation:
+Automatically navigates to the BlogPostsPanel after a successful login or account creation.
+
+- Server Integration:
+Uses DataTransfer objects to handle user actions, ensuring that the backend processes login and creation requests.
+
+- Key Methods:
+toBlogPanel(User user): Navigates to the BlogPostsPanel and initializes the feed for the logged-in user.
+Login Button Logic:
+Sends a USER GETLOGIN request to the server with the provided username and password.
+Updates the session if the login is successful.
+Create User Button Logic:
+Sends a USER CREATENEWUSER request to the server with the provided username, password, and bio.
+Automatically logs the user in and navigates to the blog feed if the account is successfully created.
+
+
+### MyPostsPanel.java
+The MyPostsPanel class is a user interface component that allows the logged-in user to 
+view their own posts. It provides a clean and organized display of the user's posts, 
+including key details such as the post title, description, creation date, and interaction 
+statistics (likes and dislikes). Users can also navigate back to the main feed.
+
+Key Features:
+- Post Display:
+Fetches and displays all posts created by the logged-in user.
+Posts are organized in a scrollable view with details such as title, description, creation date, likes, and dislikes.
+If the user has no posts, a message is displayed instead.
+
+- Server Integration:
+Uses the POST GETUSERPOSTS command to retrieve the logged-in user's posts from the backend server via DataTransfer.
+
+- Navigation:
+Provides a "Back to Feed" button that navigates the user back to the main feed (BlogPostsPanel).
+Key Methods:
+fetchUserPosts():
+Sends a request to the server to fetch all posts created by the logged-in user.
+Displays an error message if the posts cannot be retrieved.
+createPostPanel(Post post):
+Dynamically generates a panel for each post, displaying its title, description, creation date, and interaction statistics (likes and dislikes).
+
+
 ### Post.java
 The post class represents a post made by a specific user.
 Each post will contain comments that reflect on the post.
@@ -80,6 +224,36 @@ There are 9 test cases:
 8. Ensures functionality of displaying the post with its comments
 9. Ensures functionality of removing comments from the post
 
+### ViewPostsPanel.java
+
+ViewPostsPanel.java
+The ViewPostsPanel class provides a user interface for the logged-in user to view and manage their posts. It organizes posts in a scrollable layout and allows users to perform actions such as hiding, showing, deleting posts, and managing comments. The panel ensures dynamic updates and maintains seamless navigation with the rest of the application.
+
+Key Features:
+- Post Display and Management:
+Displays the user's posts with details such as title, description, creation date, author, likes, and comments.
+Provides buttons to:
+Delete: Removes the post permanently.
+Hide/Show: Toggles the visibility of a post.
+
+- Comment Management:
+Displays all comments associated with a post.
+Allows the user to delete comments if permitted.
+
+- Dynamic Updates:
+Updates the display dynamically based on actions like hiding/showing posts and deleting posts or comments.
+Communicates changes to the backend server for real-time synchronization using DataTransfer objects.
+
+- Navigation:
+Includes a "Back" button to navigate to the main feed (BlogPostsPanel).
+
+Key Methods:
+createCommentPanel(Comment comment, Post post, JPanel commentsPanel):
+    Dynamically generates a panel for each comment with options to view likes and delete the comment (if the user has permission).
+toViewPostsPanel():
+    Refreshes the current panel to show the updated list of posts after an action.
+toBlogPanel(User user):
+    Navigates back to the main blog feed and refreshes the user's feed.
 
 ### User.java
 The user class represents a User.
@@ -180,11 +354,3 @@ There are twenty-two test case:
 
 ### UserGUI.java
 The UserGUI class extends thread to be runnable to start the GUI and enable user interaction with the system. It utilizes the client class in order to interact with the server and database, and opens the login panel when run. There are 4 Panel classes used to move between the GUI and showcase the different parts of the platform.
-#### ViewPostsPanel.java
-This panel is the page that shows a user's own posts and gives them the options to hide, show, or delete them.
-#### LoginPanel.java
-This panel is the login screen and allows the creation of users or loging in of already created users. From here you enter the rest of the platform.
-#### FriendsPanel.java
-The friends panel is the way users can interact with other users, searching for them to friend, unfriend, block, or unblock them.
-#### BlogPostsPanel.java
-The BlogPostPanel is the main page of the proram which showcases posts in a feed such as ones from friends, and is where users are able to create their own posts. On posts in the feed, one is able to comment or like other posts.
