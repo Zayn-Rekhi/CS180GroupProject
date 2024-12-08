@@ -12,18 +12,11 @@ first run the main Method in `Main.java`, then run the GUI in UserGUI.java.
    - `DatabaseTests.java`
    - `DateFormatExceptionTests.java`
    - `PostTests.java`
-   - `UserAlreadyExistsTests.java`
    - `UserCredentialsExceptionTests.java`
    - `UserTests.java`
    - `ClientTests.java`
    - `DataTransferTests.java`
    - `ServerTests.java`
-   - `BlogPostsPanelInterfaceTests.java`
-   - `ViewPostsPanelTests.java`
-   - `FriendsPanelInterfaceTests.java`
-   - `LoginPanelTests.java`
-   - `MainTests.java`
-   - `MyPostsPanelTests.java`
 
 ## Class Descriptions
 
