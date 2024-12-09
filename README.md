@@ -9,12 +9,14 @@ first run the main Method in `Main.java`, then run the GUI in UserGUI.java.
     Running Client: cd src, javac Client.java, java Client
    
     Running GUI: cd src, javac UserGUI.java, java UserGUI
-3. Presentation - Submitted by Brayden Brafford
+3. Project Submissions:
+   
+   Presentation - Submitted by Brayden Brafford
    
    Report - Submitted by Brayden Brafford
    
    Vocareum Workspace - Submitted by Zayn Rekhi
-5. The following is a list of our test case files:
+6. The following is a list of our test case files:
    - `CommentsTests.java`
    - `DatabaseTests.java`
    - `DateFormatExceptionTests.java`
